@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>design</title>
+		<link rel="stylesheet" href="css/FSM.css">
+		<link rel="stylesheet" href="css/test3.css">
+		<!-- <script src="js/vue.js" type="text/javascript" charset="utf-8"></script> -->
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<!-- <a id="logo" href="/index.html" class="left">FSM Design</a> -->
+				<h1>FSM Design</h1>
+			</div>
+			
+			<div id="nav">
+				<ul id="menu">
+					<li id="n1"><a href="introduction.html">test</a></li>
+					<li id="n2"><a href="examples.html">test</a></li>
+					<li id="n3"><a href="test1.html">test</a></li>
+					<li id="n4"><a href="test2.html">test</a></li>
+					<li id="n5"><a href="#">design</a></li>
+					<li id="n6"><a href="test4.html">test</a></li>
+					<li id="n7"><a href="test5.html">test</a></li>
+				</ul>
+			</div>
+			
+			<!-- <text x="100" y="200" font-size="5">test<text>
+			 -->
+			<div id="editor">
+				<div id="editorHead">
+					<div id="table">state number: 0</div>
+					<div id="toolBar">
+						<button class="button" type="button" id="addState">addState</button>
+						<button class="button" type="button" id="delete">delete</button>
+						<button class="button" type="button" id="setStartState">setStartState</button>
+					</div>
+				</div>
+				
+				<div id="paraSetting">
+					<h4>parameter setting</h4><hr /><br />
+					<div id="group1">
+						<h5>Step one</h5><br />
+						<p>entityName: <input type="text", name="entityName", id="entityName",
+										   placeholder="please input the name of this state machine"/></p>
+						<p>inputNumber: <input value="1" type="number", name="inputNumber", id="inputNumber",
+										   placeholder="please input the input number"/></p>
+						<p>outputNumber: <input value="1" type="number", name="outputNumber", id="outputNumber",
+										   placeholder="please input the output number"/></p>
+						<br />
+						
+						<p class="ptext">input type:</p>
+						<select id="inputType">
+							<option value ="bit">bit</option>
+							<option value ="bit_vector">bit_vector</option>
+						</select>
+						<pre id="inputRange">from: <input value="1" type="number" name="inputFrom" id="inputFrom"/> downto: <input value="0" type="number" name="inputTo" id="inputTo"/></pre>
+						
+						<p class="ptext">output type:</p>
+						<select id="outputType">
+							<option value ="bit">bit</option>
+							<option value ="bit_vector">bit_vector</option>
+						</select>
+						<pre id="outputRange">from: <input value="1" type="number" name="outputFrom" id="outputFrom"/> downto: <input value="0" type="number" name="outputTo" id="outputTo"/></pre>
+						<br />
+						
+						<button class="button" style="top: 670px; left: 165px;" type="button" id="stepOne">next step</button>
+				
+					</div>
+				</div>
+				<div id="svgContainer">
+					<svg id="svg" width="720" height="800" version="1.1"
+					     xmlns="http://www.w3.org/2000/svg">
+						 
+						 <!-- <path d="M130 110 C90 80 200 70 160 110"  stroke-width="2" stroke="black" -->
+							   <!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
+						<!-- <path d="M110 110 Q165 50 220 110"  stroke-width="2" stroke="black"
+							   fill="transparent" marker-end="url(#markerArrow)"/> -->
+						<!-- <path d="M110 110 L220 110"  stroke-width="2" stroke="black" -->
+							  <!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
+						 <defs>  
+						    <marker id="markerArrow" markerWidth="6" markerHeight="6" refx="2" refy="4" orient="auto">  
+						        <path d="M2,2 L2,6 L6,4 L2,2" style="fill: #000000;" />  
+						    </marker>  
+						 </defs>  
+					</svg>
+				</div>
+				
+				<div id="dataTable">
+					<h4>information table</h4><hr /><br />
+					
+				</div>
+				
+			</div>
+			<script type="text/javascript" src="js/navStyle.js"></script>
+			<script type="text/javascript" src="js/paraSetting.js"></script>
+			<script type="text/javascript" src="js/visualFSM.js"></script>
+		</div>
+	</body>
+</html>

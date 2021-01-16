@@ -1,0 +1,14 @@
+
+div#introContent{
+	margin: 0 0 0 12px;
+	padding: 0;
+	width: 1210px;
+	border: 0;
+	border-bottom: 1px solid #aaa;
+}
+
+h1#introh1{
+	text-align: center;
+	margin: 7px 10px 0px;
+	font-size: 150%;
+}

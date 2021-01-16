@@ -1,0 +1,159 @@
+*{
+	/* border: 1px solid #eeeeee; */
+}
+
+#table{
+	/* border: 2px solid #000000; */
+	margin: 5px;
+	width: 270px;
+	float: left;
+}
+
+#toolBar{
+	/* border: 2px solid #000000; */
+	margin: 5px;
+	width: 930px;
+	float: left;
+}
+
+#group1, #group2, #group3{
+	margin-left: 5px;
+}
+.lineTble{
+	margin-left: 5px;
+}
+#entityName{
+	width: 260px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+#inputNumber{
+	width: 244px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+#outputNumber{
+	width: 230px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+#dataTable{
+	width: 200px;
+	height: 800px;
+	float: left;
+	background-color: lightgrey;
+	border: 2px solid black;
+	margin: 5px;
+}
+
+#svgContainer{
+	width: 720px;
+	height: 800px;
+	margin: 5px;
+	background-color: white; 
+	border: 2px solid black;
+	float: left;
+	/* position: absolute;
+	left: 250px;
+	top: 250px; */
+}
+
+#paraSetting{
+	width: 270px;
+	height: 800px;
+	float: left;
+	background-color: lightgrey;
+	border: 2px solid black;
+	margin: 5px;
+}
+#paraSetting input{
+	height: 20px;
+}
+#entityName{
+	width: 260px;
+}
+#inputNumber, #outputNumber{
+	width: 150px;
+}
+#inputFrom, #outputFrom, #inputTo, #outputTo{
+	width: 40px;
+}
+#inputRange, #outputRange{
+	display: none;
+}
+#group2 input{
+	width: 150px;
+}
+/*button*/
+#stepOne{
+	position: absolute;
+	/* top: 725px;
+	left: 1110px; */
+}
+#stepTwoLast{
+	position: absolute;
+	/* top: 725px;
+	left: 1110px; */
+}
+#finish{
+	position: absolute;
+}
+#finishLast{
+	position: absolute;
+}
+.button{
+	background: #b6b8b8;
+	background-image: -webkit-linear-gradient(top, #b6b8b8, #63707a);
+	background-image: -moz-linear-gradient(top, #b6b8b8, #63707a);
+	background-image: -ms-linear-gradient(top, #b6b8b8, #63707a);
+	background-image: -o-linear-gradient(top, #b6b8b8, #63707a);
+	background-image: linear-gradient(to bottom, #b6b8b8, #63707a);
+	-webkit-border-radius: 28;
+	-moz-border-radius: 28;
+	border-radius: 28px;
+	font-family: Arial;
+	color: #ffffff;
+	font-size: 12px;
+	padding: 4px 12px 4px 12px;
+	text-decoration: none;
+}
+.button:hover {
+  background: #38454d;
+  background-image: -webkit-linear-gradient(top, #38454d, #2d404d);
+  background-image: -moz-linear-gradient(top, #38454d, #2d404d);
+  background-image: -ms-linear-gradient(top, #38454d, #2d404d);
+  background-image: -o-linear-gradient(top, #38454d, #2d404d);
+  background-image: linear-gradient(to bottom, #38454d, #2d404d);
+  text-decoration: none;
+}
+.circle{
+	cursor: pointer;
+}
+.text{
+	 -moz-user-select:none; /*火狐*/
+	 -webkit-user-select:none; /*webkit浏览器*/
+	 -ms-user-select:none; /*IE10*/
+	 -khtml-user-select:none; /*早期浏览器*/
+	 user-select:none;
+	 cursor: pointer;
+}
+.line{
+	cursor: pointer;
+}
+
+
+svg input{
+	width: 100px;
+	height: 25px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	background-color: antiquewhite;
+	/* background-color: #EEEEEE; */
+	outline: none;
+}
+

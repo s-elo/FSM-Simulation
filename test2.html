@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>test2</title>
+		<link rel="stylesheet" href="css/FSM.css">
+		<link rel="stylesheet" href="css/test2.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<a id="logo" href="/index.html" class="left">FSM Simulation</a>
+				<p id="test">sss</p>
+			</div>
+			
+			<div id="nav">
+				<ul id="menu">
+					<li id="n1"><a href="introduction.html">test</a></li>
+					<li id="n2"><a href="examples.html">test</a></li>
+					<li id="n3"><a href="test1.html">test</a></li>
+					<li id="n4"><a href="#">test</a></li>
+					<li id="n5"><a href="design.html">design</a></li>
+					<li id="n6"><a href="test4.html">test</a></li>
+					<li id="n7"><a href="test5.html">test</a></li>
+				</ul>
+			</div>
+			<script type="text/javascript" src="js/navStyle.js"></script>
+			
+			<div id="inputFrame">
+				<br /><hr /><br />
+				<form>
+					Moore:
+					<input type="radio" id="Moore" checked="checked" name="machineType"/><br />
+					Mealy:
+					<input type="radio" id="Mealy" name="machineType"/>
+				</form>
+				<br /><br />
+				<div id="firstInputGroup">
+					<div id="firstInputGroup_1">
+						<pre>entityName:      <input type="text" name="entityName" id="entityName"/></pre><br />
+						<pre>inputNumber:   <input type="text" name="inputNumber" id="inputNumber"/></pre><br />
+						<pre>outputNumber: <input type="text" name="outputNumber" id="outputNumber"/></pre><br />
+						<pre>stateNumber:   <input type="text" name="stateNumber" id="stateNumber"/></pre><br />
+					</div>
+					<div id="firstInputGroup_2">
+						<p class="ptext">input type:</p>
+						<select id="inputType">
+							<option value ="bit">bit</option>
+							<option value ="bit_vector">bit_vector</option>
+						</select>
+						<pre id="inputRange">from: <input type="number" name="inputFrom" id="inputFrom"/> downto: <input type="number" name="inputTo" id="inputTo"/></pre>
+						
+						<p class="ptext">output type:</p>
+						<select id="outputType">
+							<option value ="bit">bit</option>
+							<option value ="bit_vector">bit_vector</option>
+						</select>
+						<pre id="outputRange">from: <input type="number" name="outputFrom" id="outputFrom"/> downto: <input type="number" name="outputTo" id="outputTo"/></pre>
+					    <br />
+					</div>
+				</div>
+				<div id="inputSubmit1">
+					<button type="button" id="submitBtn1">next</button>
+				</div>
+				
+				<br /><hr /><br />
+				<div id="secondInputGroup">
+					<div id="secondInputGroup_1">
+						
+					</div>
+					<div id="secondInputGroup_2">
+						
+					</div>
+				</div>
+				<div id="inputSubmit2">
+					<button type="button" id="submitBtn2">next</button>
+			    </div>
+				
+				<br /><hr /><br />
+				<div id="thirdInputGroup">
+					
+				</div>
+				<div id="inputSubmit3">
+					<button type="button" id="submitBtn3">next</button>
+				</div>
+			</div>
+			
+			<div id="codeFrame">
+				<!-- <div id="Vbutton">
+					<button type="button" id="vbtn">VHDL</button>
+				</div> -->
+				<!-- the format of the code below needs to be strict, exspecially blank rows-->
+				<div id="code">
+					<pre class="codeLine">
+						<span class="codeText">library ieee;</span></pre>
+						
+					<pre class="codeLine" id="libraryEnd">
+						<span class="codeText">use ieee.std_logic_1164.all;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText space">&#8203;</span></pre>
+						
+					<pre class="codeLine">
+						<span class="codeText">entity </span><span class="codeText entityName">LIGHTS</span><span class="codeText"> is</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">port(clk, rst: in bit;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText dtab">	   	  </span><span class="codeText" id="inputList">sensor1, sensor2: in </span><span class="codeText" id="inTypeCode">bit;</span></pre>
+									
+					<pre class="codeLine">
+						<span class="codeText dtab">	   	  </span><span class="codeText" id="outputList">light1, light2: out </span><span class="codeText" id="outTypeCode">bit;</span></pre>
+						
+					<pre class="codeLine">
+						<span class="codeText">end </span><span class="codeText entityName">LIGHTS</span><span class="codeText">;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText space">&#8203;</span></pre>
+						
+					<pre class="codeLine" id="archiBegin">
+						<span class="codeText">architecture </span><span class="codeText entityName">LIGHTS</span><span class="codeText"> of </span><span class="codeText entityName">LIGHTS</span><span class="codeText"> is</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">type states is </span><span class="codeText" id="stateList">(stateList);</span></pre>
+						
+					<pre class="codeLine">
+						<span class="codeText">	  </span><span class="codeText">signal prestate, nexstate: states;</span></pre>	
+						
+					<pre class="codeLine">
+						<span class="codeText space">&#8203;</span></pre>
+							
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText tab">begin</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">lower: process(clk, rst)</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">begin</span></pre>
+							
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">if(rst='1')then prestate &lt;= </span><span class="codeText state1">state1</span><span class="codeText">;</span></pre>	
+					
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">elsif(clk'event and clk='1')then prestate &lt;= nexstate;</span></pre>
+						
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">end if;</span></pre>
+							
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">end process lower;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText space">&#8203;</span></pre>
+						
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">upper: process</span><span class="codeText" id="upProList">(sensor1, sensor2, prestate)</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">begin</span></pre>
+							
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">case prestate is</span></pre>
+					<div id="endCase">
+						
+					</div>	
+					<pre class="codeLine">
+						<span class="codeText dtab">	  	  </span><span class="codeText">end case;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText tab">	  </span><span class="codeText">end process upper;</span></pre>
+					
+					<pre class="codeLine">
+						<span class="codeText">end </span><span class="codeText entityName">LIGHTS</span><span class="codeText">;</span></pre>				
+				</div>
+		 
+			</div>
+			
+		</div>
+		<script type="text/javascript" src="js/test2.js"></script>
+	</body>
+</html>
