@@ -1,34 +1,38 @@
 *{
 	/* border: 1px solid #eeeeee; */
 }
-
+#editor{
+	margin-top: 20px;
+	margin-left: 50px;
+}
 #table{
 	/* border: 2px solid #000000; */
 	margin: 5px;
-	width: 270px;
+	width: 250px;
 	float: left;
 }
 
 #toolBar{
 	/* border: 2px solid #000000; */
 	margin: 5px;
-	width: 930px;
+	width: 950px;
 	float: left;
 }
 
 #group1, #group2, #group3{
 	margin-left: 5px;
+	margin-right: 5px;
 }
 .lineTble{
 	margin-left: 5px;
 }
-#entityName{
+/* #entityName{
 	width: 260px;
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-}
-#inputNumber{
+} */
+/* #inputNumber{
 	width: 244px;
 	margin: 0px;
 	padding: 0px;
@@ -39,15 +43,24 @@
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-}
-
-#dataTable{
-	width: 200px;
+} */
+#dataTableContainer{
+	width: 220px;
 	height: 800px;
 	float: left;
-	background-color: lightgrey;
-	border: 2px solid black;
-	margin: 5px;
+	border: 2px solid #E6E6E6;
+	margin-top: 5px;
+	margin-left: 5px;
+	border-radius: 15px;
+	/* position: relative; */
+}
+#dataTable{
+    /* width: 200px; */
+	/* height: 800px; */
+	/* float: left; */
+	background-color: white;
+	/* position: absolute; */
+	margin: 10px;
 }
 
 #svgContainer{
@@ -55,34 +68,41 @@
 	height: 800px;
 	margin: 5px;
 	background-color: white; 
-	border: 2px solid black;
+	border: 2px solid #E6E6E6;
 	float: left;
+	border-radius: 15px;
 	/* position: absolute;
 	left: 250px;
 	top: 250px; */
 }
 
 #paraSetting{
-	width: 270px;
+	width: 250px;
 	height: 800px;
 	float: left;
-	background-color: lightgrey;
-	border: 2px solid black;
+	background-color: white;
+	border: 2px solid #E6E6E6;
 	margin: 5px;
+	border-radius: 15px;
 }
-#paraSetting input{
+
+#paraSetting h3{
+	margin-left: 10px;
+}
+/* #paraSetting input{
 	height: 20px;
-}
-#entityName{
+} */
+/* #entityName{
 	width: 260px;
-}
-#inputNumber, #outputNumber{
+} */
+/* #inputNumber, #outputNumber{
 	width: 150px;
-}
+} */
 #inputFrom, #outputFrom, #inputTo, #outputTo{
 	width: 40px;
 }
 #inputRange, #outputRange{
+	margin-top: 30px;
 	display: none;
 }
 #group2 input{
@@ -90,22 +110,29 @@
 }
 /*button*/
 #stepOne{
-	position: absolute;
+	/* position: absolute; */
 	/* top: 725px;
 	left: 1110px; */
+	margin-left: 83px;
+	border-radius: 10px;
 }
 #stepTwoLast{
-	position: absolute;
+	/* position: absolute; */
 	/* top: 725px;
 	left: 1110px; */
+	margin-left: 40px;
+	border-radius: 10px;
 }
 #finish{
-	position: absolute;
+	/* position: absolute; */
+	margin-left: 40px;
+	border-radius: 10px;
 }
 #finishLast{
-	position: absolute;
+	margin-left: 83px;
+	border-radius: 10px;
 }
-.button{
+/* .button{
 	background: #b6b8b8;
 	background-image: -webkit-linear-gradient(top, #b6b8b8, #63707a);
 	background-image: -moz-linear-gradient(top, #b6b8b8, #63707a);
@@ -129,7 +156,7 @@
   background-image: -o-linear-gradient(top, #38454d, #2d404d);
   background-image: linear-gradient(to bottom, #38454d, #2d404d);
   text-decoration: none;
-}
+} */
 .circle{
 	cursor: pointer;
 }
@@ -152,7 +179,7 @@ svg input{
 	margin: 0px;
 	padding: 0px;
 	border: 0px;
-	background-color: antiquewhite;
+	background-color: white;
 	/* background-color: #EEEEEE; */
 	outline: none;
 }

@@ -42,20 +42,20 @@ inputType.onchange = function () {
 		// var inTypeCode = document.getElementById('inTypeCode');
 		// inTypeCode.innerHTML = 'bit;';
 		//change the button position
-		let top = parseInt(stepOne.style.top);
-		if (top >= 670) {
-			stepOne.style.top = (top - 25) + 'px';
-		}
+		// let top = parseInt(stepOne.style.top);
+		// if (top >= 670) {
+		// 	stepOne.style.top = (top - 25) + 'px';
+		// }
 	}
 	if (this.value === 'bit_vector') {
 		//inputRange.className = "showDisplay";
 		inputRange.style.display = 'block';
 		var btn1 = document.getElementById('btn1');
 		//alert(parseInt(stepOne.style.top))
-		let top = parseInt(stepOne.style.top);
-		if (top <= 720) {
-			stepOne.style.top = (top + 25) + 'px';
-		}
+		// let top = parseInt(stepOne.style.top);
+		// if (top <= 720) {
+		// 	stepOne.style.top = (top + 25) + 'px';
+		// }
 	}
 }
 outputType.onchange = function () {
@@ -63,17 +63,17 @@ outputType.onchange = function () {
 		outputRange.style.display = 'none';
 		// var outTypeCode = document.getElementById("outTypeCode");
 		// outTypeCode.innerHTML = "bit;";
-		let top = parseInt(stepOne.style.top);
-		if (top >= 670) {
-			stepOne.style.top = (top - 25) + 'px';
-		}
+		// let top = parseInt(stepOne.style.top);
+		// if (top >= 670) {
+		// 	stepOne.style.top = (top - 25) + 'px';
+		// }
 	}
 	if (this.value === 'bit_vector') {
 		outputRange.style.display = 'block';
-		let top = parseInt(stepOne.style.top);
-		if (top <= 720) {
-			stepOne.style.top = (top + 25) + 'px';
-		}
+		// let top = parseInt(stepOne.style.top);
+		// if (top <= 720) {
+		// 	stepOne.style.top = (top + 25) + 'px';
+		// }
 	}
 }
 
@@ -138,27 +138,34 @@ stepOne.onclick = function () {
 	group1.style.display = 'none';
 	
 	var group2Content = `<div id="group2">
-							<h5>Step Two</h5><br />
-							<p>input names: </p>`;
+							<h4>Step Two</h4><br />
+							<label>input names: </label>`;
+								
 	//inputName input generation
 	for (let i = 1; i <= inputNumber; i++) {
-		group2Content += `<p>input${i}: <input id=${'input' + i} type="text" 
-						  placeholder="please give a name"></p>`;
+		group2Content += `<div class="input-group input-group-sm">
+							<span class="input-group-addon">input${i}</span> 
+							<input id=${'input' + i} type="text" class="form-control" aria-describedby="sizing-addon1"
+								   placeholder="please give a name"></div><br />`;
 	}
 	group2Content += `<br />
-					  <p>output names: </p>`;
+					  <label>output names: </label>`;
 	//outputName input generation
 	for (let i = 1; i <= outputNumber; i++) {
-		group2Content += `<p>output${i}: <input id=${'output' + i} type="text"
-						  placeholder="please give a name"></p>`;
+		group2Content += `<div class="input-group input-group-sm">
+							<span class="input-group-addon">output${i}</span> 
+							<input id=${'output' + i} type="text" class="form-control" aria-describedby="sizing-addon1"
+							placeholder="please give a name"></div><br />`;
 	}
 	//alert(inputNumber + outputNumber)
-	var btnTop = ((inputNumber + outputNumber) * 26 + 450) + 'px';
+	//var btnTop = ((inputNumber + outputNumber) * 26 + 450) + 'px';
 	//alert(btnTop)
 	group2Content += `<br />
-					  <button class="button" style="top: ${btnTop}; left: 120px;" type="button" id="stepTwoLast">last step</button>
-					  <button class="button" style="top: ${btnTop}; left: 200px;" type="button" id="finish">finish</button>
+					  <button class="btn btn-primary" " type="button" id="stepTwoLast">Last</button>
+					  <button class="btn btn-primary" " type="button" id="finish">Finish</button>
 					  </div>`;
+					  // style="top: ${btnTop}; left: 120px;
+					  // style="top: ${btnTop}; left: 200px;
 	addHtmlById('paraSetting', 'beforeEnd', group2Content);
 	var stepTwoLast = document.getElementById('stepTwoLast');
 	stepTwoLast.onclick = function () {
@@ -191,7 +198,7 @@ stepOne.onclick = function () {
 		
 		//create the group3
 		var group3Content = `<div id="group3">
-								<p><h4>entityName: </h4>${entityName}</p><br />
+								<p><h4>entityName: </h4>${entityName}</p><hr />
 								<p><h4>input: </h4></p>`;
 		
 		if (inputType.value === 'bit') {
@@ -202,10 +209,10 @@ stepOne.onclick = function () {
 		}
 		for (let i = 1; i <= inputNumber; i++) {
 			let inputName = document.getElementById('input' + i).value;
-			group3Content += `<p>${inputName}</p>`;
+			group3Content += `<p>input${i}: ${inputName}</p>`;
 		}
 		
-		group3Content += `<br /><p><h4>output: </h4></p>`;
+		group3Content += `<hr /><p><h4>output: </h4></p>`;
 		
 		if (outputType.value === 'bit') {
 			group3Content += `<p>(bit)</p>`;
@@ -215,12 +222,12 @@ stepOne.onclick = function () {
 		}
 		for (let i = 1; i <= outputNumber; i++) {
 			let outputName = document.getElementById('output' + i).value;
-			group3Content += `<p>${outputName}</p>`;
+			group3Content += `<p>output${i}: ${outputName}</p>`;
 		}
 		
 		var top = ((inputNumber + outputNumber) * 26 + 500) + 'px';
 		group3Content += `<br />
-						  <button class="button" style="top: ${top}; left: 165px;" type="button" id="finishLast">last step</button>
+						  <button class="btn btn-primary" type="button" id="finishLast">Last</button>
 						  </div>`;
 		
 		addHtmlById('paraSetting', 'beforeEnd', group3Content);

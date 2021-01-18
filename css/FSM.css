@@ -23,7 +23,13 @@ a{
 .show{
 	opacity: 1;
 }
-
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
 /*#header{
 	float:right;
 	width:728px;
@@ -33,110 +39,5 @@ a{
     border: 1px solid #eeeeee;
 }*/
 
-div#wrapper {
-    margin: 0 auto;
-    padding: 0;
-    border: 0;
-    width: 1239px;
-    text-align: left;
-    /*background: transparent url(/ui2017/wrapper.png) top left repeat-y;*/
-}
-
-div#header{
-    margin: 0 0 0 12px;
-    padding: 0;
-    border: 0;
-    width: 1210px;
-    height: 100px;
-    background-color: white;
-	/* border: 1px solid #000; */
-}
-h1{
-	/* color: white; */
-	position: absolute;
-	left: 500px;
-	top: 30px;
-}
-div#nav{
-    height: 48px;
-    width: 1210px;
-    margin: 0 0 0 12px;
-    padding: 0;
-    border: 0;
-    /*background: #E8E7E3;*/
-	background-color: white;
-}
-
-div#nav ul#menu {
-    height: 48px;
-    width: 1210px;
-    margin: 0;
-    padding: 0;
-    position: relative;
-}
-
-div#nav ul#menu li {
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: 0;
-}
-
-ul#menu li, ul#menu a {
-    display: block;
-    height: 48px;
-    border-bottom: 0;
-}
-
-ul#menu a{
-	text-align: center;
-	margin: 7px 10px 0px;
-}
-li#n1{
-    width: 185px;
-    left: 0px;
-}
-li#n2{
-    width: 185px;
-    left: 185px;
-}
-li#n3{
-    width: 185px;
-    left: 370px;
-}
-li#n4{
-    width: 185px;
-    left: 555px;
-}
-li#n5{
-    width: 185px;
-    left: 730px;
-}
-li#n6{
-    width: 113px;
-    left: 900px;
-}
-li#n7{
-    width: 185px;
-    left: 1010px;
-}
-#n1,#n2,#n3,#n4,#n5,#n6,#n7{
-	display: inline;
-}
-
-.navStyle1{
-	color: #666666;
-}
-
-.navStyle2{
-	color: white;
-}
-
-.navStyle3{
-	background-color: white;
-}
-
-.navStyle4{
-	background-color: black;
-}
+.btn:focus{ outline: none; }
 

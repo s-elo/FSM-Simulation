@@ -431,7 +431,7 @@ addStateBtn.onclick = function () {
 	var content = `<div id = ${'table' + stateNumber} >
 				      <h4>Current State: </h4>
 					  <p id = ${'circle' + stateNumber}>${textArray[stateNumber].innerHTML}</p>
-					  <br />
+					  <hr />
 					  <h4>output:</h4>
 					  <div id = ${'cirOutput' + stateNumber}></div>
 				   </div>`;
@@ -652,7 +652,7 @@ addStateBtn.onclick = function () {
 						cirOutputContent += `<p id = ${'cirOutput' + groupIndex + i + k}>
 											 ${outputName}: ${outputValue}</p>`;
 					}
-					cirOutputContent += `<br /></div>`;
+					cirOutputContent += `<hr /></div>`;
 					addHtmlById('cirOutput' + groupIndex, 'beforeEnd', cirOutputContent);
 					
 					//binding the ouput value event to syncronize the value at circle table

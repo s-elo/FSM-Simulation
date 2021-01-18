@@ -3,73 +3,94 @@
 	<head>
 		<meta charset="utf-8">
 		<title>design</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/FSM.css">
-		<link rel="stylesheet" href="css/test3.css">
+		<link rel="stylesheet" href="css/design.css">
+		
 		<!-- <script src="js/vue.js" type="text/javascript" charset="utf-8"></script> -->
 	</head>
 	<body>
-		<div id="wrapper">
-			<div id="header">
-				<!-- <a id="logo" href="/index.html" class="left">FSM Design</a> -->
-				<h1>FSM Design</h1>
-			</div>
-			
-			<div id="nav">
-				<ul id="menu">
-					<li id="n1"><a href="introduction.html">test</a></li>
-					<li id="n2"><a href="examples.html">test</a></li>
-					<li id="n3"><a href="test1.html">test</a></li>
-					<li id="n4"><a href="test2.html">test</a></li>
-					<li id="n5"><a href="#">design</a></li>
-					<li id="n6"><a href="test4.html">test</a></li>
-					<li id="n7"><a href="test5.html">test</a></li>
-				</ul>
-			</div>
-			
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+		      <div class="container">
+		        <div class="navbar-header">
+		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		            <span class="sr-only">Toggle navigation</span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		            <span class="icon-bar"></span>
+		          </button>
+		          <p class="navbar-brand">FSM Simulation</p>
+		        </div>
+		        <div id="navbar" class="collapse navbar-collapse">
+		          <ul class="nav navbar-nav">
+		            <li><a href="#">Home</a></li>
+		            <li><a href="#about">About</a></li>
+		            <li><a href="#contact">Contact</a></li>
+		          </ul>
+		        </div><!--/.nav-collapse -->
+		      </div>
+		    </nav>	
 			<!-- <text x="100" y="200" font-size="5">test<text>
 			 -->
 			<div id="editor">
 				<div id="editorHead">
-					<div id="table">state number: 0</div>
+					<h3 id="table">State Number: 0</h3>
 					<div id="toolBar">
-						<button class="button" type="button" id="addState">addState</button>
-						<button class="button" type="button" id="delete">delete</button>
-						<button class="button" type="button" id="setStartState">setStartState</button>
+						<button class="btn btn-primary" type="button" id="addState">addState</button>
+						<button class="btn btn-primary" type="button" id="delete">delete</button>
+						<button class="btn btn-primary" type="button" id="setStartState">setStartState</button>
 					</div>
 				</div>
 				
-				<div id="paraSetting">
-					<h4>parameter setting</h4><hr /><br />
+				<form id="paraSetting" class="modal-content">
+					<h3>Parameter Setting</h3><hr />
 					<div id="group1">
-						<h5>Step one</h5><br />
-						<p>entityName: <input type="text", name="entityName", id="entityName",
-										   placeholder="please input the name of this state machine"/></p>
-						<p>inputNumber: <input value="1" type="number", name="inputNumber", id="inputNumber",
-										   placeholder="please input the input number"/></p>
-						<p>outputNumber: <input value="1" type="number", name="outputNumber", id="outputNumber",
-										   placeholder="please input the output number"/></p>
+						<h4>Step One</h4><br />
+						<div class="input-group input-group-sm">
+						  <span class="input-group-addon"></span>
+						  <input type="text" id="entityName" class="form-control" placeholder="entityName" aria-describedby="sizing-addon1">
+						</div>
+						</br>
+						<div class="input-group input-group-sm">
+						  <label>inputNumber</label>
+						  <input value="1" type="number" id="inputNumber" class="form-control" required autofocus>
+						</div>
+						</br>
+						<div class="input-group input-group-sm">
+						  <label>outputNumber</label>
+						  <input value="1" type="number" id="outputNumber" class="form-control" required autofocus>
+						</div>
 						<br />
-						
-						<p class="ptext">input type:</p>
-						<select id="inputType">
-							<option value ="bit">bit</option>
-							<option value ="bit_vector">bit_vector</option>
-						</select>
-						<pre id="inputRange">from: <input value="1" type="number" name="inputFrom" id="inputFrom"/> downto: <input value="0" type="number" name="inputTo" id="inputTo"/></pre>
-						
-						<p class="ptext">output type:</p>
-						<select id="outputType">
-							<option value ="bit">bit</option>
-							<option value ="bit_vector">bit_vector</option>
-						</select>
-						<pre id="outputRange">from: <input value="1" type="number" name="outputFrom" id="outputFrom"/> downto: <input value="0" type="number" name="outputTo" id="outputTo"/></pre>
+						<div class="input-group input-group-sm">
+						   <label>input type:</label>
+						  <select id="inputType" class="form-control">
+						  	<option value ="bit">bit</option>
+						  	<option value ="bit_vector">bit_vector</option>
+						  </select> 
+						</div>
+					
+						<div class="input-group input-group-sm" id="inputRange">
+							<p>from: <input value="1" type="number" id="inputFrom"/> downto: <input value="0" type="number" id="inputTo"/></p>
+						</div>
 						<br />
+						<div class="input-group input-group-sm">
+						   <label>output type:</label>
+						  <select id="outputType" class="form-control">
+						  	<option value ="bit">bit</option>
+						  	<option value ="bit_vector">bit_vector</option>
+						  </select> 
+						</div>
+											
+						<div class="input-group input-group-sm" id="outputRange">
+							<p>from: <input value="1" type="number" id="outputFrom"/> downto: <input value="0" type="number" id="outputTo"/></p>
+						</div>
 						
-						<button class="button" style="top: 670px; left: 165px;" type="button" id="stepOne">next step</button>
-				
+						<br />
+						<!-- style="top: 670px; left: 165px;" -->
+						<button class="btn btn-primary" type="button" id="stepOne">Next</button>
 					</div>
-				</div>
-				<div id="svgContainer">
+				</form>
+				<div id="svgContainer" class="modal-content">
 					<svg id="svg" width="720" height="800" version="1.1"
 					     xmlns="http://www.w3.org/2000/svg">
 						 
@@ -86,14 +107,12 @@
 						 </defs>  
 					</svg>
 				</div>
-				
-				<div id="dataTable">
-					<h4>information table</h4><hr /><br />
-					
-				</div>
-				
+				<form id="dataTableContainer" class="modal-content">
+					<div id="dataTable">
+						<h3>Information Table</h3><hr /><br />
+					</div>
+				</form>
 			</div>
-			<script type="text/javascript" src="js/navStyle.js"></script>
 			<script type="text/javascript" src="js/paraSetting.js"></script>
 			<script type="text/javascript" src="js/visualFSM.js"></script>
 		</div>
