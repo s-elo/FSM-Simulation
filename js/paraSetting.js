@@ -305,7 +305,7 @@ stepOne.onclick = function () {
 						cirOutputContent += `<p id = ${'cirOutput' + i + j + k}>
 											 ${outputName}: ${outputValue}</p>`;
 					}
-					
+					cirOutputContent += `<hr /></div>`;
 					document.getElementById('cirOutput'+ i + j).innerHTML = cirOutputContent;
 					
 					//binding the ouput value event to syncronize the value at circle table

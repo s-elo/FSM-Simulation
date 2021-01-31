@@ -1,22 +1,35 @@
 *{
 	/* border: 1px solid #eeeeee; */
 }
-#editor{
+.myContainer{
+	width: 95%;
+	height: 800px;
 	margin-top: 20px;
-	margin-left: 50px;
+	margin-left: 70px;
+}
+#editor{
+	width: 100%;
+	height: 850px;
+	position: relative;
 }
 #table{
 	/* border: 2px solid #000000; */
 	margin: 5px;
 	width: 250px;
-	float: left;
+	/* float: left; */
+	position: absolute;
+	left: 10px;
+	top: -5px;
 }
 
 #toolBar{
 	/* border: 2px solid #000000; */
 	margin: 5px;
 	width: 950px;
-	float: left;
+	/* float: left; */
+	position: absolute;
+	left: 270px;
+	top: -10px;
 }
 
 #group1, #group2, #group3{
@@ -47,12 +60,14 @@
 #dataTableContainer{
 	width: 220px;
 	height: 800px;
-	float: left;
+	/* float: left; */
 	border: 2px solid #E6E6E6;
 	margin-top: 5px;
 	margin-left: 5px;
 	border-radius: 15px;
-	/* position: relative; */
+	position: relative;
+	left: 985px;
+	top: 30px;
 }
 #dataTable{
     /* width: 200px; */
@@ -69,26 +84,30 @@
 	margin: 5px;
 	background-color: white; 
 	border: 2px solid #E6E6E6;
-	float: left;
+	/* float: left; */
 	border-radius: 15px;
-	/* position: absolute;
-	left: 250px;
-	top: 250px; */
+	position: absolute;
+	left: 260px;
+	top: 30px;
 }
 
 #paraSetting{
 	width: 250px;
 	height: 800px;
-	float: left;
+	/* float: left; */
 	background-color: white;
 	border: 2px solid #E6E6E6;
 	margin: 5px;
 	border-radius: 15px;
+	position: absolute;
+	left: 5px;
+	top: 30px;
 }
 
 #paraSetting h3{
 	margin-left: 10px;
 }
+
 /* #paraSetting input{
 	height: 20px;
 } */

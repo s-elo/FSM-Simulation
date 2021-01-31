@@ -1,4 +1,4 @@
-//alert(navNum);
+
 /************************** drawing variables setting*******************************/
 const svgNS = 'http://www.w3.org/2000/svg';
 const svg = document.getElementById('svg');
@@ -339,7 +339,7 @@ deleteBtn.onclick = function () {
 			}
 			
 			stateNumber--;
-			document.getElementById('table').innerHTML = `state number: ${stateNumber}`;
+			document.getElementById('table').innerHTML = `State Number: ${stateNumber}`;
 			
 			//chaneg the start state and selected state when the deleted state is a start state
 			if (startState[i] ===1) {
@@ -393,7 +393,7 @@ addStateBtn.onclick = function () {
 	
 	stateNumber++;
 
-	document.getElementById('table').innerHTML = `state number: ${stateNumber}`;
+	document.getElementById('table').innerHTML = `State Number: ${stateNumber}`;
 	var newCircle = createElem('circle', {'class':'circle', 'id':'c' + stateNumber, 
 							   'cx':CX, 'cy':CY, 'r':R, 
 							   'stroke':'black', 'stroke-width':'3', 'fill':'transparent'});

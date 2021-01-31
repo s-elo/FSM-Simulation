@@ -6,35 +6,39 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/FSM.css">
 		<link rel="stylesheet" href="css/design.css">
-		
+		<link rel="stylesheet" type="text/css" href="css/code.css"/>
+		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 		<!-- <script src="js/vue.js" type="text/javascript" charset="utf-8"></script> -->
 	</head>
 	<body>
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-		      <div class="container">
-		        <div class="navbar-header">
-		          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		            <span class="sr-only">Toggle navigation</span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		            <span class="icon-bar"></span>
-		          </button>
-		          <p class="navbar-brand">FSM Simulation</p>
-		        </div>
-		        <div id="navbar" class="collapse navbar-collapse">
-		          <ul class="nav navbar-nav">
-		            <li><a href="#">Home</a></li>
-		            <li><a href="#about">About</a></li>
-		            <li><a href="#contact">Contact</a></li>
-		          </ul>
-		        </div><!--/.nav-collapse -->
-		      </div>
-		    </nav>	
-			<!-- <text x="100" y="200" font-size="5">test<text>
-			 -->
+		<div class="myContainer">
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container">
+				  <div class="navbar-header">
+				    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				      <span class="sr-only">Toggle navigation</span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				      <span class="icon-bar"></span>
+				    </button>
+				    <p class="navbar-brand">FSM Simulation</p>
+				  </div>
+				  <div id="navbar" class="collapse navbar-collapse">
+				    <ul class="nav navbar-nav">
+				      <li><a href="#">Home</a></li>
+				      <li><a href="#about">About</a></li>
+				      <li><a href="#contact">Contact</a></li>
+				    </ul>
+				  </div><!--/.nav-collapse -->
+				</div>
+			</nav>	
+				<!-- <text x="100" y="200" font-size="5">test<text>
+				 -->
+			<h1 style="margin-left: 10px;">Design</h1>
+			<hr />
 			<div id="editor">
 				<div id="editorHead">
-					<h3 id="table">State Number: 0</h3>
+					<h3 id="table" style="margin-left: 10px;">State Number: 0</h3>
 					<div id="toolBar">
 						<button class="btn btn-primary" type="button" id="addState">addState</button>
 						<button class="btn btn-primary" type="button" id="delete">delete</button>
@@ -113,8 +117,69 @@
 					</div>
 				</form>
 			</div>
-			<script type="text/javascript" src="js/paraSetting.js"></script>
-			<script type="text/javascript" src="js/visualFSM.js"></script>
+			
+			<h1 style="margin-left: 10px; margin-top: 50px;">Code Generator</h1>
+			<hr />
+			<div class="codeContainer">
+				<div class="codeHeader">
+					<button id="showBtn" type="button" class="btn btn-primary">Show Codes</button>
+					<button id="updateBtn" type="button" class="btn btn-primary" style="display: none;">Update</button>
+				</div>
+				
+				<div class="codeArea">
+					<div class="type" style="margin-left: 10px;">
+						<h3>VHDL</h3>
+						<h3>Verilog</h3>
+					</div>
+					
+					<div class="VHDL prettyprint">
+						<code class="content">
+							<p>Please click the show code button to generate codes</p>
+							<!-- <span class="lineBlock">
+								<span class="keyWord">entity</span>
+								<span class="entityName">${ entityName }</span>
+								<span> is</span>
+							</span>
+							<span class="lineBlock">
+								<span class="keyWord">port</span>
+								<span class="entityName">${ entityName }</span>
+								<span> is</span>
+							</span> -->
+							
+						</code>
+						<ul class="pre-numbering">
+							<!-- <li class="codeLine">1</li>
+							<li class="codeLine">2</li>
+							<li class="codeLine">3</li>
+							<li class="codeLine">4</li> -->
+						</ul>
+					</div>
+					<div class="Verilog prettyprint">
+						<code class="content">
+							<p>Please click the show code button to generate codes</p>
+							<!-- <span style="display: block;">
+								jjjjjj
+								<span> var </span>
+							</span>
+							<span style="display: block;">jjjjjj</span>
+							<span style="display: block;">jjjjjj</span>
+							<span style="display: block;">jjjjjj</span>
+							<span style="display: block;">jjjjjj</span> -->
+						</code>
+						<ul class="pre-numbering">
+							<!-- <li class="codeLine">1</li>
+							<li class="codeLine">2</li>
+							<li class="codeLine">3</li>
+							<li class="codeLine">4</li> -->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript" src="js/paraSetting.js"></script>
+		<script type="text/javascript" src="js/visualFSM.js"></script>
+		<script src="js/VHDL.js" type="text/javascript" charset="utf-8"></script>
 		</div>
 	</body>
 </html>
