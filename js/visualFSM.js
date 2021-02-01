@@ -385,6 +385,10 @@ deleteBtn.onclick = function () {
 /**************************add a new state or circle*******************************/
 const addStateBtn = document.getElementById('addState');
 addStateBtn.onclick = function () {
+	//see if the params has been set
+	if ((!stepOneFlag) || (!finishFlag)) 
+		alert('please finish the parameters setting at the left side'); 
+	
 	for (let i = 1; i <= stateNumber; i++) {
 		document.getElementById('table' + i).style.display = 'none';
 		circleArray[i].setAttribute('stroke-width', '3');

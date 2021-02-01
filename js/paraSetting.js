@@ -6,6 +6,7 @@ var outputNumber = 0;
 const stepOne = document.getElementById('stepOne');
 
 var stepOneFlag = 0;
+var finishFlag = 0;
 /*********************************input && output number**********************************/
 const inputNumberId = document.getElementById('inputNumber');
 const outputNumberId = document.getElementById('outputNumber');
@@ -179,6 +180,8 @@ stepOne.onclick = function () {
 	
 	var finish = document.getElementById('finish');
 	finish.onclick = function () {
+		finishFlag = 1;
+		
 		//remind
 		for (let i = 1; i <= inputNumber; i++) {
 			if (document.getElementById('input' + i).value === '') {
@@ -235,6 +238,8 @@ stepOne.onclick = function () {
 		
 		var finishLast = document.getElementById('finishLast');
 		finishLast.onclick = function () {
+			finishFlag = 0;
+			
 			var group3 = document.getElementById('group3');
 			group3.parentNode.removeChild(group3);
 			//group3.style.display = 'none';

@@ -36,6 +36,80 @@ var inputName = [];
 var outputName = [];
 
 $('#showBtn').click(function() {
+	console.log(Tline)
+	/**
+	 * see if the params has been set
+	 */
+	// left params
+	if ((!stepOneFlag) || (!finishFlag)) {
+		alert('please finish the parameters setting at the left side');
+		return;
+	}
+	else if (stateNumber === 0) {
+		alert('please finish the state diagram');
+		return;
+	}
+	for (let i = 1; i <= stateNumber; i++) {
+		var f = 1;
+		for (let j = 1; j <= stateNumber; j++) {
+			if (Tline[i][j] != 0) {
+				f = 0;
+				continue;
+			}
+		}
+		if (f) {
+			alert('each state must have at least one next state');
+			return;
+		}
+	}
+	
+	var inputNum = parseInt($('#inputNumber').val());
+	var inputCondition = [];
+	for (let i = 0; i < Tline.length; i++) {
+		inputCondition[i] = new Array(Tline[i].length);
+		
+		for (let j = 0; j < Tline[i].length; j++) {
+			inputCondition[i][j] = new Array(inputNum).fill(-1);
+			
+			if (Tline[i][j] != 0) {
+				for (let k = 0; k < inputNum; k++) {
+					inputCondition[i][j][k] = $('#input' + i + j + (k + 1)).val();
+				}
+			}
+		}
+	}
+
+	// inputs of each transition must be different
+	for (let i = 1; i <= stateNumber; i++) {
+		var cnt = 0;
+		for (let j = 1; j <= stateNumber; j++) {
+			if (Tline[i][j] != 0) {
+				cnt++;
+				//when there are at least two transitions
+				if (cnt > 1) break;
+			}
+		}
+		
+		if (cnt > 1) {
+			if (isElementEqual(inputCondition[i])) {
+				alert('inputs of each transition must be different');
+				return;
+			}
+		}
+		if (cnt === 1) {
+			for (let j = 1; j <= stateNumber; j++) {
+				if (Tline[i][j] != 0) {
+					//inputs shoud be all 'X'
+					if (isAllX(inputCondition[i][j])) break;
+					else {
+						alert(`the inputs of ${ $('#t' + i).html() } should be 'X'`);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
 	$('#updateBtn').css('display', 'block');
 	$(this).css('display', 'none');
 	
@@ -47,7 +121,6 @@ $('#showBtn').click(function() {
 	const $contentVHDL = $('.VHDL code');
 	
 	var entityName = $('#entityName').val();
-	var inputNum = parseInt($('#inputNumber').val());
 	var outputNum = parseInt($('#outputNumber').val());
 	
 	for (let i = 0; i < inputNum; i++) {
@@ -79,22 +152,6 @@ $('#showBtn').click(function() {
 	for (let i = 0; i < stateNumber; i++) {
 		stateName[i] = $('#t' + (i + 1)).html();
 	}
-	
-	var inputCondition = [];
-	for (let i = 0; i < Tline.length; i++) {
-		inputCondition[i] = new Array(Tline[i].length);
-		
-		for (let j = 0; j < Tline[i].length; j++) {
-			inputCondition[i][j] = new Array(inputNum).fill(-1);
-			
-			if (Tline[i][j] != 0) {
-				for (let k = 0; k < inputNum; k++) {
-					inputCondition[i][j][k] = $('#input' + i + j + (k + 1)).val();
-				}
-			}
-		}
-	}
-	//console.log(inputCondition)
 	
 	var outputForEachTran = [];
 	for (let i = 0; i < Tline.length; i++) {
@@ -333,19 +390,7 @@ $('#showBtn').click(function() {
 	lineNumber++;
 	
 	// each state
-	for (let i = 0; i <= stateNumber; i++) {
-		//see if there is any transition
-		var tranFlag = 1;
-		for (let j = 0; j < Tline[i].length; j++) {
-			if (Tline[i][j] != 0) {
-				tranFlag = 0;
-				break;
-			}
-		}
-		if (tranFlag) {
-			continue;
-		}
-		
+	for (let i = 1; i <= stateNumber; i++) {
 		if (i > 1) {
 			transitionCode += `<span class="lineBlock"></span>`;
 			lineNumber++;
@@ -684,6 +729,7 @@ $('#updateBtn').click(function() {
 
 /**
  * only used in arrays with two demensions
+ * only used to see if all the outputs/inputs of each transition are the same (moore)
  */
 function isElementEqual(array) {
 	var flag = 0;
@@ -718,7 +764,7 @@ function conditionCreator(inputArray) {
 	if (inputTypeFlag) {
 		var count = 1;
 		for (let i = 0; i < inputArray.length; i++) {
-			if (inputArray[i] != 'X') {
+			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
 					ret += `<span>${ inputName[i] } = '</span>
 							<span class="value">${ inputArray[i] }</span>
@@ -737,7 +783,7 @@ function conditionCreator(inputArray) {
 	else {
 		var count = 1;
 		for (let i = 0; i < inputArray.length; i++) {
-			if (inputArray[i] != 'X') {
+			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
 					ret += `<span>${ inputName[i] } = "</span>
 							<span class="value">${ inputArray[i] }</span>

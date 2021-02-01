@@ -28,17 +28,13 @@
 .codeArea .VHDL{
 	width: 50%;
 	height: 500px;
-	border: 1px solid black;
+	border: 2px solid #E6E6E6;
 	border-radius: 15px;
 	float: left;
 	position: relative;
 	overflow: auto;
 }
 .codeArea .content{
-	/* text-align: center; */
-	/* margin-left: 10px; */
-	/* float: right; */
-	/* width: 90%; */
 	position: absolute;
 	left: 55px;
 	top: 8px;
@@ -67,7 +63,7 @@
 .codeArea .Verilog{
 	width: 50%;
 	height: 500px;
-	border: 1px solid black;
+	border: 2px solid #E6E6E6;
 	border-radius: 15px;
 	float: right;
 	position: relative;

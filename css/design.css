@@ -1,5 +1,6 @@
 *{
-	/* border: 1px solid #eeeeee; */
+	margin: 0;
+	padding: 0;
 }
 .myContainer{
 	width: 95%;
@@ -13,20 +14,16 @@
 	position: relative;
 }
 #table{
-	/* border: 2px solid #000000; */
 	margin: 5px;
 	width: 250px;
-	/* float: left; */
 	position: absolute;
 	left: 10px;
 	top: -5px;
 }
 
 #toolBar{
-	/* border: 2px solid #000000; */
 	margin: 5px;
 	width: 950px;
-	/* float: left; */
 	position: absolute;
 	left: 270px;
 	top: -10px;
@@ -39,42 +36,19 @@
 .lineTble{
 	margin-left: 5px;
 }
-/* #entityName{
-	width: 260px;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-} */
-/* #inputNumber{
-	width: 244px;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-}
-#outputNumber{
-	width: 230px;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-} */
 #dataTableContainer{
 	width: 220px;
 	height: 800px;
-	/* float: left; */
 	border: 2px solid #E6E6E6;
 	margin-top: 5px;
 	margin-left: 5px;
 	border-radius: 15px;
 	position: relative;
 	left: 985px;
-	top: 30px;
+	top: 35px;
 }
 #dataTable{
-    /* width: 200px; */
-	/* height: 800px; */
-	/* float: left; */
 	background-color: white;
-	/* position: absolute; */
 	margin: 10px;
 }
 
@@ -84,7 +58,6 @@
 	margin: 5px;
 	background-color: white; 
 	border: 2px solid #E6E6E6;
-	/* float: left; */
 	border-radius: 15px;
 	position: absolute;
 	left: 260px;
@@ -94,7 +67,6 @@
 #paraSetting{
 	width: 250px;
 	height: 800px;
-	/* float: left; */
 	background-color: white;
 	border: 2px solid #E6E6E6;
 	margin: 5px;
@@ -107,16 +79,6 @@
 #paraSetting h3{
 	margin-left: 10px;
 }
-
-/* #paraSetting input{
-	height: 20px;
-} */
-/* #entityName{
-	width: 260px;
-} */
-/* #inputNumber, #outputNumber{
-	width: 150px;
-} */
 #inputFrom, #outputFrom, #inputTo, #outputTo{
 	width: 40px;
 }
@@ -127,23 +89,17 @@
 #group2 input{
 	width: 150px;
 }
+
 /*button*/
 #stepOne{
-	/* position: absolute; */
-	/* top: 725px;
-	left: 1110px; */
 	margin-left: 83px;
 	border-radius: 10px;
 }
 #stepTwoLast{
-	/* position: absolute; */
-	/* top: 725px;
-	left: 1110px; */
 	margin-left: 40px;
 	border-radius: 10px;
 }
 #finish{
-	/* position: absolute; */
 	margin-left: 40px;
 	border-radius: 10px;
 }
@@ -151,47 +107,20 @@
 	margin-left: 83px;
 	border-radius: 10px;
 }
-/* .button{
-	background: #b6b8b8;
-	background-image: -webkit-linear-gradient(top, #b6b8b8, #63707a);
-	background-image: -moz-linear-gradient(top, #b6b8b8, #63707a);
-	background-image: -ms-linear-gradient(top, #b6b8b8, #63707a);
-	background-image: -o-linear-gradient(top, #b6b8b8, #63707a);
-	background-image: linear-gradient(to bottom, #b6b8b8, #63707a);
-	-webkit-border-radius: 28;
-	-moz-border-radius: 28;
-	border-radius: 28px;
-	font-family: Arial;
-	color: #ffffff;
-	font-size: 12px;
-	padding: 4px 12px 4px 12px;
-	text-decoration: none;
-}
-.button:hover {
-  background: #38454d;
-  background-image: -webkit-linear-gradient(top, #38454d, #2d404d);
-  background-image: -moz-linear-gradient(top, #38454d, #2d404d);
-  background-image: -ms-linear-gradient(top, #38454d, #2d404d);
-  background-image: -o-linear-gradient(top, #38454d, #2d404d);
-  background-image: linear-gradient(to bottom, #38454d, #2d404d);
-  text-decoration: none;
-} */
 .circle{
 	cursor: pointer;
 }
 .text{
-	 -moz-user-select:none; /*火狐*/
-	 -webkit-user-select:none; /*webkit浏览器*/
+	 -moz-user-select:none; /*fireFox*/
+	 -webkit-user-select:none; /*webkit*/
 	 -ms-user-select:none; /*IE10*/
-	 -khtml-user-select:none; /*早期浏览器*/
+	 -khtml-user-select:none; /*early browsers*/
 	 user-select:none;
 	 cursor: pointer;
 }
 .line{
 	cursor: pointer;
 }
-
-
 svg input{
 	width: 100px;
 	height: 25px;
@@ -199,7 +128,38 @@ svg input{
 	padding: 0px;
 	border: 0px;
 	background-color: white;
-	/* background-color: #EEEEEE; */
 	outline: none;
 }
-
+#quickAccess{
+	width: 50px;
+	height: 150px;
+	position: fixed;
+	right: 10px;
+	bottom: 150px;
+	background-color: white;
+	border: 2px solid #E6E6E6;
+	cursor: pointer;
+}
+.designPart{
+	width: 50px;
+	height: 50px;
+	border-bottom: 1px solid #E6E6E6;
+}
+#quickAccess p{
+	line-height: 50px;
+}
+.codePart{
+	width: 50px;
+	height: 50px;
+	border-bottom: 1px solid #E6E6E6;
+}
+.codePart p{
+	margin-left: 5px;
+}
+.simulPart{
+	width: 50px;
+	height: 50px;
+}
+.simulPart p{
+	margin-left: 5px;
+}
