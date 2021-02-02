@@ -248,7 +248,7 @@ $('#showBtn').click(function() {
 	entityDef += `<span class="lineBlock">
 					<span class="keyWord">end </span>
 					<span class="entityName">${ entityName }</span>
-					<span>;</span>
+					<span class="moveSpace">;</span>
 				  </span>`;
 	
 	$contentVHDL.append(entityDef);
@@ -293,7 +293,7 @@ $('#showBtn').click(function() {
 					<span class="keyWord">signal</span>
 					<span>pre, next: </span>
 					<span class="keyWord">states</span>
-					<span>;</span>
+					<span class="moveSpace">;</span>
 				 </span>`;
 	
 	$contentVHDL.append(stateDef);
@@ -325,8 +325,8 @@ $('#showBtn').click(function() {
 					<span class="lineBlock tab">
 						<span class="keyWord tab">if </span>
 						<span>(rst = '</span>
-						<span class="value">1</span>
-						<span>') </span>
+						<span class="value moveSpace">1</span>
+						<span class="moveSpace">') </span>
 						<span class="keyWord">then </span>
 						<span>pre <= ${ stateName[0] };</span>
 					</span>
@@ -335,14 +335,14 @@ $('#showBtn').click(function() {
 						<span>(clk'event</span>
 						<span class="in"> and </span>
 						<span>clk = '</span>
-						<span class="value">1</span>
-						<span>') </span>
+						<span class="value moveSpace">1</span>
+						<span class="moveSpace">') </span>
 						<span class="keyWord">then </span>
 						<span>pre <= next;</span>
 					</span>
 					<span class="lineBlock tab">
 						<span class="keyWord tab">end if </span>
-						<span>;</span>
+						<span class="moveSpace">;</span>
 					</span>
 					<span class="lineBlock tab">
 						<span class="keyWord">end </span>
@@ -417,8 +417,8 @@ $('#showBtn').click(function() {
 													<span class="tab"></span>
 													<span class="tab"></span>
 													<span>${ outputName[k] } <= '</span>
-													<span class="value">${ outputForEachTran[i][j][k] }</span>
-													<span>';</span>
+													<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+													<span class="moveSpace">';</span>
 											   </span>`;
 						}
 						//bit_vector using ""
@@ -428,8 +428,8 @@ $('#showBtn').click(function() {
 													<span class="tab"></span>
 													<span class="tab"></span>
 													<span>${ outputName[k] } <= "</span>
-													<span class="value">${ outputForEachTran[i][j][k] }</span>
-													<span>";</span>
+													<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+													<span class="moveSpace">";</span>
 											   </span>`;
 						}
 					}
@@ -510,7 +510,7 @@ $('#showBtn').click(function() {
 										<span class="tab"></span>
 										<span class="tab"></span>
 										<span class="keyWord">end if </span>
-										<span>;</span>	
+										<span class="moveSpace">;</span>	
 									</span>`;
 				lineNumber++;
 			}
@@ -540,8 +540,8 @@ $('#showBtn').click(function() {
 														<span class="tab"></span>
 														<span class="tab"></span>
 														<span>${ outputName[k] } <= '</span>
-														<span class="value">${ outputForEachTran[i][j][k] }</span>
-														<span>';</span>
+														<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+														<span class="moveSpace">';</span>
 												   </span>`;
 							}
 							//bit_vector using ""
@@ -551,8 +551,8 @@ $('#showBtn').click(function() {
 														<span class="tab"></span>
 														<span class="tab"></span>
 														<span>${ outputName[k] } <= "</span>
-														<span class="value">${ outputForEachTran[i][j][k] }</span>
-														<span>";</span>
+														<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+														<span class="moveSpace">";</span>
 												   </span>`;
 							}
 						}
@@ -592,8 +592,8 @@ $('#showBtn').click(function() {
 															<span class="tab"></span>
 															<span class="tab"></span>
 															<span>${ outputName[k] } <= '</span>
-															<span class="value">${ outputForEachTran[i][j][k] }</span>
-															<span>';</span>
+															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+															<span class="moveSpace">';</span>
 													   </span>`;
 								}
 								//bit_vector using ""
@@ -604,8 +604,8 @@ $('#showBtn').click(function() {
 															<span class="tab"></span>
 															<span class="tab"></span>
 															<span>${ outputName[k] } <= "</span>
-															<span class="value">${ outputForEachTran[i][j][k] }</span>
-															<span>";</span>
+															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+															<span class="moveSpace">";</span>
 													   </span>`;
 								}
 							}
@@ -638,8 +638,8 @@ $('#showBtn').click(function() {
 															<span class="tab"></span>
 															<span class="tab"></span>
 															<span>${ outputName[k] } <= '</span>
-															<span class="value">${ outputForEachTran[i][j][k] }</span>
-															<span>';</span>
+															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+															<span class="moveSpace">';</span>
 													   </span>`;
 								}
 								//bit_vector using ""
@@ -650,8 +650,8 @@ $('#showBtn').click(function() {
 															<span class="tab"></span>
 															<span class="tab"></span>
 															<span>${ outputName[k] } <= "</span>
-															<span class="value">${ outputForEachTran[i][j][k] }</span>
-															<span>";</span>
+															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
+															<span class="moveSpace">";</span>
 													   </span>`;
 								}
 							}
@@ -668,7 +668,7 @@ $('#showBtn').click(function() {
 										<span class="tab"></span>
 										<span class="tab"></span>
 										<span class="keyWord">end if </span>
-										<span>;</span>	
+										<span class="moveSpace">;</span>	
 									</span>`;
 				lineNumber++;
 			}		
@@ -681,7 +681,7 @@ $('#showBtn').click(function() {
 	var endCode = `<span class="lineBlock tab">
 						<span class="tab"></span>
 						<span class="keyWord">end case</span>
-						<span>;</span>
+						<span class="moveSpace">;</span>
 				   </span>
 				   <span class="lineBlock tab">
 				   		<span class="keyWord">end </span>
@@ -690,7 +690,7 @@ $('#showBtn').click(function() {
 					<span class="lineBlock">
 						<span class="keyWord">end </span>
 						<span class="entityName">${ entityName }</span>		
-						<span>;</span>
+						<span class="moveSpace">;</span>
 					</span>`;
     
 	lineNumber += 3;
@@ -767,15 +767,15 @@ function conditionCreator(inputArray) {
 			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
 					ret += `<span>${ inputName[i] } = '</span>
-							<span class="value">${ inputArray[i] }</span>
-							<span>'</span>`;
+							<span class="value moveSpace">${ inputArray[i] }</span>
+							<span class="moveSpace">'</span>`;
 					count++;
 				}
 				else {
 					ret += `<span class="in"> and </span>
 							<span>${ inputName[i] } = '</span>
-							<span class="value">${ inputArray[i] }</span>
-							<span>'</span>`;
+							<span class="value moveSpace">${ inputArray[i] }</span>
+							<span class="moveSpace">'</span>`;
 				}
 			}
 		}
@@ -786,15 +786,15 @@ function conditionCreator(inputArray) {
 			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
 					ret += `<span>${ inputName[i] } = "</span>
-							<span class="value">${ inputArray[i] }</span>
-							<span>"</span>`;
+							<span class="value moveSpace">${ inputArray[i] }</span>
+							<span class="moveSpace">"</span>`;
 					count++;
 				}
 				else {
 					ret += `<span class="in"> and </span>
 							<span>${ inputName[i] } = "</span>
-							<span class="value">${ inputArray[i] }</span>
-							<span>"</span>`;
+							<span class="value moveSpace">${ inputArray[i] }</span>
+							<span class="moveSpace">"</span>`;
 				}
 			}
 		}

@@ -912,11 +912,12 @@ addStateBtn.onclick = function () {
 		
 		var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
 								 'width':'70', 'height':'30'});
-		foreign.innerHTML = "<input type='text'/>";
+		foreign.innerHTML = "<input type='text' maxlength='6'/>";
 		svg.appendChild(foreign);
 		
 		//save the last value;
 		foreign.firstChild.value = text.innerHTML;
+		var tempText = text.innerHTML;
 		//temperorily set blank for being invisible behind the input frame
 		text.innerHTML = '';
 		//show the cursor and select the value at the beginning
@@ -933,7 +934,12 @@ addStateBtn.onclick = function () {
 			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
 			//alert(dis);
 			if (dis > R) {
-				text.innerHTML = foreign.firstChild.value;
+				if (foreign.firstChild.value.length === 0) {
+					text.innerHTML = tempText;
+				}
+				else {
+					text.innerHTML = foreign.firstChild.value;
+				}
 				// table.textName[i] = foreign.firstChild.value;
 				// table.textName.reverse().reverse();
 				
@@ -1078,11 +1084,12 @@ addStateBtn.onclick = function () {
 		
 		var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
 								 'width':'70', 'height':'30'});
-		foreign.innerHTML = "<input type='text'/>";
+		foreign.innerHTML = "<input type='text' maxlength='6'/>";
 		svg.appendChild(foreign);
 		
 		//save the last value;
 		foreign.firstChild.value = text.innerHTML;
+		var tempText = text.innerHTML;
 		//temperorily set blank
 		text.innerHTML = '';
 		//show the cursor and select the value at the beginning
@@ -1098,7 +1105,12 @@ addStateBtn.onclick = function () {
 			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
 			
 			if (dis > R) {
-				text.innerHTML = foreign.firstChild.value;
+				if (foreign.firstChild.value.length === 0) {
+					text.innerHTML = tempText;
+				}
+				else {
+					text.innerHTML = foreign.firstChild.value;
+				}
 				// table.textName[i] = foreign.firstChild.value;
 				// table.textName.reverse().reverse();
 				

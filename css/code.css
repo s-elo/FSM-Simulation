@@ -105,6 +105,7 @@
 }
 .lineBlock{
 	display: block;
+	height: 25.56px;
 }
 .keyWord{
 	color: blueviolet !important;
@@ -123,4 +124,7 @@
 }
 .comment{
 	color: #4CAE4C !important;
+}
+.moveSpace{
+	margin-left: -9px;
 }

@@ -8,3 +8,11 @@
 	margin-top: 20px;
 	margin-left: 70px;
 }
+.content{
+	width: 90%;
+	height: 800px;
+	margin-left: 40px;
+	margin-top: 80px;
+	border: 2px solid #E6E6E6;
+	/* background-color: red; */
+}
