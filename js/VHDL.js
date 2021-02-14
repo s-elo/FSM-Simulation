@@ -110,6 +110,13 @@ $('#showBtn').click(function() {
 		}
 	}
 	
+	// copy button
+	$('.VHDL').hover(function () {
+		$('#VHDLCopy').css('display', 'block');
+	}, function () {
+		$('#VHDLCopy').css('display', 'none');
+	});
+	
 	$('#updateBtn').css('display', 'block');
 	$(this).css('display', 'none');
 	
@@ -802,3 +809,29 @@ function conditionCreator(inputArray) {
 	
 	return ret;
 }
+
+/**
+ * copy operation
+ */
+$('.codeArea .VHDL').scroll(function () {
+	// console.log($(this).scrollTop(), $(this).scrollLeft());//number
+	$('#VHDLCopy').css({
+		left: 460 + $(this).scrollLeft() + 'px',//px
+		top: 10 + $(this).scrollTop() + 'px'
+	});
+});
+
+var clipboard = new ClipboardJS('#VHDLCopy');
+
+clipboard.on('success', function(e) {
+    // console.info('Action:', e.action);
+    // console.info('Text:', e.text);
+    // console.info('Trigger:', e.trigger);
+	// alert('successfully copied!');
+	$('#copyReminder').fadeIn(500).fadeOut(3000);
+    e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+   alert('error！failed to copy');
+});

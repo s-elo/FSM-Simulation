@@ -7,6 +7,7 @@
 		<link rel="stylesheet" href="css/design.css">
 		<link rel="stylesheet" type="text/css" href="css/code.css"/>
 		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/clipboard.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="myContainer">
@@ -131,9 +132,12 @@
 					</div>
 					
 					<div class="VHDL prettyprint modal-content">
-						<code class="content">
+						<code class="content" id="VHDLContent">
 							<p>Please click the show code button to generate codes</p>
 						</code>
+						<!-- <span id="copy"><i class="glyphicon glyphicon-copy"></i></span> -->
+						<div class="modal-content" id="VHDLCopy" type="button" 
+							 data-clipboard-action="copy" data-clipboard-target="#VHDLContent">Copy</div>
 						<ul class="pre-numbering">
 						</ul>
 					</div>
@@ -159,7 +163,12 @@
 				<p>Simul</p>
 			</div>
 		</div>
+		
+		<div id="copyReminder"><p>Copied!</p></div>
 		<script type="text/javascript">
+			/**
+			 * position 
+			 */
 			$('.designPart').click(function() {
 				$('body, html').animate({
 					scrollTop: 0
@@ -180,6 +189,5 @@
 		<script type="text/javascript" src="js/paraSetting.js"></script>
 		<script type="text/javascript" src="js/visualFSM.js"></script>
 		<script src="js/VHDL.js" type="text/javascript" charset="utf-8"></script>
-		</div>
 	</body>
 </html>
