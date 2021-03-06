@@ -122,6 +122,7 @@
 			<div class="codeContainer">
 				<div class="codeHeader">
 					<button id="showBtn" type="button" class="btn btn-primary">Show Codes</button>
+					<button id="verilogBtn" type="button" style="display: none;"></button>
 					<button id="updateBtn" type="button" class="btn btn-primary" style="display: none;">Update</button>
 				</div>
 				
@@ -142,9 +143,12 @@
 						</ul>
 					</div>
 					<div class="Verilog prettyprint modal-content">
-						<code class="content">
+						<code class="content" id="VerilogContent">
 							<p>Please click the show code button to generate codes</p>
 						</code>
+						<div class="modal-content" id="VerilogCopy" type="button" 
+							 data-clipboard-action="copy"
+							 data-clipboard-target="#VerilogContent">Copy</div>
 						<ul class="pre-numbering">
 						</ul>
 					</div>
@@ -153,6 +157,9 @@
 		</div>
 		
 		<div id="quickAccess" class="modal-content">
+			<div class="Theme">
+				<p>Theme</p>
+			</div>
 			<div class="designPart">
 				<p>Design</p>
 			</div>
@@ -186,8 +193,10 @@
 			})
 		</script>
 		
+		<script src="js/colorControl.js"></script>
 		<script type="text/javascript" src="js/paraSetting.js"></script>
 		<script type="text/javascript" src="js/visualFSM.js"></script>
 		<script src="js/VHDL.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/Verilog.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>

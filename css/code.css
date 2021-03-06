@@ -1,140 +1,141 @@
-.codeContainer{
-	width: 95%;
-	height: 800px;
-	background-color: white;
-	margin-left: 10px;
-	/* background-color: #B2DBA1; */
+.codeContainer {
+  width: 1200px;
+  height: 800px;
+  background-color: white;
+  /* margin-left: 10px; */
+  margin: 0 auto;
+  background-color: #e6e6e6;
 }
-.codeHeader{
-	margin: 10px;
-	margin-left: 70px;
-
+.codeHeader {
+  margin: 10px;
+  margin-left: 70px;
 }
-.type{
-	width: 100%;
-	height: 20px;
+.type {
+  width: 100%;
+  height: 20px;
 }
-.type h3{
-	width: 50%;
-	height: 20px;
-	float: left;	
+.type h3 {
+  width: 50%;
+  height: 20px;
+  float: left;
 }
-.codeArea{
-	width: 90%;
-	height: 500px;
-	background-color: white;
-	margin: 0 auto;
-	/* border: 1px solid black;
+.codeArea {
+  width: 90%;
+  height: 500px;
+  background-color: #e6e6e6;
+  margin: 0 auto;
+  /* border: 1px solid black;
 	border-radius: 15px; */
-	/* background-color: #B2DBA1; */
 }
-.codeArea .VHDL{
-	width: 50%;
-	height: 500px;
-	border: 2px solid #E6E6E6;
-	border-radius: 15px;
-	float: left;
-	position: relative;
-	overflow: auto;
-	/* background-color: #B2DBA1; */
-	z-index: 0;
+.codeArea .VHDL {
+  width: 50%;
+  height: 500px;
+  border: 2px solid #e6e6e6;
+  border-radius: 15px;
+  float: left;
+  position: relative;
+  overflow: auto;
+  background-color: #e6e6e6;
+  z-index: 0;
 }
-.codeArea .content{
-	position: absolute;
-	left: 55px;
-	top: 8px;
-	background-color: white;
-	white-space: nowrap;
-	/* background-color: #B2DBA1; */
+.codeArea .content {
+  position: absolute;
+  /* width: 500px; */
+  left: 55px;
+  top: 8px;
+  background-color: #e6e6e6;
+  white-space: nowrap;
+  /* background-color: #B2DBA1; */
 }
-.codeArea ul{
-	display: none;
+.codeArea ul {
+  display: none;
 }
-.codeArea li{
-	color: rgba(153, 153, 153);
-	padding: 0 8px;
-	list-style: none;
-	margin: 0;
-	font-size: 18px;
+.codeArea li {
+  color: rgb(138, 136, 136);
+  padding: 0 8px;
+  list-style: none;
+  margin: 0;
+  font-size: 18px;
+  border-right: 1px solid #b6b8b8;
 }
-.VHDL p{
-	color: #B6B8B8;
-	font-weight: bold;
-	margin-left: 50px;
+.VHDL p {
+  color: #b6b8b8;
+  font-weight: bold;
+  margin-left: 50px;
 }
-.VHDL span{
-	color: black;
-	font-size: 18px;
+.VHDL span {
+  color: black;
+  font-size: 18px;
 }
-.codeArea .Verilog{
-	width: 50%;
-	height: 500px;
-	border: 2px solid #E6E6E6;
-	border-radius: 15px;
-	float: right;
-	position: relative;
-	overflow-y: auto;
-	overflow-x: auto;
-	/* background-color: #B2DBA1; */
-	z-index: 0;
+.codeArea .Verilog {
+  width: 50%;
+  height: 500px;
+  border: 2px solid #e6e6e6;
+  border-radius: 15px;
+  float: right;
+  position: relative;
+  overflow-y: auto;
+  overflow-x: auto;
+  background-color: #e6e6e6;
+  z-index: 0;
 }
-.Verilog p{
-	color: #B6B8B8;
-	font-weight: bold;
-	margin-left: 50px;
+.Verilog p {
+  color: #b6b8b8;
+  font-weight: bold;
+  margin-left: 50px;
 }
-.Verilog span{
-	font-size: 18px;
-	color: black;
+.Verilog span {
+  font-size: 18px;
+  color: black;
 }
-.pre-numbering{
-	position: absolute;
-	width: 48px;
-	background-color: #eef0f4;
-	top: 0;
-	left: 0;
-	margin: 0;
-	margin-top: 3px;
-	padding: 8px 0;
-	list-style: none;
-	text-align: right; 
+.pre-numbering {
+  position: absolute;
+  width: 48px;
+  background-color: #eef0f4;
+  top: 0;
+  left: 0;
+  margin: 0;
+  margin-top: 3px;
+  padding: 8px 0;
+  list-style: none;
+  text-align: right;
 }
-.prettyprint{
-	border-bottom: 1px solid #f5f6f7;
-	padding-top: 8px;
-	z-index: 9;
-	background-color: #fff;   
+.prettyprint {
+  border-bottom: 1px solid #f5f6f7;
+  padding-top: 8px;
+  z-index: 9;
+  background-color: #fff;
 }
-.tab{
-	margin-left: 25px;
+.tab {
+  margin-left: 25px;
 }
-.fiveTab{
-	margin-left: 65px;
+.fiveTab {
+  margin-left: 65px;
 }
-.lineBlock{
-	display: block;
-	height: 25.56px;
+.lineBlock {
+  display: block;
+  height: 25.56px;
 }
-.keyWord{
-	color: blueviolet !important;
+.keyWord {
+  color: blueviolet !important;
 }
-.entityName{
-	color: red !important;
+.entityName {
+  color: rgb(243, 58, 44) !important;
 }
-.Type{
-	color: #337AB7 !important;
+.Type {
+  color: #337ab7 !important;
 }
-.in{
-	color: #C0A16B !important;
+.in {
+  color: #c0a16b !important;
 }
-.value{
-	color: #337AB7 !important;
+.value {
+  color: #337ab7 !important;
 }
-.comment{
-	color: #4CAE4C !important;
+.comment {
+  color: #4cae4c !important;
 }
-.moveSpace{
-	margin-left: -9px;
+.moveSpace {
+  margin-left: -9px;
 }
 
 /* #copy{

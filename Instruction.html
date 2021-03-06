@@ -586,7 +586,16 @@ header, .context-menu, .megamenu-content, footer{
 		var imgPath = './img/' + imgName;
 		console.log(imgPath)
 		$(this).attr('src', imgPath);
-	})
+	});
+
+    // color
+    let storage = window.localStorage;
+    let currentcolor = '#e6e6e6';
+
+    if (storage.getItem('curColor')) {
+        currentcolor = storage.getItem('curColor');
+    }
+    $('body').css('background-color', currentcolor);
 </script>
 </body>
 </html>

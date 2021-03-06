@@ -34,9 +34,10 @@ var outputTypeFlag;
 
 var inputName = [];
 var outputName = [];
+var data = {};
 
 $('#showBtn').click(function() {
-	console.log(Tline)
+	// console.log(Tline)
 	/**
 	 * see if the params has been set
 	 */
@@ -116,12 +117,19 @@ $('#showBtn').click(function() {
 	}, function () {
 		$('#VHDLCopy').css('display', 'none');
 	});
-	
+
+	$('.Verilog').hover(function () {
+		$('#VerilogCopy').css('display', 'block');
+	}, function () {
+		$('#VerilogCopy').css('display', 'none');
+	});
+
 	$('#updateBtn').css('display', 'block');
 	$(this).css('display', 'none');
 	
 	//clear the previous contents and change the bcg if it is the first time
 	$('.content').css('background-color', '#eef0f4');
+	$('.prettyprint').css('background-color', '#eef0f4');
 	$('.content').html('');
 	$('.pre-numbering').html('');
 	
@@ -196,7 +204,7 @@ $('#showBtn').click(function() {
 	$contentVHDL.append($libCode);
 	lineNumber = lineNumber + 2;
 	
-	$contentVHDL.append(`<span class="lineBlock"></span>`);
+	$contentVHDL.append(`<span class="lineBlock">&#10;</span>`);
 	
 	/**
 	 * code lines for defining a entity
@@ -212,7 +220,8 @@ $('#showBtn').click(function() {
 							<span class="entityName">${ entityName }</span>
 							<span> is</span>
 						</span>
-						<span class="lineBlock tab">
+						<span class="lineBlock">
+							<span>&nbsp;&nbsp;</span>
 							<span class="keyWord ">port</span>
 							<span>(</span>`;
 	
@@ -224,14 +233,19 @@ $('#showBtn').click(function() {
 	entityDef += `<span>clk, rst: </span><span class="in">in </span>`;
 	
 	if (inputTypeVal === 'bit') {
-		entityDef += `<span class="Type">bit;</span></span>`;
+		entityDef += `<span class="Type">bit</span>
+					  <span class="moveSpace">;</span>
+					  </span>`;
 	}
 	else {
-		entityDef += `<span class="Type">bit_vector(${ inputFromVal } downto ${ inputToVal });</span></span>`;
+		entityDef += `<span class="Type">bit_vector(${ inputFromVal } downto ${ inputToVal })</span>
+					  <span>;</span>
+					  </span>`;
 	}
 	
 	//out
-	entityDef += `<span class="lineBlock fiveTab">`;
+	entityDef += `<span class="lineBlock">
+					<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>`;
 	for (let i = 0; i < outputNum; i++) {
 		if (i === (outputNum - 1)) {
 			entityDef += `<span>${ outputName[i] }: </span>`;
@@ -243,7 +257,7 @@ $('#showBtn').click(function() {
 	
 	entityDef += `<span class="in">out </span>`;
 	if (outputTypeVal === 'bit') {
-		entityDef += `<span class="Type">bit;</span>`;
+		entityDef += `<span class="Type">bit</span>`;
 	}
 	else {
 		entityDef += `<span class="Type">bit_vector(${ outputFromVal } downto ${ outputToVal })</span>`;
@@ -282,7 +296,8 @@ $('#showBtn').click(function() {
 	lineNumber++;
 	
 	//declare the names of states
-	stateDef += `<span class="lineBlock tab">
+	stateDef += `<span class="lineBlock">
+					<span>&nbsp;&nbsp;</span>
 					<span class="keyWord">type states </span>
 					<span>is (</span>`;
 	
@@ -296,9 +311,10 @@ $('#showBtn').click(function() {
 	})
 	
 	//define the states type signals
-	stateDef += `<span class="lineBlock tab">
+	stateDef += `<span class="lineBlock">
+					<span>&nbsp;&nbsp;</span>
 					<span class="keyWord">signal</span>
-					<span>pre, next: </span>
+					<span>pre, nextState: </span>
 					<span class="keyWord">states</span>
 					<span class="moveSpace">;</span>
 				 </span>`;
@@ -318,40 +334,47 @@ $('#showBtn').click(function() {
 						 </span>`);
 	lineNumber++;
 	
-	var lowerdef = `<span class="lineBlock tab">
+	var lowerdef = `<span class="lineBlock">
+						<span>&nbsp;&nbsp;</span>
 						<span class="keyWord">begin</span>
 					</span>
-					<span class="lineBlock tab">
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;</span>
 						<span>lower: </span>
 						<span class="keyWord">process</span>
 						<span>(clk, rst)</span>
 					</span>
-					<span class="lineBlock tab">
-						<span class="keyWord tab">begin</span>
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span class="keyWord">begin</span>
 					</span>
-					<span class="lineBlock tab">
-						<span class="keyWord tab">if </span>
-						<span>(rst = '</span>
-						<span class="value moveSpace">1</span>
-						<span class="moveSpace">') </span>
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span class="keyWord">if </span>
+						<span>(rst = </span>
+						<span class="value moveSpace">'1'</span>
+						<span class="moveSpace">) </span>
 						<span class="keyWord">then </span>
 						<span>pre <= ${ stateName[0] };</span>
 					</span>
-					<span class="lineBlock tab">
-						<span class="keyWord tab">elsif </span>
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span class="keyWord">elsif </span>
 						<span>(clk'event</span>
 						<span class="in"> and </span>
-						<span>clk = '</span>
-						<span class="value moveSpace">1</span>
-						<span class="moveSpace">') </span>
+						<span>clk = </span>
+						<span class="value moveSpace">'1'</span>
+						<span class="moveSpace">) </span>
 						<span class="keyWord">then </span>
-						<span>pre <= next;</span>
+						<span>pre <= nextState;</span>
 					</span>
-					<span class="lineBlock tab">
-						<span class="keyWord tab">end if </span>
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<span class="keyWord">end if </span>
 						<span class="moveSpace">;</span>
 					</span>
-					<span class="lineBlock tab">
+					<span class="lineBlock">
+						<span>&nbsp;&nbsp;</span>
 						<span class="keyWord">end </span>
 						<span>process lower;</span>
 					</span>`;
@@ -371,7 +394,8 @@ $('#showBtn').click(function() {
 						 </span>`);
 	lineNumber++;
 	
-	var upperInit = `<span class="lineBlock tab">
+	var upperInit = `<span class="lineBlock">
+						<span>&nbsp;&nbsp;</span>
 						<span>upper: </span>
 						<span class="keyWord">process</span>
 						<span>(</span>`;
@@ -381,8 +405,9 @@ $('#showBtn').click(function() {
 	}
 	
 	upperInit += `<span>pre)</span></span>
-				  <span class="lineBlock tab">
-					<span class="keyWord tab">begin</span>
+				  <span class="lineBlock">
+				  	<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					<span class="keyWord">begin</span>
 				  </span>`;
 	
 	$contentVHDL.append(upperInit);
@@ -390,8 +415,9 @@ $('#showBtn').click(function() {
 	lineNumber += 3;
 	
 	// transitions handling
-	var transitionCode = `<span class="lineBlock tab">
-							<span class="keyWord tab">case</span>
+	var transitionCode = `<span class="lineBlock">
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span class="keyWord">case</span>
 							<span>pre is</span>
 						  </span>`;
 	lineNumber++;
@@ -403,9 +429,8 @@ $('#showBtn').click(function() {
 			lineNumber++;
 		}
 		
-		transitionCode += `<span class="lineBlock tab">
-								<span class="tab"></span>
-								<span class="tab"></span>
+		transitionCode += `<span class="lineBlock">
+								<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 								<span class="keyWord">when</span>
 								<span>${ stateName[i - 1] } => </span>
 						   </span>`;
@@ -419,24 +444,20 @@ $('#showBtn').click(function() {
 				if (Tline[i][j] != 0) {
 					for (let k = 0; k < outputNum; k++) {
 						if (outputTypeFlag) {
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span>${ outputName[k] } <= '</span>
-													<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-													<span class="moveSpace">';</span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+													<span>${ outputName[k] } <= </span>
+													<span class="value moveSpace">'${ outputForEachTran[i][j][k] }'</span>
+													<span class="moveSpace">;</span>
 											   </span>`;
 						}
 						//bit_vector using ""
 						else {
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span>${ outputName[k] } <= "</span>
-													<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-													<span class="moveSpace">";</span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+													<span>${ outputName[k] } <= </span>
+													<span class="value moveSpace">"${ outputForEachTran[i][j][k] }"</span>
+													<span class="moveSpace">;</span>
 											   </span>`;
 						}
 					}
@@ -453,11 +474,9 @@ $('#showBtn').click(function() {
 				if (Tline[i][j] != 0) {
 					//when it is uncondiotional transition
 					if (isAllX(inputCondition[i][j])) {
-						transitionCode += `<span class="lineBlock tab">
-												<span class="tab"></span>
-												<span class="tab"></span>
-												<span class="tab"></span>
-												<span>next <= ${ stateName[j - 1] };</span>
+						transitionCode += `<span class="lineBlock">
+												<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<span>nextState <= ${ stateName[j - 1] };</span>
 										   </span>`;
 						lineNumber++;
 						//if it unconditional, it can only have one transition
@@ -468,42 +487,32 @@ $('#showBtn').click(function() {
 						//if it is the first one
 						if (count == 1) {
 							count++;
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 													<span class="keyWord">if </span>
 													<span>(</span>
 													${ conditionCreator(inputCondition[i][j]) }
 													<span>) </span>
 													<span class="keyWord">then</span>
 											   </span>
-											   <span class="lineBlock tab">
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-													<span class="tab"></span>
-											   		<span>next <= ${ stateName[j - 1] };</span>	
+											   <span class="lineBlock">
+											   		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											   		<span>nextState <= ${ stateName[j - 1] };</span>	
 											   	</span>`;
 							lineNumber += 2;
 						}
 						else {
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 													<span class="keyWord">elsif </span>
 													<span>(</span>
 													${ conditionCreator(inputCondition[i][j]) }
 													<span>) </span>
 													<span class="keyWord">then</span>
 											   </span>
-											   <span class="lineBlock tab">
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span>next <= ${ stateName[j - 1] };</span>	
+											   <span class="lineBlock">
+											   		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											   		<span>nextState <= ${ stateName[j - 1] };</span>	
 											   	</span>`;
 							lineNumber += 2;
 						}
@@ -512,10 +521,8 @@ $('#showBtn').click(function() {
 			}
 			
 			if (conFlag) {
-				transitionCode += `<span class="lineBlock tab">
-										<span class="tab"></span>
-										<span class="tab"></span>
-										<span class="tab"></span>
+				transitionCode += `<span class="lineBlock">
+										<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										<span class="keyWord">end if </span>
 										<span class="moveSpace">;</span>	
 									</span>`;
@@ -533,33 +540,27 @@ $('#showBtn').click(function() {
 				if (Tline[i][j] != 0) {
 					//when it is uncondiotional transition
 					if (isAllX(inputCondition[i][j])) {
-						transitionCode += `<span class="lineBlock tab">
-												<span class="tab"></span>
-												<span class="tab"></span>
-												<span class="tab"></span>
-												<span>next <= ${ stateName[j - 1] };</span>
+						transitionCode += `<span class="lineBlock">
+												<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+												<span>nextState <= ${ stateName[j - 1] };</span>
 										   </span>`;
 						//output
 						for (let k = 0; k < outputNum; k++) {
 							if (outputTypeFlag) {
-								transitionCode += `<span class="lineBlock tab">
-														<span class="tab"></span>
-														<span class="tab"></span>
-														<span class="tab"></span>
-														<span>${ outputName[k] } <= '</span>
-														<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-														<span class="moveSpace">';</span>
+								transitionCode += `<span class="lineBlock">
+														<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+														<span>${ outputName[k] } <= </span>
+														<span class="value moveSpace">'${ outputForEachTran[i][j][k] }'</span>
+														<span class="moveSpace">;</span>
 												   </span>`;
 							}
 							//bit_vector using ""
 							else {
-								transitionCode += `<span class="lineBlock tab">
-														<span class="tab"></span>
-														<span class="tab"></span>
-														<span class="tab"></span>
+								transitionCode += `<span class="lineBlock">
+														<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 														<span>${ outputName[k] } <= "</span>
-														<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-														<span class="moveSpace">";</span>
+														<span class="value moveSpace">"${ outputForEachTran[i][j][k] }"</span>
+														<span class="moveSpace">;</span>
 												   </span>`;
 							}
 						}
@@ -573,92 +574,70 @@ $('#showBtn').click(function() {
 						//if it is the first one
 						if (count == 1) {
 							count++;
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 													<span class="keyWord">if </span>
 													<span>(</span>
 													${ conditionCreator(inputCondition[i][j]) }
 													<span>) </span>
 													<span class="keyWord">then</span>
 											   </span>
-											   <span class="lineBlock tab">
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-													<span class="tab"></span>
-											   		<span>next <= ${ stateName[j - 1] };</span>	
+											   <span class="lineBlock">
+											   		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											   		<span>nextState <= ${ stateName[j - 1] };</span>	
 											   	</span>`;
 							//output
 							for (let k = 0; k < outputNum; k++) {
 								if (outputTypeFlag) {
-									transitionCode += `<span class="lineBlock tab">
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span>${ outputName[k] } <= '</span>
-															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-															<span class="moveSpace">';</span>
+									transitionCode += `<span class="lineBlock">
+															<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+															<span>${ outputName[k] } <= </span>
+															<span class="value moveSpace">'${ outputForEachTran[i][j][k] }'</span>
+															<span class="moveSpace">;</span>
 													   </span>`;
 								}
 								//bit_vector using ""
 								else {
-									transitionCode += `<span class="lineBlock tab">
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span>${ outputName[k] } <= "</span>
-															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-															<span class="moveSpace">";</span>
+									transitionCode += `<span class="lineBlock">
+															<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+															<span>${ outputName[k] } <= </span>
+															<span class="value moveSpace">"${ outputForEachTran[i][j][k] }"</span>
+															<span class="moveSpace">;</span>
 													   </span>`;
 								}
 							}
 							lineNumber += (2 + outputNum);
 						}
 						else {
-							transitionCode += `<span class="lineBlock tab">
-													<span class="tab"></span>
-													<span class="tab"></span>
-													<span class="tab"></span>
+							transitionCode += `<span class="lineBlock">
+													<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 													<span class="keyWord">elsif </span>
 													<span>(</span>
 													${ conditionCreator(inputCondition[i][j]) }
 													<span>) </span>
 													<span class="keyWord">then</span>
 											   </span>
-											   <span class="lineBlock tab">
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span class="tab"></span>
-											   		<span>next <= ${ stateName[j - 1] };</span>	
+											   <span class="lineBlock">
+											   		<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+											   		<span>nextState <= ${ stateName[j - 1] };</span>	
 											   	</span>`;
 							//output
 							for (let k = 0; k < outputNum; k++) {
 								if (outputTypeFlag) {
-									transitionCode += `<span class="lineBlock tab">
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span>${ outputName[k] } <= '</span>
-															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-															<span class="moveSpace">';</span>
+									transitionCode += `<span class="lineBlock">
+															<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+															<span>${ outputName[k] } <= </span>
+															<span class="value moveSpace">'${ outputForEachTran[i][j][k] }'</span>
+															<span class="moveSpace">;</span>
 													   </span>`;
 								}
 								//bit_vector using ""
 								else {
-									transitionCode += `<span class="lineBlock tab">
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span class="tab"></span>
-															<span>${ outputName[k] } <= "</span>
-															<span class="value moveSpace">${ outputForEachTran[i][j][k] }</span>
-															<span class="moveSpace">";</span>
+									transitionCode += `<span class="lineBlock">
+															<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+															<span>${ outputName[k] } <= </span>
+															<span class="value moveSpace">"${ outputForEachTran[i][j][k] }"</span>
+															<span class="moveSpace">;</span>
 													   </span>`;
 								}
 							}
@@ -670,10 +649,8 @@ $('#showBtn').click(function() {
 			}
 			
 			if (conFlag) {
-				transitionCode += `<span class="lineBlock tab">
-										<span class="tab"></span>
-										<span class="tab"></span>
-										<span class="tab"></span>
+				transitionCode += `<span class="lineBlock">
+										<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 										<span class="keyWord">end if </span>
 										<span class="moveSpace">;</span>	
 									</span>`;
@@ -685,12 +662,13 @@ $('#showBtn').click(function() {
 
 	$contentVHDL.append(transitionCode);
 	
-	var endCode = `<span class="lineBlock tab">
-						<span class="tab"></span>
+	var endCode = `<span class="lineBlock">
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<span class="keyWord">end case</span>
 						<span class="moveSpace">;</span>
 				   </span>
-				   <span class="lineBlock tab">
+				   <span class="lineBlock">
+				   		<span>&nbsp;&nbsp;</span>
 				   		<span class="keyWord">end </span>
 				   		<span>process upper;</span>			
 				   	</span>
@@ -703,8 +681,6 @@ $('#showBtn').click(function() {
 	lineNumber += 3;
 	$contentVHDL.append(endCode);
 	
-	
-	
 	lineNumber += 1;
 	$('.VHDL .pre-numbering').css('display', 'block')
 	for (let i = 1; i <= lineNumber; i++) {
@@ -715,8 +691,33 @@ $('#showBtn').click(function() {
 	var height = $('.VHDL .pre-numbering li').css('height');//px
 
 	$('.lineBlock').css('height', height);
-})
 
+	// export the data
+	data = {
+		inputName: inputName,
+    	outputName: outputName,
+
+    	entityName: entityName,
+    	inputNum: inputNum,
+    	outputNum: outputNum,
+
+    	inputTypeVal: inputTypeVal,
+    	outputTypeVal: outputTypeVal,
+
+    	inputFromVal: inputFromVal,
+    	inputToVal: inputToVal,
+    	outputFromVal: outputFromVal,
+    	outputToVal: outputToVal,
+
+    	stateName: stateName,
+    	inputCondition: inputCondition,
+    	outputForEachTran: outputForEachTran,
+		stateNumber
+	};
+
+	// show Verilog code
+	$('#verilogBtn').trigger('click');
+});
 
 //make sure the height of the marks is the same as the lines
 $(window).on('resize', function() {
@@ -773,16 +774,14 @@ function conditionCreator(inputArray) {
 		for (let i = 0; i < inputArray.length; i++) {
 			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
-					ret += `<span>${ inputName[i] } = '</span>
-							<span class="value moveSpace">${ inputArray[i] }</span>
-							<span class="moveSpace">'</span>`;
+					ret += `<span>${ inputName[i] } = </span>
+							<span class="value moveSpace">'${ inputArray[i] }'</span>`;
 					count++;
 				}
 				else {
 					ret += `<span class="in"> and </span>
-							<span>${ inputName[i] } = '</span>
-							<span class="value moveSpace">${ inputArray[i] }</span>
-							<span class="moveSpace">'</span>`;
+							<span>${ inputName[i] } = </span>
+							<span class="value moveSpace">'${ inputArray[i] }'</span>`;
 				}
 			}
 		}
@@ -792,16 +791,14 @@ function conditionCreator(inputArray) {
 		for (let i = 0; i < inputArray.length; i++) {
 			if ((inputArray[i] != 'X') && (inputArray[i] != -1)) {
 				if (count === 1) {
-					ret += `<span>${ inputName[i] } = "</span>
-							<span class="value moveSpace">${ inputArray[i] }</span>
-							<span class="moveSpace">"</span>`;
+					ret += `<span>${ inputName[i] } = </span>
+							<span class="value moveSpace">"${ inputArray[i] }"</span>`;
 					count++;
 				}
 				else {
 					ret += `<span class="in"> and </span>
-							<span>${ inputName[i] } = "</span>
-							<span class="value moveSpace">${ inputArray[i] }</span>
-							<span class="moveSpace">"</span>`;
+							<span>${ inputName[i] } = </span>
+							<span class="value moveSpace">"${ inputArray[i] }"</span>`;
 				}
 			}
 		}
@@ -819,6 +816,13 @@ $('.codeArea .VHDL').scroll(function () {
 		left: 460 + $(this).scrollLeft() + 'px',//px
 		top: 10 + $(this).scrollTop() + 'px'
 	});
+
+	/**
+ 	* lineNumber and scroll
+ 	*/
+	$('.VHDL .pre-numbering').css({
+		left: 0 + $(this).scrollLeft() + 'px',//px
+	});
 });
 
 var clipboard = new ClipboardJS('#VHDLCopy');
@@ -835,3 +839,4 @@ clipboard.on('success', function(e) {
 clipboard.on('error', function(e) {
    alert('error！failed to copy');
 });
+
