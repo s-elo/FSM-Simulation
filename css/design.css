@@ -199,7 +199,91 @@ svg input {
   font-weight: bold;
   display: none;
 }
+
+#VHDLToTestBench {
+  position: absolute;
+  left: 460px;
+  top: 450px;
+  width: 50px;
+  height: 25px;
+  /* border: 1px solid black; */
+  text-align: center;
+  /* cursor: pointer; */
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  display: none;
+}
+
+#VerilogToTestBench {
+  position: absolute;
+  left: 460px;
+  top: 450px;
+  width: 50px;
+  height: 25px;
+  /* border: 1px solid black; */
+  text-align: center;
+  /* cursor: pointer; */
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  display: none;
+}
+
+#TestBenchToVHDL {
+  position: absolute;
+  left: 460px;
+  top: 450px;
+  width: 50px;
+  height: 25px;
+  /* border: 1px solid black; */
+  text-align: center;
+  /* cursor: pointer; */
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  display: none;
+}
+
+#TestBenchToVerilog {
+  position: absolute;
+  left: 460px;
+  top: 450px;
+  width: 50px;
+  height: 25px;
+  /* border: 1px solid black; */
+  text-align: center;
+  /* cursor: pointer; */
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  display: none;
+}
+
+#VHDLTestBenchCopy {
+  position: absolute;
+  left: 460px;
+  top: 10px;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  display: none;
+}
+
 #VerilogCopy {
+  position: absolute;
+  left: 460px;
+  top: 10px;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
+  display: none;
+}
+#VerilogTestBenchCopy {
   position: absolute;
   left: 460px;
   top: 10px;

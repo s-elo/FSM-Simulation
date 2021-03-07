@@ -36,106 +36,14 @@ var inputName = [];
 var outputName = [];
 var data = {};
 
-$('#showBtn').click(function() {
+$('#VHDLBtn').click(function() {
 	// console.log(Tline)
-	/**
-	 * see if the params has been set
-	 */
-	// left params
-	if ((!stepOneFlag) || (!finishFlag)) {
-		alert('please finish the parameters setting at the left side');
-		return;
-	}
-	else if (stateNumber === 0) {
-		alert('please finish the state diagram');
-		return;
-	}
-	for (let i = 1; i <= stateNumber; i++) {
-		var f = 1;
-		for (let j = 1; j <= stateNumber; j++) {
-			if (Tline[i][j] != 0) {
-				f = 0;
-				continue;
-			}
-		}
-		if (f) {
-			alert('each state must have at least one next state');
-			return;
-		}
-	}
-	
-	var inputNum = parseInt($('#inputNumber').val());
-	var inputCondition = [];
-	for (let i = 0; i < Tline.length; i++) {
-		inputCondition[i] = new Array(Tline[i].length);
-		
-		for (let j = 0; j < Tline[i].length; j++) {
-			inputCondition[i][j] = new Array(inputNum).fill(-1);
-			
-			if (Tline[i][j] != 0) {
-				for (let k = 0; k < inputNum; k++) {
-					inputCondition[i][j][k] = $('#input' + i + j + (k + 1)).val();
-				}
-			}
-		}
-	}
-
-	// inputs of each transition must be different
-	for (let i = 1; i <= stateNumber; i++) {
-		var cnt = 0;
-		for (let j = 1; j <= stateNumber; j++) {
-			if (Tline[i][j] != 0) {
-				cnt++;
-				//when there are at least two transitions
-				if (cnt > 1) break;
-			}
-		}
-		
-		if (cnt > 1) {
-			if (isElementEqual(inputCondition[i])) {
-				alert('inputs of each transition must be different');
-				return;
-			}
-		}
-		if (cnt === 1) {
-			for (let j = 1; j <= stateNumber; j++) {
-				if (Tline[i][j] != 0) {
-					//inputs shoud be all 'X'
-					if (isAllX(inputCondition[i][j])) break;
-					else {
-						alert(`the inputs of ${ $('#t' + i).html() } should be 'X'`);
-						return;
-					}
-				}
-			}
-		}
-	}
-	
-	// copy button
-	$('.VHDL').hover(function () {
-		$('#VHDLCopy').css('display', 'block');
-	}, function () {
-		$('#VHDLCopy').css('display', 'none');
-	});
-
-	$('.Verilog').hover(function () {
-		$('#VerilogCopy').css('display', 'block');
-	}, function () {
-		$('#VerilogCopy').css('display', 'none');
-	});
-
-	$('#updateBtn').css('display', 'block');
-	$(this).css('display', 'none');
-	
-	//clear the previous contents and change the bcg if it is the first time
-	$('.content').css('background-color', '#eef0f4');
-	$('.prettyprint').css('background-color', '#eef0f4');
-	$('.content').html('');
-	$('.pre-numbering').html('');
+	VHDLInit();
 	
 	const $contentVHDL = $('.VHDL code');
 	
 	var entityName = $('#entityName').val();
+	var inputNum = parseInt($('#inputNumber').val());
 	var outputNum = parseInt($('#outputNumber').val());
 	
 	for (let i = 0; i < inputNum; i++) {
@@ -168,6 +76,21 @@ $('#showBtn').click(function() {
 		stateName[i] = $('#t' + (i + 1)).html();
 	}
 	
+	var inputCondition = [];
+	for (let i = 0; i < Tline.length; i++) {
+		inputCondition[i] = new Array(Tline[i].length);
+		
+		for (let j = 0; j < Tline[i].length; j++) {
+			inputCondition[i][j] = new Array(inputNum).fill(-1);
+			
+			if (Tline[i][j] != 0) {
+				for (let k = 0; k < inputNum; k++) {
+					inputCondition[i][j][k] = $('#input' + i + j + (k + 1)).val();
+				}
+			}
+		}
+	}
+
 	var outputForEachTran = [];
 	for (let i = 0; i < Tline.length; i++) {
 		outputForEachTran[i] = new Array(Tline[i].length);
@@ -687,10 +610,10 @@ $('#showBtn').click(function() {
 		$('.VHDL .pre-numbering').append(`<li>${ i }</li>`);
 	}
 	
-	//make sure the height of the marks is the same as the lines
-	var height = $('.VHDL .pre-numbering li').css('height');//px
+	// //make sure the height of the marks is the same as the lines
+	// var height = $('.VHDL .pre-numbering li').css('height');//px
 
-	$('.lineBlock').css('height', height);
+	// $('.lineBlock').css('height', height);
 
 	// export the data
 	data = {
@@ -714,24 +637,107 @@ $('#showBtn').click(function() {
     	outputForEachTran: outputForEachTran,
 		stateNumber
 	};
-
-	// show Verilog code
-	$('#verilogBtn').trigger('click');
 });
 
+/**
+* see if the params has been set
+*/
+function remider () {
+	// left params
+	if ((!stepOneFlag) || (!finishFlag)) {
+		alert('please finish the parameters setting at the left side');
+		return true;
+	}
+	else if (stateNumber === 0) {
+		alert('please finish the state diagram');
+		return true;
+	}
+	for (let i = 1; i <= stateNumber; i++) {
+		var f = 1;
+		for (let j = 1; j <= stateNumber; j++) {
+			if (Tline[i][j] != 0) {
+				f = 0;
+				continue;
+			}
+		}
+		if (f) {
+			alert('each state must have at least one next state');
+			return true;
+		}
+	}
+	
+	var inputNum = parseInt($('#inputNumber').val());
+	var inputCondition = [];
+	for (let i = 0; i < Tline.length; i++) {
+		inputCondition[i] = new Array(Tline[i].length);
+		
+		for (let j = 0; j < Tline[i].length; j++) {
+			inputCondition[i][j] = new Array(inputNum).fill(-1);
+			
+			if (Tline[i][j] != 0) {
+				for (let k = 0; k < inputNum; k++) {
+					inputCondition[i][j][k] = $('#input' + i + j + (k + 1)).val();
+				}
+			}
+		}
+	}
+
+	// inputs of each transition must be different
+	for (let i = 1; i <= stateNumber; i++) {
+		var cnt = 0;
+		for (let j = 1; j <= stateNumber; j++) {
+			if (Tline[i][j] != 0) {
+				cnt++;
+				//when there are at least two transitions
+				if (cnt > 1) break;
+			}
+		}
+		
+		if (cnt > 1) {
+			if (isElementEqual(inputCondition[i])) {
+				alert('inputs of each transition must be different');
+				return true;
+			}
+		}
+		if (cnt === 1) {
+			for (let j = 1; j <= stateNumber; j++) {
+				if (Tline[i][j] != 0) {
+					//inputs shoud be all 'X'
+					if (isAllX(inputCondition[i][j])) break;
+					else {
+						alert(`the inputs of ${ $('#t' + i).html() } should be 'X'`);
+						return true;
+					}
+				}
+			}
+		}
+	}
+}
 //make sure the height of the marks is the same as the lines
 $(window).on('resize', function() {
 	var height = $('.VHDL .pre-numbering li').css('height');//px
 
 	$('.lineBlock').css('height', height);
-})
+});
 
+$('#showBtn').click(() => {
+	// check
+	if (remider()) return;
+
+	// clear 
+	$('.content').html('');
+	$('.pre-numbering').html('');
+
+	// show VHDL code
+	$('#VHDLBtn').trigger('click');
+	// show Verilog code
+	$('#verilogBtn').trigger('click');
+	// generate VHDL testBench code
+	$('#VHDLTestBenchBtn').trigger('click');
+	// generate Verilog testBench code
+	$('#verilogTestBenchBtn').trigger('click');
+});
 $('#updateBtn').click(function() {
-	inputTypeFlag = 0;
-	outputTypeFlag = 0;
-	inputName = [];
-	outputName = [];
-	lineNumber = 0;
 	$('#showBtn').trigger('click');
 })
 
@@ -807,22 +813,57 @@ function conditionCreator(inputArray) {
 	return ret;
 }
 
-/**
- * copy operation
- */
-$('.codeArea .VHDL').scroll(function () {
-	// console.log($(this).scrollTop(), $(this).scrollLeft());//number
-	$('#VHDLCopy').css({
-		left: 460 + $(this).scrollLeft() + 'px',//px
-		top: 10 + $(this).scrollTop() + 'px'
+function VHDLInit () {
+	inputTypeFlag = 0;
+	outputTypeFlag = 0;
+	inputName = [];
+	outputName = [];
+	lineNumber = 0;
+
+	// copy button
+	$('.VHDL').hover(function () {
+		$('#VHDLCopy').css('display', 'block');
+		$('#VHDLToTestBench').css('display', 'block');
+	}, function () {
+		$('#VHDLCopy').css('display', 'none');
+		$('#VHDLToTestBench').css('display', 'none');
 	});
 
+	$('#updateBtn').css('display', 'block');
+	$('#showBtn').css('display', 'none');
+	
+	//clear the previous contents and change the bcg if it is the first time
+	$('.content').css('background-color', '#eef0f4');
+	$('.prettyprint').css('background-color', '#eef0f4');
+
 	/**
- 	* lineNumber and scroll
+ 	* copy operation
  	*/
-	$('.VHDL .pre-numbering').css({
-		left: 0 + $(this).scrollLeft() + 'px',//px
+	$('.codeArea .VHDL').scroll(function () {
+		// console.log($(this).scrollTop(), $(this).scrollLeft());//number
+		$('#VHDLCopy').css({
+			left: 460 + $(this).scrollLeft() + 'px',//px
+			top: 10 + $(this).scrollTop() + 'px'
+		});
+
+		/**
+ 		* lineNumber and scroll
+ 		*/
+		$('.VHDL .pre-numbering').css({
+			left: 0 + $(this).scrollLeft() + 'px',//px
+		});
+
+		$('#VHDLToTestBench').css({
+			left: 460 + $(this).scrollLeft() + 'px',//px
+			top: 450 + $(this).scrollTop() + 'px'
+		});
 	});
+
+}
+
+$('#VHDLToTestBench').click(() => {
+	$('.VHDLTestBench').fadeIn(1000);
+	$('.VHDL').css('display', 'none');
 });
 
 var clipboard = new ClipboardJS('#VHDLCopy');

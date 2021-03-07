@@ -394,17 +394,36 @@ class VerilogGenerator {
 }
 
 $('#verilogBtn').click(() => {
+    verilogInit();
+    
     const $contentVerilog = $('.Verilog code');
     const $lineNumArea = $('.Verilog .pre-numbering');
 
     let verCodeGenerator = new VerilogGenerator($contentVerilog, data);
 
     verCodeGenerator.generateCode($lineNumArea);
+});
 
-    //make sure the height of the marks is the same as the lines
-	var height = $('.Verilog .pre-numbering li').css('height');//px
+function verilogInit() {
+    // $('.Verilog .content').html('');
+	// $('.Verilog .pre-numbering').html('');
 
-	$('.lineBlock').css('height', height);
+    $('.Verilog').fadeIn(1000);
+	$('.VerilogTestBench').css('display', 'none');
+
+    $('.Verilog').hover(function () {
+		$('#VerilogCopy').css('display', 'block');
+		$('#VerilogToTestBench').css('display', 'block');
+	}, function () {
+		$('#VerilogCopy').css('display', 'none');
+		$('#VerilogToTestBench').css('display', 'none');
+	});
+}
+
+$('#VerilogToTestBench').click(() => {
+    // console.log('#VerilogToTestBench');
+    $('.VerilogTestBench').fadeIn(1000);
+	$('.Verilog').css('display', 'none');
 });
 
 /**
@@ -422,6 +441,11 @@ $('.codeArea .Verilog').scroll(function () {
  	*/
 	$('.Verilog .pre-numbering').css({
 		left: 0 + $(this).scrollLeft() + 'px',//px
+	});
+
+    $('#VerilogToTestBench').css({
+			left: 460 + $(this).scrollLeft() + 'px',//px
+			top: 450 + $(this).scrollTop() + 'px'
 	});
 });
 

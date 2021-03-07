@@ -38,6 +38,20 @@
   background-color: #e6e6e6;
   z-index: 0;
 }
+
+.codeArea .VHDLTestBench {
+  width: 50%;
+  height: 500px;
+  border: 2px solid #e6e6e6;
+  border-radius: 15px;
+  float: left;
+  position: relative;
+  overflow: auto;
+  background-color: #e6e6e6;
+  z-index: 0;
+  display: none;
+}
+
 .codeArea .content {
   position: absolute;
   /* width: 500px; */
@@ -67,6 +81,11 @@
   color: black;
   font-size: 18px;
 }
+.VHDLTestBench span {
+  color: black;
+  font-size: 18px;
+}
+
 .codeArea .Verilog {
   width: 50%;
   height: 500px;
@@ -79,6 +98,19 @@
   background-color: #e6e6e6;
   z-index: 0;
 }
+.codeArea .VerilogTestBench {
+  width: 50%;
+  height: 500px;
+  border: 2px solid #e6e6e6;
+  border-radius: 15px;
+  float: left;
+  position: relative;
+  overflow: auto;
+  background-color: #e6e6e6;
+  z-index: 0;
+  display: none;
+}
+
 .Verilog p {
   color: #b6b8b8;
   font-weight: bold;
@@ -88,6 +120,11 @@
   font-size: 18px;
   color: black;
 }
+.VerilogTestBench span {
+  font-size: 18px;
+  color: black;
+}
+
 .pre-numbering {
   position: absolute;
   width: 48px;
@@ -114,7 +151,7 @@
 }
 .lineBlock {
   display: block;
-  height: 25.56px;
+  height: 25px;
 }
 .keyWord {
   color: blueviolet !important;

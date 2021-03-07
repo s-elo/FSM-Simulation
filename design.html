@@ -123,6 +123,9 @@
 				<div class="codeHeader">
 					<button id="showBtn" type="button" class="btn btn-primary">Show Codes</button>
 					<button id="verilogBtn" type="button" style="display: none;"></button>
+					<button id="VHDLBtn" type="button" style="display: none;"></button>
+					<button id="VHDLTestBenchBtn" type="button" style="display: none;"></button>
+					<button id="verilogTestBenchBtn" type="button" style="display: none;"></button>
 					<button id="updateBtn" type="button" class="btn btn-primary" style="display: none;">Update</button>
 				</div>
 				
@@ -137,11 +140,25 @@
 							<p>Please click the show code button to generate codes</p>
 						</code>
 						<!-- <span id="copy"><i class="glyphicon glyphicon-copy"></i></span> -->
-						<div class="modal-content" id="VHDLCopy" type="button" 
+						<div class="modal-content" id="VHDLCopy" type="button" title="VHDL"
 							 data-clipboard-action="copy" data-clipboard-target="#VHDLContent">Copy</div>
+						
+						<a class="modal-content" id="VHDLToTestBench" href="javascript:;" title="testBench">>>></a>
 						<ul class="pre-numbering">
 						</ul>
 					</div>
+
+					<div class="VHDLTestBench prettyprint modal-content">
+						<code class="content" id="VHDLTestBenchContent">
+						</code>
+						<div class="modal-content" id="VHDLTestBenchCopy" type="button" data-clipboard-action="copy"
+							data-clipboard-target="#VHDLTestBenchContent" title="testBench">Copy</div>
+						
+						<a class="modal-content" id="TestBenchToVHDL" href="javascript:;" title="VHDL"><<<</a>
+						<ul class="pre-numbering">
+						</ul>
+					</div>
+
 					<div class="Verilog prettyprint modal-content">
 						<code class="content" id="VerilogContent">
 							<p>Please click the show code button to generate codes</p>
@@ -149,6 +166,18 @@
 						<div class="modal-content" id="VerilogCopy" type="button" 
 							 data-clipboard-action="copy"
 							 data-clipboard-target="#VerilogContent">Copy</div>
+						<a class="modal-content" id="VerilogToTestBench" href="javascript:;" title="testBench">>>></a>
+						<ul class="pre-numbering">
+						</ul>
+					</div>
+
+					<div class="VerilogTestBench prettyprint modal-content">
+						<code class="content" id="VerilogTestBenchContent">
+						</code>
+						<div class="modal-content" id="VerilogTestBenchCopy" type="button" data-clipboard-action="copy"
+							data-clipboard-target="#VerilogTestBenchContent" title="testBench">Copy</div>
+					
+						<a class="modal-content" id="TestBenchToVerilog" href="javascript:;" title="Verilog"><<<</a>
 						<ul class="pre-numbering">
 						</ul>
 					</div>
@@ -197,6 +226,8 @@
 		<script type="text/javascript" src="js/paraSetting.js"></script>
 		<script type="text/javascript" src="js/visualFSM.js"></script>
 		<script src="js/VHDL.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/VHDLTestBench.js"></script>
 		<script src="js/Verilog.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/VerilogTestBench.js"></script>
 	</body>
 </html>
