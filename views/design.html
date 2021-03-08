@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Design</title>
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="css/design.css">
-		<link rel="stylesheet" type="text/css" href="css/code.css"/>
-		<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="../public/css/design.css">
+		<link rel="stylesheet" type="text/css" href="../public/css/code.css"/>
+		<script src="../public/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/js/clipboard.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="myContainer">
@@ -203,7 +203,7 @@
 		<div id="copyReminder"><p>Copied!</p></div>
 		<script type="text/javascript">
 			/**
-			 * position 
+			 * position for quickaccess
 			 */
 			$('.designPart').click(function() {
 				$('body, html').animate({
@@ -220,14 +220,38 @@
 			$('.simulPart').click(function() {
 				
 			})
+
+			/** handle the nav collapse and open*/
+			// collapse or open the nav
+			$('.navbar-header button').click(() => {
+				console.log('click', $('.navbar-header button'));
+
+				let $btn = $('.navbar-header button');
+				let $navbar = $('#navbar');
+
+				// before click it is collapsed
+				if ($btn.hasClass('collapsed')) {
+					$btn.attr('aria-expanded', 'true');
+					$navbar.attr('aria-expanded', 'true');
+				}
+				// before click it is exspended
+				else {
+					$btn.attr('aria-expanded', 'false');
+					$navbar.attr('aria-expanded', 'false');
+				}
+
+				$navbar.toggleClass('in');
+				$btn.toggleClass('collapsed');
+			});
+
 		</script>
 		
-		<script src="js/colorControl.js"></script>
-		<script type="text/javascript" src="js/paraSetting.js"></script>
-		<script type="text/javascript" src="js/visualFSM.js"></script>
-		<script src="js/VHDL.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/VHDLTestBench.js"></script>
-		<script src="js/Verilog.js" type="text/javascript" charset="utf-8"></script>
-		<script src="js/VerilogTestBench.js"></script>
+		<script src="../public/js/colorControl.js"></script>
+		<script type="text/javascript" src="../public/js/paraSetting.js"></script>
+		<script type="text/javascript" src="../public/js/visualFSM.js"></script>
+		<script src="../public/js/VHDL.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/js/VHDLTestBench.js"></script>
+		<script src="../public/js/Verilog.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/js/VerilogTestBench.js"></script>
 	</body>
 </html>

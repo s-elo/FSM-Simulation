@@ -1,1 +1,12 @@
+# ignore the instructionMD.html file at the current dir
 /instructionMD.html
+
+# ignore all the files at node_modules
+node_modules/
+
+#ignore the packages description files
+/package-lock.json
+/package.json
+
+# ignore the server
+/server.js
