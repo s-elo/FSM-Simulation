@@ -54,7 +54,7 @@ var startState = new Array(limStateNumber).fill(0);
 const startBtn = document.getElementById('setStartState');
 startBtn.onclick = function () {
 	for (let i = 1; i <= stateNumber; i++) {
-		if (circleFlag[i] ===1 ) {
+		if (circleFlag[i] === 1 ) {
 			bigCircleArray[i].setAttribute('stroke', 'black');
 			startState[i] = 1;
 		}

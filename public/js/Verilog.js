@@ -154,7 +154,7 @@ class VerilogGenerator {
                        <span class="lineBlock">
                             <span>&nbsp;&nbsp;</span>
                             <span class="keyWord">if </span>
-                            <span>(reset) pre <= ${ this.data.stateName[0] };</span>
+                            <span>(reset) pre <= ${ this.data.stateName[this.data.start - 1] };</span>
                        </span>
                        <span class="lineBlock">
                             <span>&nbsp;&nbsp;</span>

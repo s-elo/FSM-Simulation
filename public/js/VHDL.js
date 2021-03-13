@@ -42,6 +42,14 @@ $('#VHDLBtn').click(function() {
 	
 	const $contentVHDL = $('.VHDL code');
 	
+	let start;
+
+	startState.filter((val, index) => {
+		if (val === 1) {
+			start = index;
+		}
+	});
+
 	var entityName = $('#entityName').val();
 	var inputNum = parseInt($('#inputNumber').val());
 	var outputNum = parseInt($('#outputNumber').val());
@@ -278,7 +286,7 @@ $('#VHDLBtn').click(function() {
 						<span class="value moveSpace">'1'</span>
 						<span class="moveSpace">) </span>
 						<span class="keyWord">then </span>
-						<span>pre <= ${ stateName[0] };</span>
+						<span>pre <= ${ stateName[start - 1] };</span>
 					</span>
 					<span class="lineBlock">
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
@@ -635,7 +643,8 @@ $('#VHDLBtn').click(function() {
     	stateName: stateName,
     	inputCondition: inputCondition,
     	outputForEachTran: outputForEachTran,
-		stateNumber
+		
+		start: start
 	};
 });
 
