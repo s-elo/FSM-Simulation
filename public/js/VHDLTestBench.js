@@ -56,7 +56,7 @@ class VHDLTestBenchCode {
 							<span class="keyWord">use </span>
 							<span>ieee.std_logic_1164.all;</span>
 					   </span>
-					   <span class="lineBlock">&#10;</span>`;
+					   <span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -75,7 +75,7 @@ class VHDLTestBenchCode {
 							<span class="entityName">${ this.data.entityName + '_Test'}</span>
 							<span class="moveSpace">;</span>
 					   </span>
-					   <span class="lineBlock">&#10;</span>`;
+					   <span class="lineBlock">&nbsp;</span>`;
 
 	    this.addCode(content);
 	}
@@ -146,7 +146,7 @@ class VHDLTestBenchCode {
 						<span class="keyWord">end component</span>
 						<span class="moveSpace">;</span>
 					</span>
-					<span class="lineBlock">&#10;</span>`;
+					<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -197,7 +197,7 @@ class VHDLTestBenchCode {
 						<span class="value">'1'</span>
 						<span class="moveSpace">;</span>
 					</span>
-					<span class="lineBlock">&#10;</span>`;
+					<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -219,7 +219,7 @@ class VHDLTestBenchCode {
 						</span>`
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -272,7 +272,7 @@ class VHDLTestBenchCode {
 						</span>`;
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -318,7 +318,7 @@ class VHDLTestBenchCode {
 							<span class="keyWord">end process</span>
 							<span class="moveSpace">;</span>
 					   </span>
-					   <span class="lineBlock">&#10;</span>`;
+					   <span class="lineBlock">&nbsp;</span>`;
 		
 		this.addCode(content);
 	}
@@ -352,7 +352,7 @@ class VHDLTestBenchCode {
 							<span class="value">'0'</span>
 							<span class="moveSpace">;</span>
 					   </span>
-					   <span class="lineBlock">&#10;</span>
+					   <span class="lineBlock">&nbsp;</span>
 					   <span class="lineBlock">
 							<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 							<span class="comment">-- insert stimulus here</span>
@@ -418,12 +418,12 @@ class VHDLTestBenchCode {
 						<span class="keyWord">constant </span>
 						<span>clk_period : time := 10 ns;</span>
 					  </span>
-					  <span class="lineBlock">&#10;</span>
+					  <span class="lineBlock">&nbsp;</span>
 					  <span class="lineBlock">
 					  	<span>&nbsp;&nbsp;</span>
 					  	<span class="keyWord">begin</span>
 					  </span>
-					  <span class="lineBlock">&#10;</span>`);
+					  <span class="lineBlock">&nbsp;</span>`);
 
 		this.initUUT();
 

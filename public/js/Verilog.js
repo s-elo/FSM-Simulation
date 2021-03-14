@@ -126,7 +126,7 @@ class VerilogGenerator {
                        </span>`;
         }
         
-        content += `<span class="lineBlock">&#10;</span>`;
+        content += `<span class="lineBlock">&nbsp;</span>`;
 
         // declare the states
         /**
@@ -194,7 +194,7 @@ class VerilogGenerator {
 
             // if it is not the last one, add a blank line behind
             if (i != stateNumber) {
-                content += `<span class="lineBlock">&#10;</span>`;
+                content += `<span class="lineBlock">&nbsp;</span>`;
             }
         }
 
@@ -353,24 +353,24 @@ class VerilogGenerator {
         this.moduleDef();
 
         // define the states
-        this.addCode(`<span class="lineBlock">&#10;</span>
-                        <span class="linBlock">
+        this.addCode(`<span class="lineBlock">&nbsp;</span>
+                      <span class="linBlock">
                         <span class="comment">// define the states</span>
                       </span>`);
 
         this.stateTypeDef();
 
         // state register part
-        this.addCode(`<span class="lineBlock">&#10;</span>
-                        <span class="linBlock">
+        this.addCode(`<span class="lineBlock">&nbsp;</span>
+                      <span class="linBlock">
                         <span class="comment">// state register</span>
                       </span>`);
     
         this.stateRegister();
 
         // state transition behaviors
-        this.addCode(`<span class="lineBlock">&#10;</span>
-                        <span class="linBlock">
+        this.addCode(`<span class="lineBlock">&nbsp;</span>
+                      <span class="linBlock">
                         <span class="comment">// next state logic</span>
                       </span>`);
         

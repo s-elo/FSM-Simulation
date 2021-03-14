@@ -70,7 +70,7 @@ class VerilogTestBenchCode {
 						</span>`;
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -90,7 +90,7 @@ class VerilogTestBenchCode {
 						</span>`;
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -141,7 +141,7 @@ class VerilogTestBenchCode {
 						</span>`;
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -183,7 +183,7 @@ class VerilogTestBenchCode {
 						</span>`;
 		}
 
-		content += `<span class="lineBlock">&#10;</span>`;
+		content += `<span class="lineBlock">&nbsp;</span>`;
 
 		// wait some time for reseting
 		content += `<span class="lineBlock">
@@ -194,7 +194,7 @@ class VerilogTestBenchCode {
 						<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<span>#20;</span>
 					</span>
-					<span class="lineBlock">&#10;</span>`;
+					<span class="lineBlock">&nbsp;</span>`;
 
 		// simulation
 		content += `<span class="lineBlock">
@@ -211,7 +211,7 @@ class VerilogTestBenchCode {
 						<span>&nbsp;&nbsp;</span>
 						<span class="keyWord">end</span>
 					</span>
-					<span class="lineBlock">&#10;</span>`;
+					<span class="lineBlock">&nbsp;</span>`;
 
 		this.addCode(content);
 	}
@@ -238,7 +238,7 @@ class VerilogTestBenchCode {
 							<span class="value">1'b1</span>
 							<span class="moveSpace">;</span>
 					   </span>
-					   <span class="lineBlock">&#10;</span>`;
+					   <span class="lineBlock">&nbsp;</span>`;
 		
 		this.addCode(content);
 	}
@@ -277,7 +277,7 @@ class VerilogTestBenchCode {
 						<span class="keyWord moveSpace">timescale </span>
 						<span>1ns / 1ps</span>
 					  </span>
-					  <span class="lineBlock">&#10;</span>`);
+					  <span class="lineBlock">&nbsp;</span>`);
 
 		// moudle definition
 		this.addCode(`<span class="lineBlock">
@@ -285,7 +285,7 @@ class VerilogTestBenchCode {
 						<span class="entityName">${ this.data.entityName + '_Test'}</span>
 						<span class="moveSpace">;</span>
 					  </span>
-					  <span class="lineBlock">&#10;</span>`);
+					  <span class="lineBlock">&nbsp;</span>`);
 
 		this.inputDef();
 		this.outputDef();

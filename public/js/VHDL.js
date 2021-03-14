@@ -135,7 +135,7 @@ $('#VHDLBtn').click(function() {
 	$contentVHDL.append($libCode);
 	lineNumber = lineNumber + 2;
 	
-	$contentVHDL.append(`<span class="lineBlock">&#10;</span>`);
+	$contentVHDL.append(`<span class="lineBlock">&nbsp;</span>`);
 	
 	/**
 	 * code lines for defining a entity
@@ -207,7 +207,7 @@ $('#VHDLBtn').click(function() {
 	
 	lineNumber = lineNumber + 5;
 	
-	$contentVHDL.append(`<span class="lineBlock"></span>`);
+	$contentVHDL.append(`<span class="lineBlock">&nbsp;</span>`);
 	
 	/**
 	 * code lines for defining the states
@@ -254,7 +254,7 @@ $('#VHDLBtn').click(function() {
 	
 	lineNumber += 4;
 	
-	$contentVHDL.append(`<span class="lineBlock"></span>`);
+	$contentVHDL.append(`<span class="lineBlock">&nbsp;</span>`);
 	
 	/**
 	 * code lines for the lower part
@@ -314,7 +314,7 @@ $('#VHDLBtn').click(function() {
 	
 	lineNumber += 8;
 	
-	$contentVHDL.append(`<span class="lineBlock"></span>`);
+	$contentVHDL.append(`<span class="lineBlock">&nbsp;</span>`);
 	
 	/**
 	 * code lines for upper part
@@ -356,7 +356,7 @@ $('#VHDLBtn').click(function() {
 	// each state
 	for (let i = 1; i <= stateNumber; i++) {
 		if (i > 1) {
-			transitionCode += `<span class="lineBlock"></span>`;
+			transitionCode += `<span class="lineBlock">&nbsp;</span>`;
 			lineNumber++;
 		}
 		
@@ -643,6 +643,7 @@ $('#VHDLBtn').click(function() {
     	stateName: stateName,
     	inputCondition: inputCondition,
     	outputForEachTran: outputForEachTran,
+		stateNumber: stateNumber,
 		
 		start: start
 	};
