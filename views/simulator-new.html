@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>simulator</title>
+	</head>
+	<body>
+		<div id="title" style="font-size: 40px; width: 1800; height: 120; text-align: center;"></div>
+		<canvas id="canvasTime" width="1800" height="120"></canvas>
+		<canvas id="canvasCLK" width="1800" height="120"></canvas>
+		<div id="input"></div>
+		<canvas id="canvasState" width="1800" height="120"></canvas>
+		<div id="output"></div>
+<script>
+const storage = window.localStorage;
+// console.log(JSON.parse(storage.getItem('name')));
+const simulData = JSON.parse(storage.getItem('data'));
+console.log(simulData);
+/******************data above***********/
+
+class Pos{
+	constructor(x, y){
+		this.x = x;
+		this.y = y;
+	//用来记录画笔的横纵坐标
+	}
+}
+var startState = simulData.start - 1;
+
+var entityName = simulData.entityName;
+
+var inputNum = simulData.inputNum;
+
+var outputNum = simulData.outputNum;
+
+var stateNumber = simulData.stateNumber;
+
+//变量声明-1-保留
+// inputNum=1;
+// outputNum=1;
+// entityName="demo";
+// stateNumber=3;
+//预设不保留
+var inputName = simulData.inputName;
+var outputName = simulData.outputName;
+var inputTypeVal = new Array(inputNum);
+for (let i = 0; i < inputNum; i++) {
+	inputTypeVal[i] = simulData.inputTypeVal;
+}
+
+var outputTypeVal = new Array(outputNum);
+for (let i = 0; i < outputNum; i++) {
+	outputTypeVal[i] = simulData.outputTypeVal;
+}
+
+var inputFromVal = new Array(inputNum);
+for (let i = 0; i < inputNum; i++) {
+	inputFromVal[i] = simulData.inputFromVal;
+}
+
+var outputFromVal = new Array(outputNum);
+for (let i = 0; i < outputNum; i++) {
+	outputFromVal[i] = simulData.outputFromVal;
+}
+
+// var inputToVal = new Array(inputNum);
+// var outputToVal = new Array(outputNum);
+
+// var stateName = new Array(stateNumber);
+
+//变量声明-2-保留
+// for(var i=0;i<inputNum;i++){
+// 	inputName[i]="input"+i.toString();
+// }
+// for(var i=0;i<outputNum;i++){
+// 	outputName[i]="output"+i.toString();
+// }
+// for(var i=0;i<inputNum;i++){
+// 	inputTypeVal[i]="bit";
+// }
+// for(var i=0;i<outputNum;i++){
+// 	outputTypeVal[i]="bit_vector"
+// }
+// for(var i=0;i<inputNum;i++){
+// 	if(inputTypeVal[i]=="bit_vector"){
+// 		inputFromVal[i]=1;
+// 	}
+// 	else{
+// 		inputFromVal[i]=undefined;
+// 	}
+// }
+// for(var i=0;i<outputNum;i++){
+// 	if(outputTypeVal[i]=="bit_vector"){
+// 		outputFromVal[i]=1;
+// 	}
+// 	else{
+// 		outputFromVal[i]=undefined;
+// 	}
+// }
+// for(var i=0;i<inputNum;i++){
+// 	if(inputTypeVal[i]=="bit_vector"){
+// 		inputToVal[i]=0;
+// 	}
+// 	else{
+// 		inputFromVal[i]=undefined;
+// 	}
+// }
+// for(var i=0;i<stateNumber;i++){
+// 	stateName[i]=i;
+// }
+
+//预设不保留
+const period = 20;
+var inputvale= new Array(inputNum);
+for(var i=0;i<inputNum;i++){
+	inputvale[i]=new Array(period);
+	if(inputTypeVal[i]=="bit"){
+		for(var j=0;j<period;j++){
+			inputvale[i][j]="1";
+		}
+	}
+	else{
+		for(var j=0;j<period;j++){
+			inputvale[i][j]="0";
+			for(var k=0;k<inputFromVal[i];k++)
+			inputvale[i][j]=inputvale[i][j]+"0";
+		}
+	}
+	
+}
+var indiction={};
+for(var i=0;i<inputNum;i++){
+	indiction[inputName[i]]=inputvale[i];
+}
+//设置字典存放输入变量值-保留
+var outputvale= new Array(outputNum);
+for(var i=0;i<outputNum;i++){
+	outputvale[i]=new Array(period);
+	if(outputTypeVal[i]=="bit"){
+		for(var j=0;j<period;j++){
+			outputvale[i][j]="0";
+		}
+	}
+	else{
+		for(var j=0;j<period;j++){
+			outputvale[i][j]="0";
+			for(var k=0;k<outputFromVal[i];k++)
+			outputvale[i][j]=outputvale[i][j]+"0";
+		}
+	}
+	
+}
+var outdiction={};
+for(var i=0;i<outputNum;i++){
+	outdiction[outputName[i]]=outputvale[i];
+}
+//设置字典存放输出变量值-保留
+// startState=stateName[0];
+var statediction= new Array(period);
+for(i=0;i<period;i++){
+	statediction[i]=startState;
+}
+//设置存放每个周期当前状态的数组
+// var Tline= new Array(stateNumber);
+// for(var i=0;i<stateNumber;i++){
+// 	Tline[i]=new Array(stateNumber);
+// }
+// //设置转换线数组-保留
+// for(var i=0;i<stateNumber;i++){
+// 	for(var j=0;j<stateNumber;j++){
+// 		Tline[i][j]=0;
+// 	}
+// }
+// Tline[0][0]=Tline[0][1]=Tline[1][1]=Tline[1][2]=Tline[2][2]=Tline[2][0]=1;
+let Tline = simulData.Tline;
+
+//转换线预设-不保留
+// var inputCondition= new Array(stateNumber);
+// for(var i=0;i<stateNumber;i++){
+// 	inputCondition[i]=new Array(stateNumber);
+// 	for(var j=0;j<stateNumber;j++){
+// 		inputCondition[i][j]=new Array(inputNum);
+// 	}
+// }
+let inputCondition = simulData.inputCondition;
+
+//设置输入量转换字典
+// for(var i=0;i<stateNumber;i++){
+// 	for(var j=0;j<stateNumber;j++){
+// 		for(var k=0;k<inputNum;k++){
+// 			if(Tline[i][j]==0){
+// 				inputCondition[i][j][k]=-1;
+// 			}
+// 		}
+// 	}
+// }
+// inputCondition[0][0][0]=inputCondition[1][1][0]=inputCondition[2][2][0]="0";
+// inputCondition[0][1][0]=inputCondition[1][2][0]=inputCondition[2][0][0]="1";
+//输入量查询预设-不保留
+
+let outputForEachTran = simulData.outputForEachTran;
+
+// var outputForEachTran= new Array(stateNumber);
+// for(var i=0;i<stateNumber;i++){
+// 	outputForEachTran[i]=new Array(stateNumber);
+// 	for(var j=0;j<stateNumber;j++){
+// 		outputForEachTran[i][j]=new Array(outputNum);
+// 	}
+// }
+// outputForEachTran[0][0][0]=outputForEachTran[0][0][0]=outputForEachTran[0][0][0]="00";
+// outputForEachTran[0][1][0]="01";
+// outputForEachTran[1][2][0]="10";
+// outputForEachTran[2][0][0]="11";
+
+//输出量查询预设-不保留
+var outputorig= new Array(outputNum);
+outputorig[0]="00";
+//输出初始状态预设-不保留
+</script>
+<script>
+	function canvasInit(){//初始化画布
+		var output = document.getElementById("output");
+	    for(var i=0;i<outputNum;i++) {
+	        var c = document.createElement("canvas");
+	        output.appendChild(c);
+	        c.id = "output" + i.toString();
+	        c.width = "1800";
+	        c.height = "120";
+	    }//初始化绘制所有输出需要的画布
+	
+	    var input = document.getElementById("input");
+	    for(var i=0;i<inputNum;i++){
+	        var c = document.createElement("canvas");
+	        input.appendChild(c);
+	        c.id="input" + i.toString();
+	        c.width = "1800";
+	        c.height = "120";
+	    }//初始化绘制所有输入变量需要的画布
+	}
+	function drawTime(color, linewidth) {//绘制时间刻度的图形
+	    var canvas, ctx, t;
+	    for(var i=0; i<period; i++)
+	    {
+	        canvas = document.getElementById('canvasTime');
+	        ctx = canvas.getContext('2d');
+	        t = i * 100;
+	        ctx.fillText(t.toString() + 'ns', 185 + i*70, 65);
+	        ctx.moveTo(200+i*70, 100);
+	        ctx.lineTo(200+i*70, 80);
+	
+	    }
+	    ctx.moveTo(200, 100);
+	    ctx.lineTo(1600, 100);
+	    ctx.strokeStyle = color;
+	    ctx.lineWidth = linewidth;
+	    ctx.stroke();
+	}
+	function drawClk(color, linewidth) {//绘制整个clk的图形
+	    var canvas, ctx;
+	    canvas = document.getElementById('canvasCLK');
+	    ctx = canvas.getContext('2d');
+	    ctx.beginPath();
+	    ctx.font = "30px serif";
+	    ctx.fillText("clk", 100, 100);
+	    ctx.lineWidth = linewidth;
+	    ctx.moveTo(200, 100);
+	    ctx.setLineDash([]);
+	
+	
+	    for(var i=1;i<=period * 2;i+=2)
+	    {
+	        ctx.lineTo(200+i*35, 100);
+	        ctx.lineTo(200+i*35, 65);
+	        ctx.lineTo(200+(i+1)*35, 65);
+	        ctx.lineTo(200+(i+1)*35, 100);
+	    }
+	    ctx.strokeStyle = color;
+	    ctx.stroke();
+	}
+	function drawInput(color, linewidth)//绘制所有输入变量的图形
+	{
+	    var canvas, ctx;
+	    for(var i=0; i<inputNum;i++){
+	        canvas = document.getElementById('input'+i.toString());
+	        ctx = canvas.getContext('2d');
+	        ctx.beginPath();
+	        ctx.font = "30px serif";
+	        ctx.strokeStyle = color;
+	        ctx.fillStyle = color;
+	        var inp = inputName[i];
+	        ctx.fillText(inp, 50, 100);
+	        ctx.lineWidth = linewidth;
+			if(inputTypeVal[i]=="bit"){
+			var pos = new Pos(200, 100-indiction[inp][0]*35);
+	        ctx.moveTo(pos.x, pos.y);
+	        pos.x += 70;
+	        ctx.lineTo(pos.x, pos.y);
+	        for(var j=1;j<period;j++){
+	            if(indiction[inp][j] != indiction[inp][j-1]){
+	                if(indiction[inp][j] > indiction[inp][j-1]){
+	                    pos.y -= 35;
+	                }
+	                else if(indiction[inp][j] < indiction[inp][j-1]){
+	                    pos.y += 35;
+	                }
+	                ctx.lineTo(pos.x, pos.y);
+	                pos.x += 70
+	                ctx.lineTo(pos.x, pos.y);
+	            }
+	            else{
+	                pos.x += 70
+	                ctx.lineTo(pos.x, pos.y);
+	            }
+				}
+				ctx.stroke();
+			}
+			//一位输入变量的绘制模式
+			else{
+			ctx.moveTo(200,65);
+			ctx.lineTo(260,65);
+			ctx.moveTo(200,100);
+			ctx.lineTo(260,100);
+			for(var j=1;j<period;j++){
+				ctx.moveTo(280+(j-1)*70,65);
+				ctx.lineTo(260+j*70,65);
+				ctx.moveTo(280+(j-1)*70,100);
+				ctx.lineTo(260+j*70,100);
+			}
+			for(var m=1;m<period;m++){
+				if(indiction[inp][m] != indiction[inp][m-1]){
+				ctx.moveTo(260+(m-1)*70,65);
+				ctx.lineTo(280+(m-1)*70,100);
+				ctx.moveTo(260+(m-1)*70,100);
+				ctx.lineTo(280+(m-1)*70,65);
+				}
+				else{
+				ctx.moveTo(260+(m-1)*70,65);
+				ctx.lineTo(280+(m-1)*70,65);
+				ctx.moveTo(260+(m-1)*70,100);
+				ctx.lineTo(280+(m-1)*70,100);
+				}
+			}
+			for(var n=0;n<period;n++){
+				ctx.fillText(indiction[inp][n], 225-(inputFromVal[i]*10)+n*70, 90);
+			}
+	        ctx.stroke();
+			}
+			//多位输入变量的绘制模式
+		}
+	}
+	function drawOutputName(){//绘制所有状态的名称
+	    var canvas, ctx;
+	    for(var i=0;i<outputNum;i++)
+	    {
+	        canvas = document.getElementById('output' + i.toString());
+	        ctx = canvas.getContext('2d');
+	        ctx.font = "30px serif";
+	        ctx.fillText(outputName[i], 50, 100);
+	    }
+	    ctx.stroke();
+	}
+	
+function drawState(color, linewidth){
+	var canvas, ctx;
+	canvas = document.getElementById('canvasState');
+	ctx = canvas.getContext('2d');
+	ctx.beginPath();
+	ctx.font = "30px serif";
+	ctx.strokeStyle = color;
+	ctx.fillStyle = color;
+	ctx.fillText("nowState", 50, 100);
+	ctx.lineWidth = linewidth;
+	ctx.moveTo(200,65);
+	ctx.lineTo(260,65);
+	ctx.moveTo(200,100);
+	ctx.lineTo(260,100);
+	for(var j=1;j<period;j++){
+		ctx.moveTo(280+(j-1)*70,65);
+		ctx.lineTo(260+j*70,65);
+		ctx.moveTo(280+(j-1)*70,100);
+		ctx.lineTo(260+j*70,100);
+	}
+	var flag= new Number();
+	for(var i=1;i<period;i++){
+		for(var j=0;j<stateNumber;j++){
+			flag=1;
+			for(var k=0;k<inputNum;k++){
+				if(indiction[inputName[k]][i-1]==inputCondition[statediction[i-1]+1][j+1][k]){
+					flag=flag*1;
+				}
+				else{
+					flag=flag*0;
+				}
+			}
+			if(flag==1){
+				statediction[i]=j;
+				for(var m=0;m<outputNum;m++){
+					outdiction[outputName[m]][i]=outputForEachTran[statediction[i-1]][j][m];
+				}
+				break;
+			}
+			else if(j==(stateNumber-1)){
+				statediction[i]=statediction[i-1];
+				outdiction[i]=outdiction[i-1];
+			}
+		}
+	}
+	for(var i=1;i<period;i++){
+		if(statediction[i] != statediction[i-1]){
+		ctx.moveTo(260+(i-1)*70,65);
+		ctx.lineTo(280+(i-1)*70,100);
+		ctx.moveTo(260+(i-1)*70,100);
+		ctx.lineTo(280+(i-1)*70,65);
+		}
+		else{
+		ctx.moveTo(260+(i-1)*70,65);
+		ctx.lineTo(280+(i-1)*70,65);
+		ctx.moveTo(260+(i-1)*70,100);
+		ctx.lineTo(280+(i-1)*70,100);
+		}
+	}
+	ctx.font="15px serif";
+	for(var i=0;i<period;i++){
+		ctx.fillText(simulData.stateName[statediction[i]], 210+i*70, 90);
+	}
+	ctx.stroke();
+}
+	
+ function drawInit(){//整体初始化
+        drawTime('black', 3);
+        drawClk('black', 3);
+        drawInput('black', 2);
+		drawState('black', 2);
+        drawOutputName();
+        //从上到下依次绘制：时间刻度，clk，输入变量，状态的名称，进行全部的初始化工作
+    }
+	
+/*function drawpic(color, linewidth)//绘制所有状态的图像
+    {//参数的意义从左到右依次为：线条颜色，线条宽度，初始状态，初始时间，有限状态机。
+        var canvas = new Array();
+        var ctx = new Array();
+        var pos = new Array();
+
+        for(var i=0;i<outputNum;i++)
+        {
+            if(outputTypeVal[i]=="bit"){
+				
+			}
+                pos[i] = new Pos(200, 100);
+            else
+                pos[i] = new Pos(200, 65);
+
+            canvas[i] = document.getElementById('output' + i.toString());
+            ctx[i] = canvas[i].getContext('2d');
+            ctx[i].setLineDash([]);
+            ctx[i].beginPath();
+            ctx[i].moveTo(pos[i].x, pos[i].y);
+            ctx[i].strokeStyle = color;
+            ctx[i].lineWidth = linewidth;
+
+        }//通过识别每个状态初始是0还是1，确定画笔的开始位置，如果nowState是某个状态，那么那个状态初始就是1，其他都是0
+
+
+        for(var i=0;i<period;i++){//每个周期判断一下是否当前状态需要进行转换
+            if (fsm[nowState].stateTime == nowTime){//先判断当前状态是否运行结束
+                for(var j=0;j<fsm[nowState].transition.length;j++){//如果已经运行结束，依次遍历这个状态的所有转移情况，找出符合条件的那个转移
+                    if(fsm[nowState].transition[j].hasCondition){//判断当前转移是否需要输入变量作为条件
+                        if(indiction[fsm[nowState].transition[j].conditionName][i] == fsm[nowState].transition[j].conditionValue){//如果输入变量符合条件，则进行转移
+                            pos[nowState].y += 35;
+                            ctx[nowState].lineTo(pos[nowState].x, pos[nowState].y);
+                            var next = fsm[nowState].transition[j].nextState;
+                            pos[next].y -= 35;
+                            ctx[next].lineTo(pos[next].x, pos[next].y);
+                            nowTime = 0;
+                            nowState = next;
+                            break;
+                        }
+                    }
+                    else{//如果不需要输入变量作为条件，则直接进行转移
+                        pos[nowState].y += 35;
+                        ctx[nowState].lineTo(pos[nowState].x, pos[nowState].y);
+                        var next = fsm[nowState].transition[j].nextState;
+                        pos[next].y -= 35;
+                        ctx[next].lineTo(pos[next].x, pos[next].y);
+                        nowTime = 0;
+                        nowState = next;
+                        break;
+                    }
+                }
+            }
+
+            for(var j=0;j<stateNum;j++) {
+                pos[j].x += 70;
+                ctx[j].lineTo(pos[j].x, pos[j].y);
+                ctx[j].stroke();
+            }
+            nowTime++;
+        }
+    }
+*/
+/*function clearCanvas(){
+	var canvas=document.getElementById("canvasCLK");
+	var cxt=canvas.getContext("2d");
+	canvas.height=canvas.height;
+}*/
+</script>
+<script>
+	document.getElementById("title").innerHTML=entityName;
+	
+    canvasInit();//首先在网页上根据输入变量和状态的数量添加好画布标签
+    drawInit();//进行基本的初始化
+    //drawpic('black', 2, nowState, nowTime, fsm);//绘制图像
+    //drawGrid();//在整张图上画出虚线
+    //bindInputCLick();//将输入变量绑定点击事件
+	//clearCanvas();
+</script>
+		
+		
+		
+		
+		
+	</body>
+</html>

@@ -25,12 +25,6 @@ for (let i = 0; i < limStateNumber; i++) {
 	Tline[i] = new Array(limStateNumber).fill(0);
 }
 
-
-//var Rline = [];//line(end state, start state)
-//for (let i = 0; i < 10; i++) {
-//	Rline[i] = new Array(10).fill(0);
-//}
-
 var selfLinkAngle = [];
 
 var lineFlag = [];//record if the line being selected
@@ -42,13 +36,18 @@ var circleFlag = new Array(limStateNumber).fill(0);//record if the circle being 
 
 var startState = new Array(limStateNumber).fill(0);
 
-// var table = new Vue({
-// 	el: '#table',
-// 	data: {
-// 		stateNumber: 0,
-// 		textName: []
+/************get data from the local storage************************/
+// initStateDiagram ();
+// function initStateDiagram () {
+// 	let storage = window.localStorage;
+
+// 	if (storage.getItem('data')) {
+// 		// console.log(JSON.parse(storage.getItem('data')).Tline[1][1]);
+// 		let data = JSON.parse(storage.getItem('data'));
+// 		console.log(data);
+// 		document.querySelector('svg').insertAdjacentHTML('beforeEnd', data.pathStr[1][1])	
 // 	}
-// });
+// }
 
 /**************************set a start state*******************************/
 const startBtn = document.getElementById('setStartState');
@@ -63,6 +62,7 @@ startBtn.onclick = function () {
 			startState[i] = 0;
 		}
 	}
+	updateData();
 }
 /**************************delete*******************************/
 const deleteBtn = document.getElementById('delete');
@@ -353,6 +353,8 @@ deleteBtn.onclick = function () {
 				circleFlag[1] = 1;
 				document.getElementById('table1').style.display = 'inline-block';
 			}
+
+			updateData();
 			return;
 		}
 		
@@ -375,6 +377,7 @@ deleteBtn.onclick = function () {
 				let cirOutput = document.getElementById('cirOutput' + i + j);
 				cirOutput.parentNode.removeChild(cirOutput);
 				
+				updateData();
 				return;
 			}
 		}
@@ -612,7 +615,7 @@ addStateBtn.onclick = function () {
 					lineTableContent += `</div><br />
 										 <h4>output: </h4>
 										 <div id=${'output' + groupIndex + i}>`;
-										
+					
 					var outlen = 1;
 					if(outputType.value === 'bit'){
 						outlen = 1;
@@ -640,6 +643,18 @@ addStateBtn.onclick = function () {
 					lineTableContent += `</div></div>`;
 					addHtmlById('dataTable', 'beforeEnd', lineTableContent);
 					
+					// listen the change of the inputCondition
+					for (let k = 1; k <= inputNumber; k++) {
+						let ele = document.getElementById('input' + groupIndex + i + k);
+
+						ele.onchange = () => {
+							updateData();
+						}
+					}
+
+					// listen the change of the output setting
+					// at the paraSetting.js
+
 					//ouput infor at circle table
 					//var cirOutput = document.getElementById('cirOutput' + groupIndex);
 					var cirOutputContent = `<p id = ${'circle' + groupIndex + i}>=> ${textArray[i].innerHTML}:</p>
@@ -664,7 +679,7 @@ addStateBtn.onclick = function () {
 						let outputValue = document.getElementById('output' + groupIndex + i + k);
 						
 						outputValue.onchange = function () {
-							//alert('555');
+							// alert('555');
 							//get the id of this outputValue
 							let id = this.getAttribute('id');
 							let a = id.slice(6, 7);
@@ -680,6 +695,8 @@ addStateBtn.onclick = function () {
 							
 							var cirOutput = document.getElementById('cirOutput' + a + b + c);
 							cirOutput.innerHTML = `${outputName}: ${this.value}`;
+
+							updateData();
 						}
 					}
 					
@@ -731,6 +748,7 @@ addStateBtn.onclick = function () {
 				}
 				
 				/**************************binding the events of lines (delete)*******************************/
+
 				Tline[groupIndex][i].onclick = function (event) {
 					//remind user to set the parameters first
 					var remindFlag = 0;
@@ -814,6 +832,8 @@ addStateBtn.onclick = function () {
 			
 			document.onmousemove = null;
 			document.onmouseup = null;
+
+			updateData();
 		}
 	}
 	
@@ -934,6 +954,7 @@ addStateBtn.onclick = function () {
 			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
 			//alert(dis);
 			if (dis > R) {
+			    updateData();
 				if (foreign.firstChild.value.length === 0) {
 					text.innerHTML = tempText;
 				}
@@ -959,7 +980,7 @@ addStateBtn.onclick = function () {
 						nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
 					}
 				}
-				
+
 				foreign.parentNode.removeChild(foreign);
 				this.onclick = null;//cancel this event everytime
 			}
@@ -968,6 +989,7 @@ addStateBtn.onclick = function () {
 		foreign.firstChild.onchange = function () {
 			//var text = document.getElementById("t"+i);
 			if (this.value != '') {
+				updateData();
 				text.innerHTML = this.value;
 				// table.textName[i] = this.value;
 				// table.textName.reverse().reverse();
@@ -1105,6 +1127,7 @@ addStateBtn.onclick = function () {
 			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
 			
 			if (dis > R) {
+				updateData();
 				if (foreign.firstChild.value.length === 0) {
 					text.innerHTML = tempText;
 				}
@@ -1140,6 +1163,7 @@ addStateBtn.onclick = function () {
 		foreign.firstChild.onchange = function () {
 			var text = document.getElementById('t' + i);
 			if (this.value != '') {
+				updateData();
 				text.innerHTML = this.value;
 				// table.textName[i] = this.value;
 				// table.textName.reverse().reverse();
@@ -1167,7 +1191,11 @@ addStateBtn.onclick = function () {
 				this.focus();
 			}
 		}
+
+		updateData();
 	}
+
+	updateData();
 }
 
 /**************************functions definition********************************/

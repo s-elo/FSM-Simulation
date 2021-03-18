@@ -27,32 +27,46 @@
  * 
  */
 
-var lineNumber = 0;
+let lineNumber = 0;
 
-var inputTypeFlag;
-var outputTypeFlag;
+let inputTypeFlag;
+let outputTypeFlag;
 
-var inputName = [];
-var outputName = [];
-var data = {};
+let inputName = [];
+let outputName = [];
 
-$('#VHDLBtn').click(function() {
-	// console.log(Tline)
-	VHDLInit();
-	
-	const $contentVHDL = $('.VHDL code');
-	
-	let start;
+// let entityName = '';
+let inputNum = 0;
+let outputNum = 0;
 
+let inputTypeVal = '';
+let outputTypeVal = '';
+
+let inputFromVal = '';
+let inputToVal = '';
+let outputFromVal = '';
+let outputToVal = '';
+
+let stateName = [];
+
+let inputCondition = [];
+let outputForEachTran = [];
+
+let start = 0;
+
+let data = {};
+
+function updateData () {
+	console.log('updated!');
 	startState.filter((val, index) => {
 		if (val === 1) {
 			start = index;
 		}
 	});
 
-	var entityName = $('#entityName').val();
-	var inputNum = parseInt($('#inputNumber').val());
-	var outputNum = parseInt($('#outputNumber').val());
+	entityName = $('#entityName').val();
+	inputNum = parseInt($('#inputNumber').val());
+	outputNum = parseInt($('#outputNumber').val());
 	
 	for (let i = 0; i < inputNum; i++) {
 		inputName[i] = $('#input' + (i + 1)).val();
@@ -62,8 +76,8 @@ $('#VHDLBtn').click(function() {
 		outputName[i] = $('#output' + (i + 1)).val();
 	}
 	
-	var inputTypeVal = $('#inputType').val();
-	var outputTypeVal = $('#outputType').val();
+	inputTypeVal = $('#inputType').val();
+	outputTypeVal = $('#outputType').val();
 	
 	inputTypeFlag = 0;//bit_vector
 	if (inputTypeVal === 'bit') {
@@ -74,17 +88,16 @@ $('#VHDLBtn').click(function() {
 		outputTypeFlag = 1;
 	}
 	
-	var inputFromVal = $('#inputFrom').val();
-	var inputToVal = $('#inputTo').val();
-	var outputFromVal = $('#outputFrom').val();
-	var outputToVal = $('#outputTo').val();
+	inputFromVal = $('#inputFrom').val();
+	inputToVal = $('#inputTo').val();
+	outputFromVal = $('#outputFrom').val();
+	outputToVal = $('#outputTo').val();
 	
-	var stateName = [];
 	for (let i = 0; i < stateNumber; i++) {
 		stateName[i] = $('#t' + (i + 1)).html();
 	}
 	
-	var inputCondition = [];
+	
 	for (let i = 0; i < Tline.length; i++) {
 		inputCondition[i] = new Array(Tline[i].length);
 		
@@ -99,7 +112,7 @@ $('#VHDLBtn').click(function() {
 		}
 	}
 
-	var outputForEachTran = [];
+	
 	for (let i = 0; i < Tline.length; i++) {
 		outputForEachTran[i] = new Array(Tline[i].length);
 		
@@ -113,6 +126,77 @@ $('#VHDLBtn').click(function() {
 			}
 		}
 	}
+
+	// let pathStr = [];
+	// for (let i = 0; i < Tline.length; i++) {
+	// 	pathStr[i] = new Array(Tline[i].length).fill(0);
+
+	// 	for (let j = 0; j < Tline[i].length; j++) {
+	// 		if (Tline[i][j] != 0) {
+	// 			pathStr[i][j] = eleToString(Tline[i][j]);
+	// 		}
+	// 	}
+	// }
+
+	// export the data
+	data = {
+		inputName: inputName,
+    	outputName: outputName,
+
+    	entityName: entityName,
+    	inputNum: inputNum,
+    	outputNum: outputNum,
+
+    	inputTypeVal: inputTypeVal,
+    	outputTypeVal: outputTypeVal,
+
+    	inputFromVal: inputFromVal,
+    	inputToVal: inputToVal,
+    	outputFromVal: outputFromVal,
+    	outputToVal: outputToVal,
+
+    	stateName: stateName,
+    	inputCondition: inputCondition,
+    	outputForEachTran: outputForEachTran,
+		stateNumber: stateNumber,
+		
+		// pathStr: pathStr,
+		Tline: Tline,
+		
+		start: start
+	};
+	let storage = window.localStorage;
+	if (storage.getItem('data')) {
+		storage.removeItem('data');
+	}
+
+	// console.log(eleToString(data.Tline[1][1]));
+	// console.log(data.Tline[1][1]);
+	window.localStorage.setItem('data', JSON.stringify(data));
+	// window.localStorage.setItem('data', JSON.stringify(data.Tline[1][1]));
+}
+
+function eleToString (ele) {
+	let tmpNode = document.createElement('g');
+
+	let newNode = ele.cloneNode(true);
+
+    tmpNode.appendChild(newNode);
+
+    let str = tmpNode.innerHTML;
+
+    tmpNode = newNode = null;
+
+    return str;
+}
+
+$('#VHDLBtn').click(function() {
+	// console.log(Tline)
+	VHDLInit();
+	
+	const $contentVHDL = $('.VHDL code');
+	
+	// updateData();
 	//console.log(outputForEachTran)
 	
 	/**
@@ -623,36 +707,13 @@ $('#VHDLBtn').click(function() {
 
 	// $('.lineBlock').css('height', height);
 
-	// export the data
-	data = {
-		inputName: inputName,
-    	outputName: outputName,
-
-    	entityName: entityName,
-    	inputNum: inputNum,
-    	outputNum: outputNum,
-
-    	inputTypeVal: inputTypeVal,
-    	outputTypeVal: outputTypeVal,
-
-    	inputFromVal: inputFromVal,
-    	inputToVal: inputToVal,
-    	outputFromVal: outputFromVal,
-    	outputToVal: outputToVal,
-
-    	stateName: stateName,
-    	inputCondition: inputCondition,
-    	outputForEachTran: outputForEachTran,
-		stateNumber: stateNumber,
-		
-		start: start
-	};
 });
 
 /**
 * see if the params has been set
+* return true means can not generate and simulate
 */
-function remider () {
+function reminder () {
 	// left params
 	if ((!stepOneFlag) || (!finishFlag)) {
 		alert('please finish the parameters setting at the left side');
@@ -732,7 +793,7 @@ $(window).on('resize', function() {
 
 $('#showBtn').click(() => {
 	// check
-	if (remider()) return;
+	if (reminder()) return;
 
 	// clear 
 	$('.content').html('');
@@ -824,10 +885,10 @@ function conditionCreator(inputArray) {
 }
 
 function VHDLInit () {
-	inputTypeFlag = 0;
-	outputTypeFlag = 0;
-	inputName = [];
-	outputName = [];
+	// inputTypeFlag = 0;
+	// outputTypeFlag = 0;
+	// inputName = [];
+	// outputName = [];
 	lineNumber = 0;
 
 	// copy button

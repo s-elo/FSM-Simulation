@@ -318,7 +318,6 @@ stepOne.onclick = function () {
 						let outputValue = document.getElementById('output' + i + j + k);
 						
 						outputValue.onchange = function () {
-							//alert('555');
 							//get the id of this outputValue
 							let id = this.getAttribute('id');
 							let a = id.slice(6, 7);
@@ -341,7 +340,7 @@ stepOne.onclick = function () {
 			}
 		}
 		
-		
+		updateData();
 	}
 	
 }

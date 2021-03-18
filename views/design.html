@@ -6,8 +6,6 @@
 		<link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="../public/css/design.css">
 		<link rel="stylesheet" type="text/css" href="../public/css/code.css"/>
-		<script src="../public/js/jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../public/js/clipboard.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="myContainer">
@@ -183,6 +181,16 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- <div class="simulContainer" style="height: 1200px; width: 2000px;">
+				<div id="title" style="font-size: 40px; width: 1800; height: 120; text-align: center;"></div>
+				<canvas id="canvasTime" width="1800" height="120"></canvas>
+				<canvas id="canvasCLK" width="1800" height="120"></canvas>
+				<div id="input"></div>
+				<canvas id="canvasState" width="1800" height="120"></canvas>
+				<div id="output"></div>
+		    </div> -->
+			
 		</div>
 		
 		<div id="quickAccess" class="modal-content">
@@ -201,6 +209,10 @@
 		</div>
 		
 		<div id="copyReminder"><p>Copied!</p></div>
+
+		<script src="../public/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../public/js/clipboard.js" type="text/javascript" charset="utf-8"></script>
+		
 		<script type="text/javascript">
 			/**
 			 * position for quickaccess
@@ -218,7 +230,12 @@
 			})
 			
 			$('.simulPart').click(function() {
-				
+				if (reminder()) return;
+
+				// get the data
+				updateData();
+
+				window.open('./simulator-new.html');
 			})
 
 			/** handle the nav collapse and open*/
