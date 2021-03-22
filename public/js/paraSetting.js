@@ -162,7 +162,7 @@ stepOne.onclick = function () {
 	//var btnTop = ((inputNumber + outputNumber) * 26 + 450) + 'px';
 	//alert(btnTop)
 	group2Content += `<br />
-					  <button class="btn btn-primary" " type="button" id="stepTwoLast">Last</button>
+					  <button class="btn btn-primary" " type="button" id="stepTwoLast">Prev</button>
 					  <button class="btn btn-primary" " type="button" id="finish">Finish</button>
 					  </div>`;
 					  // style="top: ${btnTop}; left: 120px;
@@ -215,6 +215,15 @@ stepOne.onclick = function () {
 			group3Content += `<p>input${i}: ${inputName}</p>`;
 		}
 		
+		// present the reset
+		let startIndex = startState.findIndex(x => x === 1);
+		if (startIndex === -1) {
+			group3Content += `<p id="resetShow">reset = 1 --> no state yet</p>`;
+		} else {
+			group3Content += `<p id="resetShow">reset = 1 --> ${ textArray[startIndex].innerHTML }</p>`;
+		}
+		
+
 		group3Content += `<hr /><p><h4>output: </h4></p>`;
 		
 		if (outputType.value === 'bit') {
@@ -230,7 +239,7 @@ stepOne.onclick = function () {
 		
 		var top = ((inputNumber + outputNumber) * 26 + 500) + 'px';
 		group3Content += `<br />
-						  <button class="btn btn-primary" type="button" id="finishLast">Last</button>
+						  <button class="btn btn-primary" type="button" id="finishLast">Prev</button>
 						  </div>`;
 		
 		addHtmlById('paraSetting', 'beforeEnd', group3Content);

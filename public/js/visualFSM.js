@@ -56,6 +56,8 @@ startBtn.onclick = function () {
 		if (circleFlag[i] === 1 ) {
 			bigCircleArray[i].setAttribute('stroke', 'black');
 			startState[i] = 1;
+
+			document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
 		}
 		else {
 			bigCircleArray[i].setAttribute('stroke', 'transparent');
@@ -340,9 +342,14 @@ deleteBtn.onclick = function () {
 			
 			stateNumber--;
 			document.getElementById('table').innerHTML = `State Number: ${stateNumber}`;
-			
+
+			// update reset
+			if (stateNumber === 0) {
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> no state yet`;
+			}
+
 			//chaneg the start state and selected state when the deleted state is a start state
-			if (startState[i] ===1) {
+			if (startState[i] === 1) {
 				startState[i] = 0;
 			}
 			//all go to the state1 defaultly
@@ -352,6 +359,9 @@ deleteBtn.onclick = function () {
 				circleArray[1].setAttribute('stroke-width', '5');
 				circleFlag[1] = 1;
 				document.getElementById('table1').style.display = 'inline-block';
+
+				// update the reset
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[1].innerHTML }`;
 			}
 
 			updateData();
@@ -410,6 +420,10 @@ addStateBtn.onclick = function () {
 	if (stateNumber === 1) {
 		newBigCircle.setAttribute('stroke', 'black');
 		startState[1] = 1;
+
+		// update the reset 
+		// first time the name always is state1
+	    document.getElementById('resetShow').innerHTML = `reset = 1 --> state1`;
 	}
 	svg.appendChild(newBigCircle);
 	svg.appendChild(newCircle);
@@ -424,7 +438,7 @@ addStateBtn.onclick = function () {
 	newText.innerHTML = 'state' + stateNumber;
 	// table.textName[table.stateNumber] = newText.innerHTML;
 	// table.textName.reverse().reverse();//keep updated in HTML
-	
+
 	svg.appendChild(newText);
 	cirBindDragEventById('c' + stateNumber);// include binding the bigcircle 
 	texBindDragEventById('t' + stateNumber);
@@ -966,6 +980,9 @@ addStateBtn.onclick = function () {
 				
 				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
 				
+				// update reset
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
 				//change the stateName at line info table
 				for (let k = 1; k < lineFlag.length; k++) {
 					if (Tline[i][k] != 0) {
@@ -996,6 +1013,9 @@ addStateBtn.onclick = function () {
 				
 				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
 				
+				// update reset
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
 				//change the stateName at line info table
 				for (let k = 1; k < lineFlag.length; k++) {
 					if (Tline[i][k] != 0) {
@@ -1139,6 +1159,9 @@ addStateBtn.onclick = function () {
 				
 				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
 				
+				// update reset
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
 				//change the stateName at line info table
 				for (let k = 1; k < lineFlag.length; k++) {
 					if (Tline[i][k] != 0) {
@@ -1170,6 +1193,9 @@ addStateBtn.onclick = function () {
 				
 				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
 				
+				// update reset
+				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
 				//change the stateName at line info table
 				for (let k = 1; k < lineFlag.length; k++) {
 					if (Tline[i][k] != 0) {
