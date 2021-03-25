@@ -17,9 +17,10 @@ const rotateAngle = 15;
 const limStateNumber = 11;
 
 var stateNumber = 0;
-var circleArray = [];
-var bigCircleArray = [];
-var textArray = [];
+var circleArray = [].fill(null);
+var bigCircleArray = [].fill(null);
+var textArray = [].fill(null);
+
 var Tline = [];//line(start state, end state)
 for (let i = 0; i < limStateNumber; i++) {
 	Tline[i] = new Array(limStateNumber).fill(0);
@@ -37,17 +38,182 @@ var circleFlag = new Array(limStateNumber).fill(0);//record if the circle being 
 var startState = new Array(limStateNumber).fill(0);
 
 /************get data from the local storage************************/
-// initStateDiagram ();
-// function initStateDiagram () {
-// 	let storage = window.localStorage;
+initStateDiagram ();
 
-// 	if (storage.getItem('data')) {
-// 		// console.log(JSON.parse(storage.getItem('data')).Tline[1][1]);
-// 		let data = JSON.parse(storage.getItem('data'));
-// 		console.log(data);
-// 		document.querySelector('svg').insertAdjacentHTML('beforeEnd', data.pathStr[1][1])	
-// 	}
-// }
+function syncParaTable (data) {
+	// synchronize the state number
+	stateNumber = data.stateNumber;
+	document.getElementById('table').innerHTML = `State Number: ${stateNumber}`;
+
+	// synchronize the start state
+	startState[data.start] = 1;
+
+	// synchronize the self link angle
+	selfLinkAngle = data.selfLinkAngle;
+
+	// synchronize the parasetting table
+	const entityInput = document.querySelector('#entityName');
+	entityInput.value = data.entityName;
+
+	const inputNumber = document.querySelector('#inputNumber');
+	const outputNumber = document.querySelector('#outputNumber');
+	inputNumber.value = data.inputNum;
+	outputNumber.value = data.outputNum;
+
+	const inputType = document.querySelector('#inputType');
+	const outputType = document.querySelector('#outputType');
+
+	inputType.value = data.inputTypeVal;
+	outputType.value = data.outputTypeVal;
+
+	if (inputType.value === 'bit_vector') {
+		const inputRange = document.getElementById('inputRange');
+		const inputFrom = document.getElementById('inputFrom');
+
+		inputRange.style.display = 'block';
+		inputFrom.value = data.inputFromVal;
+	}
+
+	if (outputType.value === 'bit_vector') {
+		const outputRange = document.getElementById('outputRange');
+		const outputFrom = document.getElementById('outputFrom');
+
+		outputRange.style.display = 'block';
+		outputFrom.value = data.outputFromVal;
+	}
+
+	document.getElementById('stepOne').click();
+
+	for (let i = 0; i < data.inputNum; i++) {
+		const inputName = document.querySelector('#input' + (i + 1));
+		inputName.value = data.inputName[i];
+	}
+	for (let i = 0; i < data.outputNum; i++) {
+		const outputName = document.querySelector('#output' + (i + 1));
+		outputName.value = data.outputName[i];
+	}
+
+	document.getElementById('finish').click();
+}
+
+function initStateDiagram () {
+	const storage = window.localStorage;
+
+	if (storage.getItem('data')) {
+		const data = JSON.parse(storage.getItem('data'));
+		
+		if (data.stateNumber === 0) {
+			return;
+		}
+
+		const svgDom = document.querySelector('svg');
+
+		// draw the circles and text
+		for (let i = 1; i <= data.stateNumber; i++) {
+			svgDom.insertAdjacentHTML('beforeEnd', data.bigCircleStr[i]);
+			svgDom.insertAdjacentHTML('beforeEnd', data.circleStr[i]);
+			svgDom.insertAdjacentHTML('beforeEnd', data.textStr[i]);
+			
+			// get the dom elements
+			const circle = document.querySelector('#c' + i);
+			const bigCircle = document.querySelector('#C' + i);
+			const text = document.querySelector('#t' + i);
+
+			// synchronize
+			circleArray[i] = circle;
+			bigCircleArray[i] = bigCircle;
+			textArray[i] = text;
+
+			// bind the events
+			cirBindDragEventById('c' + i);// include binding the bigcircle
+			circle.addEventListener('click', circleClick);
+			circle.addEventListener('dblclick', circleDoubleClick);
+
+			bigCircle.addEventListener('mouseenter', BigCircleMouseEnter);
+			bigCircle.addEventListener('mousedown', BigCircleMouseDown);
+			bigCircle.addEventListener('mouseleave', BigCircleMouseLeave);
+
+			texBindDragEventById('t' + i);
+			text.addEventListener('click', textClick);
+			text.addEventListener('dblclick', textDoubleClick);
+
+			//display current state
+			var content = `<div id = ${'table' + i}>
+							<h4>Current State: </h4>
+							<p id = ${'circle' + i}>${textArray[i].innerHTML}</p>
+							<hr />
+							<h4>output:</h4>
+							<div id = ${'cirOutput' + i}></div>
+						   </div>`;
+			addHtmlById('dataTable', 'beforeEnd', content);
+		}
+
+		// only show the selected circle table
+		// the default one is the first one
+		for (let i = 1; i <= data.stateNumber; i++) {
+			if (i != 1) {
+				document.getElementById('table' + i).style.display = 'none';
+				circleArray[i].setAttribute('stroke-width', '3');
+				circleFlag[i] = 0;
+			} else {
+				circleFlag[i] = 1;
+				circleArray[i].setAttribute('stroke-width', '5');
+				circleArray[i].setAttribute('stroke', 'black');
+			}
+		}
+
+		// draw the lines
+		for (let i = 1; i < data.Tline.length; i++) {
+			for (let j = 1; j < data.Tline[i].length; j++) {
+				if (data.pathStr[i][j] != 0) {
+					svgDom.insertAdjacentHTML('beforeEnd', data.pathStr[i][j]);
+
+					// get the dom elements
+					const curLine = svgDom.lastChild;
+
+					// synchronize
+					Tline[i][j] = curLine;
+
+					// bind events
+					curLine.addEventListener('click', lineClick);
+
+					// create the related table
+					createLineTable(i, j);
+				}
+			}
+		}
+ 
+		//make other line tables invisible
+		for (let q = 1; q < lineFlag.length; q++) {
+			for (let t = 1; t < lineFlag[q].length; t++) {
+				if (Tline[q][t] != 0) {
+					Tline[q][t].setAttribute('stroke', 'black');
+					Tline[q][t].setAttribute('stroke-width', '3');
+					document.getElementById('table' + q + t).style.display = 'none';
+				}
+			}
+		}
+		
+		syncParaTable(data);
+		
+		// synchronize the conditions and outputs
+		for (let i = 1; i < data.Tline.length; i++) {
+			for (let j = 1; j < data.Tline[i].length; j++) {
+				if (data.pathStr[i][j] != 0) {
+					for (let k = 0; k < data.inputNum; k++) {
+						const inputCondition = document.querySelector('#input' + i + j + (k + 1));
+
+						inputCondition.value = data.inputCondition[i][j][k];
+
+						const output = document.querySelector('#output' + i + j + (k + 1));
+
+						output.value = data.outputForEachTran[i][j][k];
+					}
+				}
+			}
+		}
+	}
+}
 
 /**************************set a start state*******************************/
 const startBtn = document.getElementById('setStartState');
@@ -114,6 +280,11 @@ deleteBtn.onclick = function () {
 			circleArray[i].parentNode.removeChild(circleArray[i]);
 			bigCircleArray[i].parentNode.removeChild(bigCircleArray[i]);
 			textArray[i].parentNode.removeChild(textArray[i]);
+
+			circleArray[i] = null;
+			bigCircleArray[i] = null;
+			textArray[i] = null;
+
 			//delete information table of this state
 			let ti = document.getElementById('table' + i);
 			ti.parentNode.removeChild(ti);
@@ -354,6 +525,7 @@ deleteBtn.onclick = function () {
 			}
 			//all go to the state1 defaultly
 			if (stateNumber != 0) {
+				startState.fill(0);
 				startState[1] = 1;
 				bigCircleArray[1].setAttribute('stroke', 'black');
 				circleArray[1].setAttribute('stroke-width', '5');
@@ -395,7 +567,797 @@ deleteBtn.onclick = function () {
 	alert("please select at least a element");
 }
 
+/***************clear all states ************/
+const clearAllBtn = document.querySelector('#clearAll');
+clearAllBtn.onclick = function () {
+	if (stateNumber === 0) {
+		return;
+	}
+
+	if (circleFlag.findIndex(x => x === 1) != -1) { 
+		const curStateNum = stateNumber;
+		for (let i = 0; i < curStateNum; i++) {
+			deleteBtn.click();
+		}
+	} else {
+		//  make sure all the lines are not selected
+		for (let i = 0; i < lineFlag.length; i++) {
+			lineFlag[i].fill(0);
+		}
+
+		// select the first state
+		circleFlag.fill(0);
+		circleFlag[1] = 1;
+
+		// trigger itself
+		this.click();
+	}
+}
+
 /**************************add a new state or circle*******************************/
+function BigCircleMouseEnter () {
+	var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	var circle = document.getElementById('c' + i);
+	//this.style.stroke = enterColor;
+	this.style.cursor = 'crosshair';
+	circle.style.stroke = enterColor;
+}
+
+function BigCircleMouseDown (event) {
+	var groupIndex = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	groupIndex = parseInt(groupIndex);
+	var circleCx = circleArray[groupIndex].getAttribute('cx');
+	var circleCy = circleArray[groupIndex].getAttribute('cy');
+	
+	event = event || window.event;
+	event.preventDefault();//avoid the text being selected
+	
+	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+	
+	var svgLeft = getElementLeft(document.getElementById('svgContainer'));
+	var svgTop = getElementTop(document.getElementById('svgContainer'));
+	
+	var x = event.clientX - svgLeft + scrollX;
+	var y = event.clientY - svgTop + scrollY;
+	
+	var dis = pointDistance(circleCx, circleCy, x, y);
+	
+	
+	//(startX-circleCx)/(x-circleCx) = R/dis
+	//(circleCy-startY)/(circleCy-y) = R/dis
+	startX = (R / dis) * (x - circleCx) + parseInt(circleCx);
+	startY = parseInt(circleCy) - (R / dis) * (circleCy - y);
+
+	var newLine = createElem('path', {'class':'line',
+										'd':'M' + startX + ' ' + startY + 'L' + startX + ' ' + startY,
+										'stroke':'black', 'fill':'transparent', 'stroke-width':'3'});						  
+	newLine.setAttribute('marker-end', 'url(#markerArrow)');
+	svg.appendChild(newLine);
+	
+	document.onmousemove = (event) => {
+		//avoid the text being selected
+		// this is the newBigCircle
+		this.releaseCapture && this.releaseCapture();
+		event = event || window.event;
+		var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+		var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+		
+		var xm = event.clientX - svgLeft + scrollX;
+		var ym = event.clientY - svgTop + scrollY;
+		
+		var dism = pointDistance(circleCx, circleCy, xm, ym);
+		
+		//(startXm-circleCx)/(xm-circleCx) = R/dis
+		//(circleCy-startYm)/(circleCy-ym) = R/dis
+		startXm = (R / dism) * (xm - circleCx) + parseInt(circleCx);
+		startYm = parseInt(circleCy) - (R / dism) * (circleCy - ym);
+			
+		if (dism <= BR) {
+			//if there is not a selfLink
+			if (Tline[groupIndex][groupIndex] === 0) {
+				drawSelfCur(newLine, circleCx, circleCy, xm, ym, groupIndex);
+				newLine.setAttribute('marker-end', 'url(#markerArrow)');
+			}
+		}
+		else {
+			newLine.setAttribute('d', 'M' + startXm + ' ' + startYm + 'L' + xm + ' ' + ym);
+			newLine.setAttribute('marker-end', 'url(#markerArrow)');
+		}
+	}
+	
+	document.onmouseup = (event) => {
+		//avoid the text being selected
+		// this is the newBigCircle
+		this.releaseCapture && this.releaseCapture();
+		
+		event = event || window.event;
+		var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+		var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+		
+		var xu = event.clientX - svgLeft + scrollX;
+		var yu = event.clientY - svgTop + scrollY;
+		
+		var disu = pointDistance(circleCx, circleCy, xu, yu);
+		
+		startXu = (R / disu) * (xu - circleCx) + parseInt(circleCx);
+		startYu = parseInt(circleCy) - (R / disu) * (circleCy - yu);
+		
+		var flag = 0;
+		for (let i = 1; i <= stateNumber; i++) {
+			var bcir = document.getElementById('C' + i);
+			var bcx = bcir.getAttribute('cx');
+			var bcy = bcir.getAttribute('cy');
+			
+			var disu = pointDistance(bcx, bcy, xu, yu);
+			var dis = pointDistance(bcx, bcy, circleCx, circleCy);
+			
+			if ((disu <= BR) && (Tline[groupIndex][i] === 0)) {
+				flag = 1;
+				if (i === groupIndex) {
+					drawSelfCur(newLine, circleCx, circleCy, xu, yu, groupIndex);
+					Tline[groupIndex][i] = newLine;
+					//Rline[i][groupIndex] = newLine;
+				}
+				else {
+					var tr = parseInt(R) + 10;//give some space for arrow
+					//(endX-circleCx)/(bcx-circleCx) = (dis-tr)/dis
+					//(endY-circleCy)/(bcy-circleCy) = (dis-tr)/dis
+					var endX = ((dis - tr) / dis) * (bcx - circleCx) + parseInt(circleCx);
+					var endY = ((dis - tr) / dis) * (bcy - circleCy) + parseInt(circleCy);
+					
+					//when two links
+					if (Tline[i][groupIndex] != 0) {
+						//draw the curve
+						drawCurves(newLine, groupIndex, i, startXu, startYu, endX, endY, controlAngle, rotateAngle, tr);
+						Tline[groupIndex][i] = newLine;
+						//Rline[i][groupIndex] = newLine;
+						
+						//reverse
+						endX = (tr / disu) * (xu - circleCx) + parseInt(circleCx);
+						endY = parseInt(circleCy) - (tr / disu) * (circleCy - yu);
+						startXu = ((dis - R) / dis) * (bcx - circleCx) + parseInt(circleCx);
+						startYu = ((dis - R) / dis) * (bcy - circleCy) + parseInt(circleCy);
+						drawCurves(Tline[i][groupIndex], i, groupIndex, startXu, startYu, endX, endY, controlAngle, rotateAngle, tr);
+					}
+					else {
+						//link the two circles
+						Tline[groupIndex][i] = newLine;
+						Tline[groupIndex][i].setAttribute('d', 'M' + startXu + ' ' + startYu + 
+															'L' + endX + ' ' + endY);
+						//Rline[i][groupIndex] = newLine;
+					}
+				}
+				
+				createLineTable(groupIndex, i);
+			
+				//remind user to set the parameters first
+				var remindFlag = 0;
+				if (stepOneFlag === 1) {
+					for (let i = 1; i <= inputNumber; i++) {
+						if (document.getElementById('input' + i).value === '') {
+							alert('please set the parameters at the left table first');
+							remindFlag = 1;
+						}
+					}
+					for (let i = 1; i <= outputNumber; i++) {
+						if ((document.getElementById('output' + i).value === '') && (remindFlag === 0)) {
+							alert('please set the parameters at the left table first');
+							//remindFlag = 1;
+						}
+					}
+				}
+				else {
+					alert('please set the parameters at the left table first');
+					//remindFlag = 1;
+				}
+				
+				//select this new line 
+				//make other line tables invisible
+				for (let q = 1; q < lineFlag.length; q++) {
+					for (let t = 1; t < lineFlag[q].length; t++) {
+						if (Tline[q][t] != 0) {
+							lineFlag[q][t] = 0;
+							Tline[q][t].setAttribute('stroke', 'black');
+							Tline[q][t].setAttribute('stroke-width', '3');
+							document.getElementById('table' + q + t).style.display = 'none';
+						}
+					}
+				}
+				document.getElementById('table' + groupIndex + i).style.display = 'block';
+				Tline[groupIndex][i].setAttribute('stroke', 'blue');
+				Tline[groupIndex][i].setAttribute('stroke-width', '5');
+				lineFlag[groupIndex][i] = 1;
+				
+				//make circle tables invisible
+				for (let i = 1; i <= stateNumber; i++) {
+					circleArray[i].setAttribute('stroke-width', '3');
+					circleFlag[i] = 0;
+					document.getElementById('table' + i).style.display = 'none';
+				}
+				
+			}
+			
+			/**************************binding the events of lines (delete)*******************************/
+			if (Tline[groupIndex][i] != 0) {
+				Tline[groupIndex][i].addEventListener('click', lineClick);
+			}
+		}
+		
+		//see if there is a linked circle
+		if (flag === 0) {
+			newLine.parentNode.removeChild(newLine);
+		}
+		
+		document.onmousemove = null;
+		document.onmouseup = null;
+
+		updateData();
+	}
+}
+
+function createLineTable (groupIndex, i) {
+	//create a info table for this line
+	var lineTableContent = `<div class="lineTable" id=${'table' + groupIndex + i}>
+						<h4>Current Line:</h4>
+						<p id=${'line' + groupIndex + i}>
+						${textArray[groupIndex].innerHTML} => ${textArray[i].innerHTML}</p>
+						<br />
+						<h4>condition: </h4>
+						<div id=${'condition' + groupIndex + i}>`;
+							
+	var inlen = 1;
+	if(inputType.value === 'bit'){
+		inlen = 1;
+	}else{
+		inlen = parseInt(inputFrom.value)+1;
+	}
+	
+	for (let k = 1; k <= inputNumber; k++) {
+		if (document.getElementById('input' + k)) {
+			var inputName = document.getElementById('input' + k).value;
+		}
+		else {
+			var inputName = '';
+		}
+		lineTableContent += `<p>${inputName}: 
+								<select id=${'input' + groupIndex + i + k}>`;
+		for (let b = 0; b < (2 ** inlen); b++) {
+			let str = decToBinary(b, inlen);
+			lineTableContent += `<option value=${str}>${str}</option>`;
+		}
+		lineTableContent += `<option value='X'>X</option>`;
+		lineTableContent += `</select></p>`;
+	}
+	lineTableContent += `</div><br />
+							<h4>output: </h4>
+							<div id=${'output' + groupIndex + i}>`;
+	
+	var outlen = 1;
+	if(outputType.value === 'bit'){
+		outlen = 1;
+	}else{
+		outlen = parseInt(outputFrom.value)+1;
+	}
+	
+	for (let k = 1; k <= outputNumber; k++) {
+		//alert(document.getElementById('input' + k))
+		if (document.getElementById('output' + k)) {
+			var outputName = document.getElementById('output' + k).value;
+		}
+		else {
+			var outputName = '';
+		}
+		
+		lineTableContent += `<p>${outputName}: 
+								<select id=${'output' + groupIndex + i + k}>`;
+		for (let b = 0; b < (2 ** outlen); b++) {
+			let str = decToBinary(b, outlen);
+			lineTableContent += `<option value=${str}>${str}</option>`;
+		}
+		lineTableContent += `</select></p>`;
+	}
+	lineTableContent += `</div></div>`;
+	addHtmlById('dataTable', 'beforeEnd', lineTableContent);
+	
+	// listen the change of the inputCondition
+	for (let k = 1; k <= inputNumber; k++) {
+		let ele = document.getElementById('input' + groupIndex + i + k);
+
+		ele.onchange = () => {
+			updateData();
+		}
+	}
+
+	// listen the change of the output setting
+	// at the paraSetting.js
+
+	//ouput infor at circle table
+	//var cirOutput = document.getElementById('cirOutput' + groupIndex);
+	var cirOutputContent = `<p id = ${'circle' + groupIndex + i}>=> ${textArray[i].innerHTML}:</p>
+							<div id = ${'cirOutput'+ groupIndex + i}>`;
+		
+	for (let k = 1; k <= outputNumber; k++) {
+		if (document.getElementById('output' + k)) {
+			var outputName = document.getElementById('output' + k).value;
+		}
+		else {
+			var outputName = '';
+		}
+		var outputValue = document.getElementById('output' + groupIndex + i + k).value;
+		cirOutputContent += `<p id = ${'cirOutput' + groupIndex + i + k}>
+								${outputName}: ${outputValue}</p>`;
+	}
+	cirOutputContent += `<hr /></div>`;
+	addHtmlById('cirOutput' + groupIndex, 'beforeEnd', cirOutputContent);
+	
+	//binding the ouput value event to syncronize the value at circle table
+	for (let k = 1; k <= outputNumber; k++) {
+		let outputValue = document.getElementById('output' + groupIndex + i + k);
+		
+		outputValue.onchange = function () {
+			// alert('555');
+			//get the id of this outputValue
+			let id = this.getAttribute('id');
+			let a = id.slice(6, 7);
+			let b = id.slice(7, 8);
+			let c = id.slice(8, 9);
+			
+			if (document.getElementById('output' + c)) {
+				var outputName = document.getElementById('output' + c).value;
+			}
+			else {
+				var outputName = '';
+			}
+			
+			var cirOutput = document.getElementById('cirOutput' + a + b + c);
+			cirOutput.innerHTML = `${outputName}: ${this.value}`;
+
+			updateData();
+		}
+	}
+				
+}
+
+function lineClick (event) {
+	//remind user to set the parameters first
+	var remindFlag = 0;
+	if (stepOneFlag === 1) {
+		for (let i = 1; i <= inputNumber; i++) {
+			if (document.getElementById('input' + i).value === '') {
+				alert('please set the parameters at the left table first');
+				remindFlag = 1;
+			}
+		}
+		for (let i = 1; i <= outputNumber; i++) {
+			if ((document.getElementById('output' + i).value === '') && (remindFlag === 0)) {
+				alert('please set the parameters at the left table first');
+				//remindFlag = 1;
+			}
+		}
+	}
+	else {
+		alert('please set the parameters at the left table first');
+		//remindFlag = 1;
+	}
+	
+	event.stopPropagation();//avoid click the SVG
+	this.setAttribute('stroke', 'blue');
+	this.setAttribute('stroke-width', '5');
+	line = this;
+	
+	var groupIndex1;
+	var groupIndex2;
+	for (let i = 1; i < limStateNumber; i++) {
+		if (i <= stateNumber) {
+			circleArray[i].setAttribute('stroke-width', '3');
+			circleFlag[i] = 0;
+		}
+		
+		for (let j = 1; j < limStateNumber; j++) {
+			if (Tline[i][j] === this) {
+				groupIndex1 = i;
+				groupIndex2 = j;
+				//alert(i + ' ' + j);
+				lineFlag[i][j] = 1;
+			}
+			if ((Tline[i][j] != 0) && (Tline[i][j] != this)) {
+				lineFlag[i][j] = 0;
+				Tline[i][j].setAttribute('stroke', 'black');
+				Tline[i][j].setAttribute('stroke-width', '3');
+				//Rline[j][i].setAttribute('stroke', 'black');
+				//Rline[j][i].setAttribute('stroke-width', '3');
+			}
+		}
+	}
+	
+	svg.onclick = function () {
+		lineFlag[groupIndex1][groupIndex2] = 0;
+		line.setAttribute('stroke', 'black');
+		line.setAttribute('stroke-width', '3');
+		this.onclick = null;
+	}
+	
+	//make table information for circles invisible
+	for (let i = 1; i <= stateNumber; i++) {
+		document.getElementById('table' + i).style.display = 'none';
+	}
+	
+	//make table information for lines invisible
+	for (let q = 1; q < lineFlag.length; q++) {
+		for (let t = 1; t < lineFlag[q].length; t++) {
+			if (document.getElementById('table' + q + t)) {
+				document.getElementById('table' + q + t).style.display = 'none';
+			}
+		}
+	}
+	document.getElementById('table' + groupIndex1 + groupIndex2).style.display = 'block';
+}
+
+function BigCircleMouseLeave () {
+	var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	var circle = document.getElementById('c' + i);
+	//this.style.stroke = leaveColor;
+	circle.style.stroke = leaveColor;
+}
+
+function circleClick (event) {
+	event.stopPropagation();//avoid click the SVG
+	this.setAttribute('stroke-width', '5');
+	circle = this;
+	
+	var index;
+	for (let i = 1; i < circleFlag.length; i++) {
+		if (circleArray[i] === this) {
+			index = i;
+			circleFlag[i] = 1;
+		}
+		if ((circleArray[i]) && (circleArray[i] != this) && (i <= stateNumber)) {
+			circleArray[i].setAttribute('stroke-width', '3');
+			circleFlag[i] = 0;
+		}
+		for (let j = 1; j < circleFlag.length; j++) {
+			if (Tline[i][j] != 0) {
+				lineFlag[i][j] = 0;
+				Tline[i][j].setAttribute('stroke', 'black');
+				Tline[i][j].setAttribute('stroke-width', '3');
+				//Rline[j][i].setAttribute("stroke", "black");
+				//Rline[j][i].setAttribute("stroke-width", "3");
+			}
+		}
+	}
+	svg.onclick = function () {
+		circle.setAttribute('stroke-width', '3');
+		circleFlag[index] = 0;
+		
+		//avoid  other inputframe at other circles
+		for (let j = 1; j <= stateNumber; j++) {
+			let forn = document.getElementById('f' + j);
+			//alert(foreign);
+			let txt = document.getElementById('t' + j);
+			if (forn) {
+				txt.innerHTML = forn.firstChild.value;
+				forn.parentNode.removeChild(forn);
+			}
+		}
+		this.onclick = null;
+	}
+	
+	//table information for circles
+	for (let i = 1; i <= stateNumber; i++) {
+		document.getElementById('table' + i).style.display = 'none';
+	}
+	document.getElementById('table' + index).style.display = 'inline-block';
+	
+	//make table information for lines invisible
+	for (let q = 1; q < lineFlag.length; q++) {
+		for (let t = 1; t <= lineFlag[q].length; t++) {
+			if (document.getElementById('table' + q + t)) {
+				document.getElementById('table' + q + t).style.display = 'none';
+			}
+		}
+	}
+}
+
+function circleDoubleClick () {
+	var x = this.getAttribute('cx') - R + 5;
+	var y = this.getAttribute('cy') - textFontSize / 2 - 8;
+	var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	var cir = document.getElementById('c' + i);
+	var text = document.getElementById('t' + i);
+	
+	//avoid  other inputframe at other circles
+	for (let j = 1; j <= stateNumber; j++) {
+		let forn = document.getElementById('f' + j);
+		//alert(foreign);
+		let txt = document.getElementById('t' + j);
+		if (forn && (j != i)) {
+			txt.innerHTML = forn.firstChild.value;
+			forn.parentNode.removeChild(forn);
+		}
+	}
+	
+	//avoid creating multiple inputFrame
+	if (document.getElementById('f' + i)) {
+		return;
+	}
+	
+	
+	var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
+								'width':'70', 'height':'30'});
+	foreign.innerHTML = "<input type='text' maxlength='6'/>";
+	svg.appendChild(foreign);
+	
+	//save the last value;
+	foreign.firstChild.value = text.innerHTML;
+	var tempText = text.innerHTML;
+	//temperorily set blank for being invisible behind the input frame
+	text.innerHTML = '';
+	//show the cursor and select the value at the beginning
+	foreign.firstChild.focus();
+	foreign.firstChild.selectionStart = 0;
+	foreign.firstChild.selectionEnd = foreign.firstChild.value.length;
+	
+	//when click beyond the circles, delete the input frame
+	svg.onclick = function (event) {
+		event = event || window.event;
+		
+		var svgLeft = getElementLeft(document.getElementById('svgContainer'));
+		var svgTop = getElementTop(document.getElementById('svgContainer'));
+		var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
+		//alert(dis);
+		if (dis > R) {
+			updateData();
+			if (foreign.firstChild.value.length === 0) {
+				text.innerHTML = tempText;
+			}
+			else {
+				text.innerHTML = foreign.firstChild.value;
+			}
+			// table.textName[i] = foreign.firstChild.value;
+			// table.textName.reverse().reverse();
+			
+			document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
+			
+			// update reset
+			document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
+			//change the stateName at line info table
+			for (let k = 1; k < lineFlag.length; k++) {
+				if (Tline[i][k] != 0) {
+					let lineinfo = document.getElementById('line' + i + k);
+					lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
+				}
+				if (Tline[k][i] != 0) {
+					let lineinfo = document.getElementById('line' + k + i);
+					lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
+					
+					let nextText = document.getElementById('circle' + k + i);
+					nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
+				}
+			}
+
+			foreign.parentNode.removeChild(foreign);
+			this.onclick = null;//cancel this event everytime
+		}
+	}
+	
+	foreign.firstChild.onchange = function () {
+		//var text = document.getElementById("t"+i);
+		if (this.value != '') {
+			updateData();
+			text.innerHTML = this.value;
+			// table.textName[i] = this.value;
+			// table.textName.reverse().reverse();
+			
+			document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
+			
+			// update reset
+			document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
+			//change the stateName at line info table
+			for (let k = 1; k < lineFlag.length; k++) {
+				if (Tline[i][k] != 0) {
+					let lineinfo = document.getElementById('line' + i + k);
+					lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
+				}
+				if (Tline[k][i] != 0) {
+					let lineinfo = document.getElementById('line' + k + i);
+					lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
+				
+					let nextText = document.getElementById('circle' + k + i);
+					nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
+				}
+			}
+			
+			foreign.parentNode.removeChild(foreign);
+		}
+		else {
+			alert("please enter the value~");
+			this.focus();
+		}
+	}
+}
+
+function textClick (event) {
+	event.stopPropagation();
+	var num = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	circleArray[num].setAttribute('stroke-width', '5');
+	
+	var index;
+	for (let i = 1; i < circleFlag.length; i++) {
+		if (circleArray[i] === circleArray[num]) {
+			index = i;
+			circleFlag[i] = 1;
+		}
+		if ((circleArray[i]) && (circleArray[i] != circleArray[num])) {
+			circleArray[i].setAttribute('stroke-width', '3');
+			circleFlag[i] = 0;
+		}
+		for (let j = 1; j < circleFlag.length; j++) {
+			if (Tline[i][j] != 0) {
+				lineFlag[i][j] = 0;
+				Tline[i][j].setAttribute('stroke', 'black');
+				Tline[i][j].setAttribute('stroke-width', '3');
+				//Rline[j][i].setAttribute("stroke", "black");
+				//Rline[j][i].setAttribute("stroke-width", "3");
+			}
+		}
+	}
+	svg.onclick = function () {
+		circleArray[num].setAttribute('stroke-width', '3');
+		circleFlag[index] = 0;
+		
+		for (let j = 1; j <= stateNumber; j++) {
+			let forn = document.getElementById('f' + j);
+			//alert(foreign);
+			let txt = document.getElementById('t' + j);
+			if (forn) {
+				txt.innerHTML = forn.firstChild.value;
+				forn.parentNode.removeChild(forn);
+			}
+		}
+		this.onclick = null;
+	}
+	
+	//make table information for circles invisible
+	for (let i = 1; i <= stateNumber; i++) {
+		document.getElementById('table' + i).style.display = 'none';
+	}
+	document.getElementById('table' + index).style.display = 'inline-block';
+	
+	//make table information for lines invisible
+	for (let q = 1; q < lineFlag.length; q++) {
+		for (let t = 1; t <= lineFlag[q].length; t++) {
+			if (document.getElementById('table' + q + t)) {
+				document.getElementById('table' + q + t).style.display = 'none';
+			}
+		}
+	}
+	document.onmousemove = null;
+}
+
+function textDoubleClick () {
+	document.onmousemove = null;
+	
+	var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
+	var cir = document.getElementById('c' + i);
+	var text = document.getElementById('t' + i);
+	
+	var x = cir.getAttribute('cx') - R + 5;
+	var y = cir.getAttribute('cy') - textFontSize / 2 - 8;
+	
+	for (let j = 1; j <= stateNumber; j++) {
+		let forn = document.getElementById('f' + j);
+		let txt = document.getElementById('t' + j);
+		if (forn && (j != i)) {
+			txt.innerHTML = forn.firstChild.value;
+			forn.parentNode.removeChild(forn);
+		}
+	}
+	
+	//avoid creating multiple inputFrame
+	if (document.getElementById('f' + i)) {
+		return;
+	}
+	
+	var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
+								'width':'70', 'height':'30'});
+	foreign.innerHTML = "<input type='text' maxlength='6'/>";
+	svg.appendChild(foreign);
+	
+	//save the last value;
+	foreign.firstChild.value = text.innerHTML;
+	var tempText = text.innerHTML;
+	//temperorily set blank
+	text.innerHTML = '';
+	//show the cursor and select the value at the beginning
+	foreign.firstChild.focus();
+	foreign.firstChild.selectionStart = 0;
+	foreign.firstChild.selectionEnd = foreign.firstChild.value.length;
+	
+	//when click beyond the circles, delete the input frame
+	svg.onclick = function (event) {
+		event = event || window.event;
+		var svgLeft = getElementLeft(document.getElementById('svgContainer'));
+		var svgTop = getElementTop(document.getElementById('svgContainer'));
+		var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
+		
+		if (dis > R) {
+			updateData();
+			if (foreign.firstChild.value.length === 0) {
+				text.innerHTML = tempText;
+			}
+			else {
+				text.innerHTML = foreign.firstChild.value;
+			}
+			// table.textName[i] = foreign.firstChild.value;
+			// table.textName.reverse().reverse();
+			
+			document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
+			
+			// update reset
+			document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
+			//change the stateName at line info table
+			for (let k = 1; k < lineFlag.length; k++) {
+				if (Tline[i][k] != 0) {
+					let lineinfo = document.getElementById('line' + i + k);
+					lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
+				}
+				if (Tline[k][i] != 0) {
+					let lineinfo = document.getElementById('line' + k + i);
+					lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
+					
+					let nextText = document.getElementById('circle' + k + i);
+					nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
+				}
+			}
+			
+			//console.log(table.textName[i]);
+			foreign.parentNode.removeChild(foreign);
+			this.onclick = null;//cancel this event everytime
+		}
+	}
+	
+	foreign.firstChild.onchange = function () {
+		var text = document.getElementById('t' + i);
+		if (this.value != '') {
+			updateData();
+			text.innerHTML = this.value;
+			// table.textName[i] = this.value;
+			// table.textName.reverse().reverse();
+			
+			document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
+			
+			// update reset
+			document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
+
+			//change the stateName at line info table
+			for (let k = 1; k < lineFlag.length; k++) {
+				if (Tline[i][k] != 0) {
+					let lineinfo = document.getElementById('line' + i + k);
+					lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
+				}
+				if (Tline[k][i] != 0) {
+					let lineinfo = document.getElementById('line' + k + i);
+					lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
+					
+					let nextText = document.getElementById('circle' + k + i);
+					nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
+				}
+			}
+			foreign.parentNode.removeChild(foreign);
+		}
+		else {
+			alert("please enter the value~");
+			this.focus();
+		}
+	}
+
+	updateData();
+}
+
 const addStateBtn = document.getElementById('addState');
 addStateBtn.onclick = function () {
 	//see if the params has been set
@@ -462,764 +1424,25 @@ addStateBtn.onclick = function () {
 	circleFlag[stateNumber] = 1;
 	circleArray[stateNumber].setAttribute('stroke-width', '5');
 	/**************************binding the events of big circles*******************************/
-	newBigCircle.onmouseenter = function () {
-		var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		var circle = document.getElementById('c' + i);
-		//this.style.stroke = enterColor;
-		this.style.cursor = 'crosshair';
-		circle.style.stroke = enterColor;
-	}
+	newBigCircle.addEventListener('mouseenter', BigCircleMouseEnter);
 	
-	newBigCircle.onmousedown = function (event) {
-		var groupIndex = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		groupIndex = parseInt(groupIndex);
-		var circleCx = circleArray[groupIndex].getAttribute('cx');
-		var circleCy = circleArray[groupIndex].getAttribute('cy');
-		
-		event = event || window.event;
-		event.preventDefault();//avoid the text being selected
-		
-		var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-		var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-		
-		var svgLeft = getElementLeft(document.getElementById('svgContainer'));
-		var svgTop = getElementTop(document.getElementById('svgContainer'));
-		
-		var x = event.clientX - svgLeft + scrollX;
-		var y = event.clientY - svgTop + scrollY;
-		
-		var dis = pointDistance(circleCx, circleCy, x, y);
-		
-		
-		//(startX-circleCx)/(x-circleCx) = R/dis
-		//(circleCy-startY)/(circleCy-y) = R/dis
-		startX = (R / dis) * (x - circleCx) + parseInt(circleCx);
-		startY = parseInt(circleCy) - (R / dis) * (circleCy - y);
+	newBigCircle.addEventListener('mousedown', BigCircleMouseDown);
 
-		var newLine = createElem('path', {'class':'line',
-										  'd':'M' + startX + ' ' + startY + 'L' + startX + ' ' + startY,
-										  'stroke':'black', 'fill':'transparent', 'stroke-width':'3'});						  
-		newLine.setAttribute('marker-end', 'url(#markerArrow)');
-		svg.appendChild(newLine);
-		
-		document.onmousemove = function (event) {
-			//avoid the text being selected
-			newBigCircle.releaseCapture && newBigCircle.releaseCapture();
-			event = event || window.event;
-			var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-			var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-			
-			var xm = event.clientX - svgLeft + scrollX;
-			var ym = event.clientY - svgTop + scrollY;
-			
-			var dism = pointDistance(circleCx, circleCy, xm, ym);
-			
-			//(startXm-circleCx)/(xm-circleCx) = R/dis
-			//(circleCy-startYm)/(circleCy-ym) = R/dis
-			startXm = (R / dism) * (xm - circleCx) + parseInt(circleCx);
-			startYm = parseInt(circleCy) - (R / dism) * (circleCy - ym);
-				
-			if (dism <= BR) {
-				//if there is not a selfLink
-				if (Tline[groupIndex][groupIndex] === 0) {
-					drawSelfCur(newLine, circleCx, circleCy, xm, ym, groupIndex);
-					newLine.setAttribute('marker-end', 'url(#markerArrow)');
-				}
-			}
-			else {
-				newLine.setAttribute('d', 'M' + startXm + ' ' + startYm + 'L' + xm + ' ' + ym);
-				newLine.setAttribute('marker-end', 'url(#markerArrow)');
-			}
-		}
-		
-		document.onmouseup = function (event) {
-			//avoid the text being selected
-			newBigCircle.releaseCapture && newBigCircle.releaseCapture();
-			
-			event = event || window.event;
-			var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-			var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-			
-			var xu = event.clientX - svgLeft + scrollX;
-			var yu = event.clientY - svgTop + scrollY;
-			
-			var disu = pointDistance(circleCx, circleCy, xu, yu);
-			
-			startXu = (R / disu) * (xu - circleCx) + parseInt(circleCx);
-			startYu = parseInt(circleCy) - (R / disu) * (circleCy - yu);
-			
-			var flag = 0;
-			for (let i = 1; i <= stateNumber; i++) {
-				var bcir = document.getElementById('C' + i);
-				var bcx = bcir.getAttribute('cx');
-				var bcy = bcir.getAttribute('cy');
-				
-				var disu = pointDistance(bcx, bcy, xu, yu);
-				var dis = pointDistance(bcx, bcy, circleCx, circleCy);
-				
-				if ((disu <= BR) && (Tline[groupIndex][i] === 0)) {
-					flag = 1;
-					if (i === groupIndex) {
-						drawSelfCur(newLine, circleCx, circleCy, xu, yu, groupIndex);
-						Tline[groupIndex][i] = newLine;
-						//Rline[i][groupIndex] = newLine;
-					}
-					else {
-						var tr = parseInt(R) + 10;//give some space for arrow
-						//(endX-circleCx)/(bcx-circleCx) = (dis-tr)/dis
-						//(endY-circleCy)/(bcy-circleCy) = (dis-tr)/dis
-						var endX = ((dis - tr) / dis) * (bcx - circleCx) + parseInt(circleCx);
-						var endY = ((dis - tr) / dis) * (bcy - circleCy) + parseInt(circleCy);
-						
-						//when two links
-						if (Tline[i][groupIndex] != 0) {
-							//draw the curve
-							drawCurves(newLine, groupIndex, i, startXu, startYu, endX, endY, controlAngle, rotateAngle, tr);
-							Tline[groupIndex][i] = newLine;
-							//Rline[i][groupIndex] = newLine;
-							
-							//reverse
-							endX = (tr / disu) * (xu - circleCx) + parseInt(circleCx);
-							endY = parseInt(circleCy) - (tr / disu) * (circleCy - yu);
-							startXu = ((dis - R) / dis) * (bcx - circleCx) + parseInt(circleCx);
-							startYu = ((dis - R) / dis) * (bcy - circleCy) + parseInt(circleCy);
-							drawCurves(Tline[i][groupIndex], i, groupIndex, startXu, startYu, endX, endY, controlAngle, rotateAngle, tr);
-						}
-						else {
-							//link the two circles
-							Tline[groupIndex][i] = newLine;
-							Tline[groupIndex][i].setAttribute('d', 'M' + startXu + ' ' + startYu + 
-															  'L' + endX + ' ' + endY);
-							//Rline[i][groupIndex] = newLine;
-						}
-					}
-					
-					//create a info table for this line
-					var lineTableContent = `<div class="lineTable" id=${'table' + groupIndex + i}>
-										<h4>Current Line:</h4>
-										<p id=${'line' + groupIndex + i}>
-										${textArray[groupIndex].innerHTML} => ${textArray[i].innerHTML}</p>
-										<br />
-										<h4>condition: </h4>
-										<div id=${'condition' + groupIndex + i}>`;
-											
-					var inlen = 1;
-					if(inputType.value === 'bit'){
-						inlen = 1;
-					}else{
-						inlen = parseInt(inputFrom.value)+1;
-					}
-					
-					for (let k = 1; k <= inputNumber; k++) {
-						if (document.getElementById('input' + k)) {
-							var inputName = document.getElementById('input' + k).value;
-						}
-						else {
-							var inputName = '';
-						}
-						lineTableContent += `<p>${inputName}: 
-											 <select id=${'input' + groupIndex + i + k}>`;
-						for (let b = 0; b < (2 ** inlen); b++) {
-							let str = decToBinary(b, inlen);
-							lineTableContent += `<option value=${str}>${str}</option>`;
-						}
-						lineTableContent += `<option value='X'>X</option>`;
-						lineTableContent += `</select></p>`;
-					}
-					lineTableContent += `</div><br />
-										 <h4>output: </h4>
-										 <div id=${'output' + groupIndex + i}>`;
-					
-					var outlen = 1;
-					if(outputType.value === 'bit'){
-						outlen = 1;
-					}else{
-						outlen = parseInt(outputFrom.value)+1;
-					}
-					
-					for (let k = 1; k <= outputNumber; k++) {
-						//alert(document.getElementById('input' + k))
-						if (document.getElementById('output' + k)) {
-							var outputName = document.getElementById('output' + k).value;
-						}
-						else {
-							var outputName = '';
-						}
-						
-						lineTableContent += `<p>${outputName}: 
-											 <select id=${'output' + groupIndex + i + k}>`;
-						for (let b = 0; b < (2 ** outlen); b++) {
-							let str = decToBinary(b, outlen);
-							lineTableContent += `<option value=${str}>${str}</option>`;
-						}
-						lineTableContent += `</select></p>`;
-					}
-					lineTableContent += `</div></div>`;
-					addHtmlById('dataTable', 'beforeEnd', lineTableContent);
-					
-					// listen the change of the inputCondition
-					for (let k = 1; k <= inputNumber; k++) {
-						let ele = document.getElementById('input' + groupIndex + i + k);
-
-						ele.onchange = () => {
-							updateData();
-						}
-					}
-
-					// listen the change of the output setting
-					// at the paraSetting.js
-
-					//ouput infor at circle table
-					//var cirOutput = document.getElementById('cirOutput' + groupIndex);
-					var cirOutputContent = `<p id = ${'circle' + groupIndex + i}>=> ${textArray[i].innerHTML}:</p>
-											<div id = ${'cirOutput'+ groupIndex + i}>`;
-						
-					for (let k = 1; k <= outputNumber; k++) {
-						if (document.getElementById('output' + k)) {
-							var outputName = document.getElementById('output' + k).value;
-						}
-						else {
-							var outputName = '';
-						}
-						var outputValue = document.getElementById('output' + groupIndex + i + k).value;
-						cirOutputContent += `<p id = ${'cirOutput' + groupIndex + i + k}>
-											 ${outputName}: ${outputValue}</p>`;
-					}
-					cirOutputContent += `<hr /></div>`;
-					addHtmlById('cirOutput' + groupIndex, 'beforeEnd', cirOutputContent);
-					
-					//binding the ouput value event to syncronize the value at circle table
-					for (let k = 1; k <= outputNumber; k++) {
-						let outputValue = document.getElementById('output' + groupIndex + i + k);
-						
-						outputValue.onchange = function () {
-							// alert('555');
-							//get the id of this outputValue
-							let id = this.getAttribute('id');
-							let a = id.slice(6, 7);
-							let b = id.slice(7, 8);
-							let c = id.slice(8, 9);
-							
-							if (document.getElementById('output' + c)) {
-								var outputName = document.getElementById('output' + c).value;
-							}
-							else {
-								var outputName = '';
-							}
-							
-							var cirOutput = document.getElementById('cirOutput' + a + b + c);
-							cirOutput.innerHTML = `${outputName}: ${this.value}`;
-
-							updateData();
-						}
-					}
-					
-					//remind user to set the parameters first
-					var remindFlag = 0;
-					if (stepOneFlag === 1) {
-						for (let i = 1; i <= inputNumber; i++) {
-							if (document.getElementById('input' + i).value === '') {
-								alert('please set the parameters at the left table first');
-								remindFlag = 1;
-							}
-						}
-						for (let i = 1; i <= outputNumber; i++) {
-							if ((document.getElementById('output' + i).value === '') && (remindFlag === 0)) {
-								alert('please set the parameters at the left table first');
-								//remindFlag = 1;
-							}
-						}
-					}
-					else {
-						alert('please set the parameters at the left table first');
-						//remindFlag = 1;
-					}
-					
-					//select this new line 
-					//make other line tables invisible
-					for (let q = 1; q < lineFlag.length; q++) {
-						for (let t = 1; t < lineFlag[q].length; t++) {
-							if (Tline[q][t] != 0) {
-								lineFlag[q][t] = 0;
-								Tline[q][t].setAttribute('stroke', 'black');
-								Tline[q][t].setAttribute('stroke-width', '3');
-								document.getElementById('table' + q + t).style.display = 'none';
-							}
-						}
-					}
-					document.getElementById('table' + groupIndex + i).style.display = 'block';
-					Tline[groupIndex][i].setAttribute('stroke', 'blue');
-					Tline[groupIndex][i].setAttribute('stroke-width', '5');
-					lineFlag[groupIndex][i] = 1;
-					
-					//make circle tables invisible
-					for (let i = 1; i <= stateNumber; i++) {
-						circleArray[i].setAttribute('stroke-width', '3');
-						circleFlag[i] = 0;
-						document.getElementById('table' + i).style.display = 'none';
-					}
-					
-				}
-				
-				/**************************binding the events of lines (delete)*******************************/
-
-				Tline[groupIndex][i].onclick = function (event) {
-					//remind user to set the parameters first
-					var remindFlag = 0;
-					if (stepOneFlag === 1) {
-						for (let i = 1; i <= inputNumber; i++) {
-							if (document.getElementById('input' + i).value === '') {
-								alert('please set the parameters at the left table first');
-								remindFlag = 1;
-							}
-						}
-						for (let i = 1; i <= outputNumber; i++) {
-							if ((document.getElementById('output' + i).value === '') && (remindFlag === 0)) {
-								alert('please set the parameters at the left table first');
-								//remindFlag = 1;
-							}
-						}
-					}
-					else {
-						alert('please set the parameters at the left table first');
-						//remindFlag = 1;
-					}
-					
-					event.stopPropagation();//avoid click the SVG
-					this.setAttribute('stroke', 'blue');
-					this.setAttribute('stroke-width', '5');
-					line = this;
-					
-					var groupIndex1;
-					var groupIndex2;
-					for (let i = 1; i < limStateNumber; i++) {
-						if (i <= stateNumber) {
-							circleArray[i].setAttribute('stroke-width', '3');
-							circleFlag[i] = 0;
-						}
-						
-						for (let j = 1; j < limStateNumber; j++) {
-							if (Tline[i][j] === this) {
-								groupIndex1 = i;
-								groupIndex2 = j;
-								//alert(i + ' ' + j);
-								lineFlag[i][j] = 1;
-							}
-							if ((Tline[i][j] != 0) && (Tline[i][j] != this)) {
-								lineFlag[i][j] = 0;
-								Tline[i][j].setAttribute('stroke', 'black');
-								Tline[i][j].setAttribute('stroke-width', '3');
-								//Rline[j][i].setAttribute('stroke', 'black');
-								//Rline[j][i].setAttribute('stroke-width', '3');
-							}
-						}
-					}
-					
-					svg.onclick = function () {
-						lineFlag[groupIndex1][groupIndex2] = 0;
-						line.setAttribute('stroke', 'black');
-						line.setAttribute('stroke-width', '3');
-						this.onclick = null;
-					}
-					
-					//make table information for circles invisible
-					for (let i = 1; i <= stateNumber; i++) {
-						document.getElementById('table' + i).style.display = 'none';
-					}
-					
-					//make table information for lines invisible
-					for (let q = 1; q < lineFlag.length; q++) {
-						for (let t = 1; t < lineFlag[q].length; t++) {
-							if (document.getElementById('table' + q + t)) {
-								document.getElementById('table' + q + t).style.display = 'none';
-							}
-						}
-					}
-					document.getElementById('table' + groupIndex1 + groupIndex2).style.display = 'block';
-				}
-			}
-			
-			//see if there is a linked circle
-			if (flag === 0) {
-				newLine.parentNode.removeChild(newLine);
-			}
-			
-			document.onmousemove = null;
-			document.onmouseup = null;
-
-			updateData();
-		}
-	}
-	
-	newBigCircle.onmouseleave = function () {
-		var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		var circle = document.getElementById('c' + i);
-		//this.style.stroke = leaveColor;
-		circle.style.stroke = leaveColor;
-	}
-	
-	
+	newBigCircle.addEventListener('mouseleave', BigCircleMouseLeave);
 	
 	/**************************binding the events of circles*******************************/
 	//when select a circle
-	newCircle.onclick = function (event) {
-		event.stopPropagation();//avoid click the SVG
-		this.setAttribute('stroke-width', '5');
-		circle = this;
-		
-		var index;
-		for (let i = 1; i < circleFlag.length; i++) {
-			if (circleArray[i] === this) {
-				index = i;
-				circleFlag[i] = 1;
-			}
-			if ((circleArray[i]) && (circleArray[i] != this) && (i <= stateNumber)) {
-				circleArray[i].setAttribute('stroke-width', '3');
-				circleFlag[i] = 0;
-			}
-			for (let j = 1; j < circleFlag.length; j++) {
-				if (Tline[i][j] != 0) {
-					lineFlag[i][j] = 0;
-					Tline[i][j].setAttribute('stroke', 'black');
-					Tline[i][j].setAttribute('stroke-width', '3');
-					//Rline[j][i].setAttribute("stroke", "black");
-					//Rline[j][i].setAttribute("stroke-width", "3");
-				}
-			}
-		}
-		svg.onclick = function () {
-			circle.setAttribute('stroke-width', '3');
-			circleFlag[index] = 0;
-			
-			//avoid  other inputframe at other circles
-			for (let j = 1; j <= stateNumber; j++) {
-				let forn = document.getElementById('f' + j);
-				//alert(foreign);
-				let txt = document.getElementById('t' + j);
-				if (forn) {
-					txt.innerHTML = forn.firstChild.value;
-					forn.parentNode.removeChild(forn);
-				}
-			}
-			this.onclick = null;
-		}
-		
-		//table information for circles
-		for (let i = 1; i <= stateNumber; i++) {
-			document.getElementById('table' + i).style.display = 'none';
-		}
-		document.getElementById('table' + index).style.display = 'inline-block';
-		
-		//make table information for lines invisible
-		for (let q = 1; q < lineFlag.length; q++) {
-			for (let t = 1; t <= lineFlag[q].length; t++) {
-				if (document.getElementById('table' + q + t)) {
-					document.getElementById('table' + q + t).style.display = 'none';
-				}
-			}
-		}
-	}
+	newCircle.addEventListener('click', circleClick);
+
 	//when double click the circles, create the input frame
-	newCircle.ondblclick = function () {
-		var x = this.getAttribute('cx') - R + 5;
-		var y = this.getAttribute('cy') - textFontSize / 2 - 8;
-		var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		var cir = document.getElementById('c' + i);
-		var text = document.getElementById('t' + i);
-		
-		//avoid  other inputframe at other circles
-		for (let j = 1; j <= stateNumber; j++) {
-			let forn = document.getElementById('f' + j);
-			//alert(foreign);
-			let txt = document.getElementById('t' + j);
-			if (forn && (j != i)) {
-				txt.innerHTML = forn.firstChild.value;
-				forn.parentNode.removeChild(forn);
-			}
-		}
-		
-		//avoid creating multiple inputFrame
-		if (document.getElementById('f' + i)) {
-			return;
-		}
-		
-		
-		var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
-								 'width':'70', 'height':'30'});
-		foreign.innerHTML = "<input type='text' maxlength='6'/>";
-		svg.appendChild(foreign);
-		
-		//save the last value;
-		foreign.firstChild.value = text.innerHTML;
-		var tempText = text.innerHTML;
-		//temperorily set blank for being invisible behind the input frame
-		text.innerHTML = '';
-		//show the cursor and select the value at the beginning
-		foreign.firstChild.focus();
-		foreign.firstChild.selectionStart = 0;
-		foreign.firstChild.selectionEnd = foreign.firstChild.value.length;
-		
-		//when click beyond the circles, delete the input frame
-		svg.onclick = function (event) {
-			event = event || window.event;
-			
-			var svgLeft = getElementLeft(document.getElementById('svgContainer'));
-			var svgTop = getElementTop(document.getElementById('svgContainer'));
-			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
-			//alert(dis);
-			if (dis > R) {
-			    updateData();
-				if (foreign.firstChild.value.length === 0) {
-					text.innerHTML = tempText;
-				}
-				else {
-					text.innerHTML = foreign.firstChild.value;
-				}
-				// table.textName[i] = foreign.firstChild.value;
-				// table.textName.reverse().reverse();
-				
-				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
-				
-				// update reset
-				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
-
-				//change the stateName at line info table
-				for (let k = 1; k < lineFlag.length; k++) {
-					if (Tline[i][k] != 0) {
-						let lineinfo = document.getElementById('line' + i + k);
-						lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
-					}
-					if (Tline[k][i] != 0) {
-						let lineinfo = document.getElementById('line' + k + i);
-						lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
-						
-						let nextText = document.getElementById('circle' + k + i);
-						nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
-					}
-				}
-
-				foreign.parentNode.removeChild(foreign);
-				this.onclick = null;//cancel this event everytime
-			}
-		}
-		
-		foreign.firstChild.onchange = function () {
-			//var text = document.getElementById("t"+i);
-			if (this.value != '') {
-				updateData();
-				text.innerHTML = this.value;
-				// table.textName[i] = this.value;
-				// table.textName.reverse().reverse();
-				
-				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
-				
-				// update reset
-				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
-
-				//change the stateName at line info table
-				for (let k = 1; k < lineFlag.length; k++) {
-					if (Tline[i][k] != 0) {
-						let lineinfo = document.getElementById('line' + i + k);
-						lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
-					}
-					if (Tline[k][i] != 0) {
-						let lineinfo = document.getElementById('line' + k + i);
-						lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
-					
-						let nextText = document.getElementById('circle' + k + i);
-						nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
-					}
-				}
-				
-				foreign.parentNode.removeChild(foreign);
-			}
-			else {
-				alert("please enter the value~");
-				this.focus();
-			}
-		}
-	}
+	newCircle.addEventListener('dblclick', circleDoubleClick);
 	
 	/**************************binding the events of text*******************************/
 	//when click text => select the circle
-	newText.onclick = function (event) {
-		event.stopPropagation();
-		var num = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		circleArray[num].setAttribute('stroke-width', '5');
-		
-		var index;
-		for (let i = 1; i < circleFlag.length; i++) {
-			if (circleArray[i] === circleArray[num]) {
-				index = i;
-				circleFlag[i] = 1;
-			}
-			if ((circleArray[i]) && (circleArray[i] != circleArray[num])) {
-				circleArray[i].setAttribute('stroke-width', '3');
-				circleFlag[i] = 0;
-			}
-			for (let j = 1; j < circleFlag.length; j++) {
-				if (Tline[i][j] != 0) {
-					lineFlag[i][j] = 0;
-					Tline[i][j].setAttribute('stroke', 'black');
-					Tline[i][j].setAttribute('stroke-width', '3');
-					//Rline[j][i].setAttribute("stroke", "black");
-					//Rline[j][i].setAttribute("stroke-width", "3");
-				}
-			}
-		}
-		svg.onclick = function () {
-			circleArray[num].setAttribute('stroke-width', '3');
-			circleFlag[index] = 0;
-			
-			for (let j = 1; j <= stateNumber; j++) {
-				let forn = document.getElementById('f' + j);
-				//alert(foreign);
-				let txt = document.getElementById('t' + j);
-				if (forn) {
-					txt.innerHTML = forn.firstChild.value;
-					forn.parentNode.removeChild(forn);
-				}
-			}
-			this.onclick = null;
-		}
-		
-		//make table information for circles invisible
-		for (let i = 1; i <= stateNumber; i++) {
-			document.getElementById('table' + i).style.display = 'none';
-		}
-		document.getElementById('table' + index).style.display = 'inline-block';
-		
-		//make table information for lines invisible
-		for (let q = 1; q < lineFlag.length; q++) {
-			for (let t = 1; t <= lineFlag[q].length; t++) {
-				if (document.getElementById('table' + q + t)) {
-					document.getElementById('table' + q + t).style.display = 'none';
-				}
-			}
-		}
-		document.onmousemove = null;
-	}
+	newText.addEventListener('click', textClick);
+
 	//when double click the text, create the input frame
-	newText.ondblclick = function () {
-		document.onmousemove = null;
-		
-		var i = this.getAttribute('id').slice(1, this.getAttribute('id').length);
-		var cir = document.getElementById('c' + i);
-		var text = document.getElementById('t' + i);
-		
-		var x = cir.getAttribute('cx') - R + 5;
-		var y = cir.getAttribute('cy') - textFontSize / 2 - 8;
-		
-		for (let j = 1; j <= stateNumber; j++) {
-			let forn = document.getElementById('f' + j);
-			let txt = document.getElementById('t' + j);
-			if (forn && (j != i)) {
-				txt.innerHTML = forn.firstChild.value;
-				forn.parentNode.removeChild(forn);
-			}
-		}
-		
-		//avoid creating multiple inputFrame
-		if (document.getElementById('f' + i)) {
-			return;
-		}
-		
-		var foreign = createElem('foreignObject', {'id':'f' + i, 'x':x, 'y':y, 
-								 'width':'70', 'height':'30'});
-		foreign.innerHTML = "<input type='text' maxlength='6'/>";
-		svg.appendChild(foreign);
-		
-		//save the last value;
-		foreign.firstChild.value = text.innerHTML;
-		var tempText = text.innerHTML;
-		//temperorily set blank
-		text.innerHTML = '';
-		//show the cursor and select the value at the beginning
-		foreign.firstChild.focus();
-		foreign.firstChild.selectionStart = 0;
-		foreign.firstChild.selectionEnd = foreign.firstChild.value.length;
-		
-		//when click beyond the circles, delete the input frame
-		svg.onclick = function (event) {
-			event = event || window.event;
-			var svgLeft = getElementLeft(document.getElementById('svgContainer'));
-			var svgTop = getElementTop(document.getElementById('svgContainer'));
-			var dis = pointDistance(cir.getAttribute('cx'), cir.getAttribute('cy'), event.clientX-svgLeft, event.clientY-svgTop);
-			
-			if (dis > R) {
-				updateData();
-				if (foreign.firstChild.value.length === 0) {
-					text.innerHTML = tempText;
-				}
-				else {
-					text.innerHTML = foreign.firstChild.value;
-				}
-				// table.textName[i] = foreign.firstChild.value;
-				// table.textName.reverse().reverse();
-				
-				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
-				
-				// update reset
-				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
-
-				//change the stateName at line info table
-				for (let k = 1; k < lineFlag.length; k++) {
-					if (Tline[i][k] != 0) {
-						let lineinfo = document.getElementById('line' + i + k);
-						lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
-					}
-					if (Tline[k][i] != 0) {
-						let lineinfo = document.getElementById('line' + k + i);
-						lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
-						
-						let nextText = document.getElementById('circle' + k + i);
-						nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
-					}
-				}
-				
-				//console.log(table.textName[i]);
-				foreign.parentNode.removeChild(foreign);
-				this.onclick = null;//cancel this event everytime
-			}
-		}
-		
-		foreign.firstChild.onchange = function () {
-			var text = document.getElementById('t' + i);
-			if (this.value != '') {
-				updateData();
-				text.innerHTML = this.value;
-				// table.textName[i] = this.value;
-				// table.textName.reverse().reverse();
-				
-				document.getElementById('circle' + i).innerHTML = `${textArray[i].innerHTML}`;
-				
-				// update reset
-				document.getElementById('resetShow').innerHTML = `reset = 1 --> ${ textArray[i].innerHTML }`;
-
-				//change the stateName at line info table
-				for (let k = 1; k < lineFlag.length; k++) {
-					if (Tline[i][k] != 0) {
-						let lineinfo = document.getElementById('line' + i + k);
-						lineinfo.innerHTML = `${textArray[i].innerHTML} => ${textArray[k].innerHTML}`;
-					}
-					if (Tline[k][i] != 0) {
-						let lineinfo = document.getElementById('line' + k + i);
-						lineinfo.innerHTML = `${textArray[k].innerHTML} => ${textArray[i].innerHTML}`;
-						
-						let nextText = document.getElementById('circle' + k + i);
-						nextText.innerHTML = `=> ${textArray[i].innerHTML}`;
-					}
-				}
-				foreign.parentNode.removeChild(foreign);
-			}
-			else {
-				alert("please enter the value~");
-				this.focus();
-			}
-		}
-
-		updateData();
-	}
+	newText.addEventListener('dblclick', textDoubleClick);
 
 	updateData();
 }
@@ -1442,6 +1665,7 @@ function texBindDragEventById(id) {
 			   
 			   document.onmousemove = null;
 			   document.onmouseup = null;
+			   updateData();
 			}
 			return false;
 		}
@@ -1654,6 +1878,8 @@ function cirBindDragEventById(id) {
 		  // bigCircle.setAttribute("r", parseInt(BR));
 		  document.onmousemove = null;
 		  document.onmouseup = null;
+
+		  updateData();
 	  }
 	  return false;
 	}

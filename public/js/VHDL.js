@@ -57,7 +57,7 @@ let start = 0;
 let data = {};
 
 function updateData () {
-	console.log('updated!');
+	// console.log('updated!');
 	startState.filter((val, index) => {
 		if (val === 1) {
 			start = index;
@@ -127,17 +127,26 @@ function updateData () {
 		}
 	}
 
-	// let pathStr = [];
-	// for (let i = 0; i < Tline.length; i++) {
-	// 	pathStr[i] = new Array(Tline[i].length).fill(0);
+	let pathStr = [].fill(0);
+	for (let i = 0; i < Tline.length; i++) {
+		pathStr[i] = new Array(Tline[i].length).fill(0);
 
-	// 	for (let j = 0; j < Tline[i].length; j++) {
-	// 		if (Tline[i][j] != 0) {
-	// 			pathStr[i][j] = eleToString(Tline[i][j]);
-	// 		}
-	// 	}
-	// }
+		for (let j = 0; j < Tline[i].length; j++) {
+			if (Tline[i][j] != 0) {
+				pathStr[i][j] = eleToString(Tline[i][j]);
+			}
+		}
+	}
 
+	let circleStr = [].fill(null);
+	let bigCircleStr = [].fill(null);
+	let textStr = [].fill(null);
+	for (let i = 1; i <= stateNumber; i++) {
+		circleStr[i] = eleToString(circleArray[i]);
+		bigCircleStr[i] = eleToString(bigCircleArray[i]);
+		textStr[i] = eleToString(textArray[i]);
+	}
+	
 	// export the data
 	data = {
 		inputName: inputName,
@@ -160,9 +169,14 @@ function updateData () {
     	outputForEachTran: outputForEachTran,
 		stateNumber: stateNumber,
 		
-		// pathStr: pathStr,
+		pathStr: pathStr,
+		circleStr: circleStr,
+		bigCircleStr: bigCircleStr,
+		textStr: textStr,
+
 		Tline: Tline,
-		
+		selfLinkAngle: selfLinkAngle,
+
 		start: start
 	};
 	let storage = window.localStorage;
@@ -196,7 +210,7 @@ $('#VHDLBtn').click(function() {
 	
 	const $contentVHDL = $('.VHDL code');
 	
-	// updateData();
+	updateData();
 	//console.log(outputForEachTran)
 	
 	/**

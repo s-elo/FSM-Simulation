@@ -123,6 +123,7 @@ outputTo.onchange = function () {
 }
 
 /**************************after click step one button**********************/
+let updateFirstTime = 1;
 stepOne.onclick = function () {
 	if (entityNameId.value === '') {
 		alert('please give an name to this FSM');
@@ -349,7 +350,11 @@ stepOne.onclick = function () {
 			}
 		}
 		
-		updateData();
+		if (updateFirstTime) {
+			updateFirstTime = 0;
+		} else {
+			updateData();
+		}
 	}
 	
 }
