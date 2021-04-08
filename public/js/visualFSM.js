@@ -204,7 +204,8 @@ function initStateDiagram () {
 						const inputCondition = document.querySelector('#input' + i + j + (k + 1));
 
 						inputCondition.value = data.inputCondition[i][j][k];
-
+					}
+					for (let k = 0; k < data.outputNum; k++) {
 						const output = document.querySelector('#output' + i + j + (k + 1));
 
 						output.value = data.outputForEachTran[i][j][k];
