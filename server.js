@@ -4,7 +4,7 @@ const path = require("path");
 
 const server = express();
 
-const port = 5500;
+const port = 3000;
 
 server.use("/public/", express.static(path.join(__dirname, "./public/")));
 server.engine("html", require("express-art-template"));
