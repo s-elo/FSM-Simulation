@@ -12,6 +12,48 @@ body {
   margin-left: 70px;
   background-color: #e6e6e6;
 }
+
+.account-menu {
+  margin: 0 0 0 580px;
+}
+
+.user-info {
+  width: auto;
+  height: 25px;
+  color: #e6e6e6;
+  user-select: none;
+  cursor: pointer;
+  display: none;
+}
+.caret {
+  color: #e6e6e6;
+}
+.user-info-menu {
+  width: 70px;
+  height: 50px;
+  background-color: red;
+  display: none;
+}
+.without-login {
+  width: auto;
+  height: 25px;
+  color: #e6e6e6;
+  user-select: none;
+  cursor: pointer;
+  /* display: none; */
+}
+.sign-in {
+  margin: 0 15px 0 0;
+  color: #e6e6e6;
+  user-select: none;
+  cursor: pointer;
+}
+.sign-up {
+  color: #e6e6e6;
+  user-select: none;
+  cursor: pointer;
+}
+
 #editor {
   width: 1300px;
   height: 850px;

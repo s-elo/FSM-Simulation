@@ -22,9 +22,26 @@
 				  </div>
 				  <div id="navbar" class="collapse navbar-collapse">
 				    <ul class="nav navbar-nav">
-				      <li><a href="Instruction.html">Instruction</a></li>
+				      <li><a href="Instruction">Instruction</a></li>
 					  <li><a href="#">Introduction</a></li>
-				      <li><a href="design.html">Begin</a></li>
+				      <li><a href="design">Begin</a></li>
+
+					  <li class="account-menu">
+						 <a>
+							<div class="user-info">
+							  <span class="user-name">user name</span>
+							  <span class="caret"></span>
+							  <ul class="user-info-menu">
+								  <li>userName</li>
+							  </ul>
+						    </div>
+
+						    <div class="without-login">
+							  <span class="sign-in">Sign in</span>
+						  	  <span class="sign-up">Sign up</span>
+						    </div>
+						 </a>
+					  </li>
 				    </ul>
 				  </div><!--/.nav-collapse -->
 				</div>
@@ -204,56 +221,9 @@
 		<script src="../public/js/modules/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../public/js/modules/clipboard.js" type="text/javascript" charset="utf-8"></script>
 		
-		<script type="text/javascript">
-			/**
-			 * position for quickaccess
-			 */
-			$('.designPart').click(function() {
-				$('body, html').animate({
-					scrollTop: 0
-				}, 800);
-			})
-			
-			$('.codePart').click(function() {
-				$('body, html').animate({
-					scrollTop: $('.codeContainer').offset().top
-				}, 800);
-			})
-			
-			$('.simulPart').click(function() {
-				if (reminder()) return;
+		<script src="../public/js/design/preset.js"></script>
 
-				// get the data
-				updateData();
-
-				window.open('./simulator.html');
-			})
-
-			/** handle the nav collapse and open*/
-			// collapse or open the nav
-			$('.navbar-header button').click(() => {
-				console.log('click', $('.navbar-header button'));
-
-				let $btn = $('.navbar-header button');
-				let $navbar = $('#navbar');
-
-				// before click it is collapsed
-				if ($btn.hasClass('collapsed')) {
-					$btn.attr('aria-expanded', 'true');
-					$navbar.attr('aria-expanded', 'true');
-				}
-				// before click it is exspended
-				else {
-					$btn.attr('aria-expanded', 'false');
-					$navbar.attr('aria-expanded', 'false');
-				}
-
-				$navbar.toggleClass('in');
-				$btn.toggleClass('collapsed');
-			});
-
-		</script>
-		
+		<script src="../public/js/interceptor.js"></script>
 		<script src="../public/js/account.js"></script>
 		
 		<script src="../public/js/extends/colorControl.js"></script>

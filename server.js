@@ -15,16 +15,24 @@ server.get("/", (_, res) => {
   res.render("design.html");
 });
 
-server.get("/design.html", (_, res) => {
+server.get("/design", (_, res) => {
   res.render("design.html");
 });
 
-server.get("/Instruction.html", (_, res) => {
+server.get("/Instruction", (_, res) => {
   res.render("Instruction.html");
 });
 
-server.get("/simulator.html", (_, res) => {
+server.get("/simulator", (_, res) => {
   res.render("simulator.html");
+});
+
+server.get("/register", (_, res) => {
+  res.render("register.html");
+});
+
+server.get("/login", (_, res) => {
+  res.render("login.html");
 });
 
 server.listen(port, function () {

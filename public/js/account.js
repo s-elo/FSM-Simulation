@@ -1,19 +1,41 @@
-async function register(loginParams) {
-  const a = await $.ajax({
-    url: "http://localhost:8089/register",
+async function register(params) {
+  return (res = await $.ajax({
+    url: "/register",
     type: "POST",
     dataType: "json",
-    data: { ...loginParams },
+    data: { ...params },
   }).error((err) => {
-    console.log(err);
-  });
-
-  console.log(a);
-  //   console.log(JSON.parse(a.data));
+    throw err;
+  }));
 }
 
-register({
-  accountName: "test2",
-  password: "123",
-  email: "leo@qq.com",
-});
+async function login(params) {
+  const res = await $.ajax({
+    url: "/login",
+    type: "POST",
+    dataType: "json",
+    data: { ...params },
+  }).error((err) => {
+    throw err;
+  });
+
+  if (res.status === 0) {
+    localStorage.setItem("token", res.token);
+    window.location.href = "design";
+  } else {
+    alert(res.message);
+  }
+}
+
+async function getUserInfo(token) {}
+
+// register({
+//   accountName: "test1",
+//   password: "1234",
+//   email: "pit@qq.com",
+// });
+
+// login({
+//   accountName: "test2",
+//   password: "123",
+// });
