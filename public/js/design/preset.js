@@ -1,18 +1,26 @@
 // handle user info box
 const $userInfo = $(".user-info");
+const $userName = $(".user-name");
 const $menu = $(".user-info-menu");
 const $signUp = $(".sign-up");
 const $signIn = $(".sign-in");
 const $withoutLogin = $(".without-login");
-const token = localStorage.getItem("token");
+const $loginOut = $(".login-out");
 
-$userInfo.click(() => {
-  const display = $menu.css("display");
+const accountInfo = {};
 
-  $menu.css({
-    display: display === "none" ? "block" : "none",
-  });
-});
+$userInfo.hover(
+  () => {
+    $menu.css({
+      display: "block",
+    });
+  },
+  () => {
+    $menu.css({
+      display: "none",
+    });
+  }
+);
 
 $signUp.click(() => {
   window.location.href = "register";
@@ -22,14 +30,43 @@ $signIn.click(() => {
   window.location.href = "login";
 });
 
-if (token) {
-  $userInfo.css({
-    display: "block",
-  });
+$loginOut.click(() => {
+  localStorage.removeItem("token");
+  verifyToken();
+});
 
-  $withoutLogin.css({
-    display: "none",
-  });
+verifyToken();
+async function verifyToken() {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    // switch the status
+    $userInfo.css({
+      display: "block",
+    });
+
+    $withoutLogin.css({
+      display: "none",
+    });
+
+    // get user info
+    const userInfo = await getUserInfo();
+    for (const key in userInfo) {
+      accountInfo[key] = userInfo[key];
+    }
+
+    const { accountName } = userInfo;
+    $userName.html(accountName);
+  } else {
+    // switch the status
+    $userInfo.css({
+      display: "none",
+    });
+
+    $withoutLogin.css({
+      display: "block",
+    });
+  }
 }
 
 /**

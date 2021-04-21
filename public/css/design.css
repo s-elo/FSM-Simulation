@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+li {
+  list-style: none;
+}
 body {
   background-color: #e6e6e6;
 }
@@ -29,11 +32,31 @@ body {
   color: #e6e6e6;
 }
 .user-info-menu {
-  width: 70px;
-  height: 50px;
-  background-color: red;
+  width: 100px;
+  height: auto;
+  background-color: #e6e6e6;
   display: none;
+  color: black;
+  padding: 5px;
 }
+.user-info-menu li {
+  margin: 5px auto;
+  text-align: center;
+  border-bottom: 1px solid black;
+  border-radius: 5px 5px 0 0;
+}
+.user-info-menu li:hover {
+  background-color: rgb(165, 158, 158);
+}
+.login-out {
+  text-align: center;
+  font-weight: bold;
+  border-radius: 5px;
+}
+.login-out:hover {
+  background-color: rgb(165, 158, 158);
+}
+
 .without-login {
   width: auto;
   height: 25px;

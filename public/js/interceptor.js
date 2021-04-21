@@ -5,7 +5,7 @@ $.ajaxSetup({
       if (token) {
         xhr.setRequestHeader("authorization", token);
       } else {
-        alert("You need to login again!");
+        alert("You need to login!");
       }
     }
 
@@ -13,4 +13,11 @@ $.ajaxSetup({
     // allow cross origin...
     config.crossDomain = true;
   },
+});
+
+$(document).ajaxSuccess((event, xhr, config) => {
+  const { errStatus, message } = xhr.responseJSON;
+  if (errStatus) {
+    alert(message);
+  }
 });

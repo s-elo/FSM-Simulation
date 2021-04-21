@@ -19,23 +19,28 @@ async function login(params) {
     throw err;
   });
 
-  if (res.status === 0) {
+  if (res.errStatus === 0) {
+    if (localStorage.getItem("token")) {
+      localStorage.removeItem("token");
+    }
+
     localStorage.setItem("token", res.token);
     window.location.href = "design";
-  } else {
-    alert(res.message);
   }
 }
 
-async function getUserInfo(token) {}
+async function getUserInfo() {
+  const res = await $.ajax({
+    url: "/userInfo",
+    dataType: "json",
+    type: "GET",
+  }).error((err) => {
+    throw err;
+  });
 
-// register({
-//   accountName: "test1",
-//   password: "1234",
-//   email: "pit@qq.com",
-// });
-
-// login({
-//   accountName: "test2",
-//   password: "123",
-// });
+  if (res.errStatus === 1) {
+    window.location.href = "login";
+  } else {
+    return res.userInfo;
+  }
+}
