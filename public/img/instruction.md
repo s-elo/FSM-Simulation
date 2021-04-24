@@ -114,7 +114,7 @@ After you have set all the necessary parameters, it means you have designed and 
 
 ​	If your FSM has multiple input signals, they will list in the same order you type in the design part. The signals in the system is divided into two kinds, one bit signal and multiple bits signal. The system has one limit that all the input or the output signals are the same kind. But this doesn't have big effect on the design because one bit signal can be  expressed by multiple bits signal by adding disused bits. One bit signals and multiple bits signals are displayed in different ways. For one bit signal, it only has two values, 0 or 1, so it can be displayed as square wave. For multiple bits signal, they are displayed by two parallel lines which will have overlapping at the interface of two periods if ang change happens here. The example is shown in the figure below where the multiple bits signal has two bits.
 
-![display of inputs](E:\learn\NUS\FYP\FSM Simulation1\img\display of inputs.png)
+![display of inputs](D:\NUSRI\instruction\display of inputs.png)
 
 #### 3.3.2 Change the Input Value
 
@@ -124,21 +124,21 @@ After you have set all the necessary parameters, it means you have designed and 
 
 ​	As mentioned before, the one bit input signal only has two possible values, 0 or 1. So the user can switch the value to the other by clicking your mouse one time. All the one bit input signals are originally set as 1 during all 20 periods at the beginning. If you want to change the value of one bit input signal one period by one period, firstly, you have to check the changing mode right now. The default changing mode is changing one period mode. At this mode, you just need to click your mouse at the corresponding position of the period. The change process is shown as below. In this figure, the red circle shows the position of clicking.
 
-![one bit one period](E:\learn\NUS\FYP\FSM Simulation1\img\one bit one period.png)
+![one bit one period](D:\NUSRI\instruction\one bit one period.png)
 
 ​	If you want to change the change the values of adjacent multiple periods together, firstly, you have to clicking the changing mode switching button at the top of the simulator. After making sure that the simulator is working at multiple periods changing mode, you need to choose the starting period and the end period of the multiple adjacent multiple periods of which you want to change the values. The method of choosing the period is the same as how you change the value of one period. And you can also change the value of one period in the multiple periods changing mode by clicking one period twice. The changing process is shown as below. In this figure, the red circle shows the position of clicking.
 
-![one bit multiple periods](E:\learn\NUS\FYP\FSM Simulation1\img\one bit multiple periods.png)
+![one bit multiple periods](D:\NUSRI\instruction\one bit multiple periods.png)
 
 ​	In the multiple periods changing mode, the order of your first and second clicking has no effect on the final result of changing. And if you make a mistake clicking or regret the changing plan after the first clicking, you only need to click the cancel button at  the same position of the changing mode switch button. You can find that after your first clicking, the changing mode switching button will turn to the cancel button. And after you finish the changing work, it will turn back to the changing mode switching button as the figure below.
 
-![the button](E:\learn\NUS\FYP\FSM Simulation1\img\the button.png)
+![the button](D:\NUSRI\instruction\the button.png)
 
 ##### 3.3.2.2 Change the Multiple Bits Input
 
 ​		The method of choosing the one period or multiple periods you of which you want to change the values for the multiple bits input is the same as that for one bit input by clicking. The only difference is the method to giving the values. For one bit input, it only has two possible values, but for multiple bits input, it has many possible values. The simulator allows the users to type the values they want directly after choosing the periods. After choosing the period by clicking, a window will jump out for you to type the value you want. The process is shown in the figure below.
 
-![multiple bits](E:\learn\NUS\FYP\FSM Simulation1\img\multiple bits.png)
+![multiple bits](D:\NUSRI\instruction\multiple bits.png)
 
 ​	It should be noted that all the multiple bits input signals are originally set as 0 during all 20 periods at the beginning. And if you choose multiple periods changing mode, the values of the periods you have chosen will become the same as the value you have typed. And this is different from the situation in the one bit input which will switch to the other value rater than becoming the same. Other operations in the multiple periods changing mode are the same as those in the one period changing mode.
 

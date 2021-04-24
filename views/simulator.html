@@ -21,16 +21,34 @@ console.log(simulData);
 /******************data above***********/
 var changingflag= new Number();
 changingflag=0;
-function switchmode(){
+function switchmode1(){
 	element=document.getElementById("button1");
 	if(element.innerHTML.match("one")){
 		element.innerHTML="change mutiple periods";
+	}
+	else if(element.innerHTML.match("mutiple") && changingflag==1){
+		element.innerHTML="change mutiple periods";
+		changingflag=0;
 	}
 	else{
 		element.innerHTML="change one period";
 		changingflag=0;
 	}
 }
+function switchmode2(){
+	element=document.getElementById("switch");
+	if(element.innerHTML.match("cancel")){
+		element.innerHTML="switch changing mode";
+	}
+}
+function switchmode(){
+	switchmode1();
+	switchmode2();
+}
+// function cancelmode(){
+// 	element=document.getElementById("switch");
+// 	if()
+// }
 
 //按键功能
 class Pos{
@@ -287,7 +305,7 @@ function drawState(color, linewidth){
 	ctx.font = "30px serif";
 	ctx.strokeStyle = color;
 	ctx.fillStyle = color;
-	ctx.fillText("nowState", 50, 100);
+	ctx.fillText("currentState", 0, 100);
 	ctx.lineWidth = linewidth;
 	ctx.setLineDash([]);
 	ctx.moveTo(200,65);
@@ -544,11 +562,13 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 					else if(mode=="change mutiple periods"){
 						console.log('mode: ', mode)
 						
+						element=document.getElementById("switch");
 						if(changingflag==0){
 							console.log('changingflag1: ', changingflag)
 							if(e.layerX >= 200){
 								startAndEndArr[0] = Math.floor((e.layerX - 200) / 70);
 								changingflag=1;
+								element.innerHTML="cancel";
 							}
 						}
 						else if(changingflag==1){
@@ -583,6 +603,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 										}
 								}
 								changingflag=0;
+								element.innerHTML="switch changing mode";
 					}
 					drawInput('black', 2);
 					drawOutputName();
@@ -635,11 +656,13 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 			else if(mode=="change mutiple periods"){
 						console.log('mode: ', mode)
 						
+						element=document.getElementById("switch");
 						if(changingflag==0){
 							console.log('changingflag1: ', changingflag)
 							if(e.layerX >= 200){
 								startAndEndArr[0] = Math.floor((e.layerX - 200) / 70);
 								changingflag=1;
+								element.innerHTML="cancel";
 							}
 						}
 						else if(changingflag==1){
@@ -690,6 +713,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 										}
 								}
 								changingflag=0;
+								element.innerHTML="switch changing mode";
 					}
 					drawInput('black', 2);
 					drawOutputName();
