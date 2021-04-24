@@ -76,51 +76,51 @@ for (let i = 0; i < outputNum; i++) {
 const period = 20;
 const width = 4, interval = 3;
 var inputvale= new Array(inputNum);
-for(var i=0;i<inputNum;i++){
+for(let i=0;i<inputNum;i++){
 	inputvale[i]=new Array(period);
 	if(inputTypeVal[i]=="bit"){
-		for(var j=0;j<period;j++){
+		for(let j=0;j<period;j++){
 			inputvale[i][j]="1";
 		}
 	}
 	else{
-		for(var j=0;j<period;j++){
+		for(let j=0;j<period;j++){
 			inputvale[i][j]="0";
-			for(var k=0;k<inputFromVal[i];k++)
+			for(let k=0;k<inputFromVal[i];k++)
 			inputvale[i][j]=inputvale[i][j]+"0";
 		}
 	}
 	
 }
 var indiction={};
-for(var i=0;i<inputNum;i++){
+for(let i=0;i<inputNum;i++){
 	indiction[inputName[i]]=inputvale[i];
 }
 //设置字典存放输入变量值-保留
 var outputvale= new Array(outputNum);
-for(var i=0;i<outputNum;i++){
+for(let i=0;i<outputNum;i++){
 	outputvale[i]=new Array(period);
 	if(outputTypeVal[i]=="bit"){
-		for(var j=0;j<period;j++){
+		for(let j=0;j<period;j++){
 			outputvale[i][j]="0";
 		}
 	}
 	else{
-		for(var j=0;j<period;j++){
+		for(let j=0;j<period;j++){
 			outputvale[i][j]="0";
-			for(var k=0;k<outputFromVal[i];k++)
+			for(let k=0;k<outputFromVal[i];k++)
 			outputvale[i][j]=outputvale[i][j]+"0";
 		}
 	}
 	
 }
 var outdiction={};
-for(var i=0;i<outputNum;i++){
+for(let i=0;i<outputNum;i++){
 	outdiction[outputName[i]]=outputvale[i];
 }
 //设置字典存放输出变量值-保留
 var statediction= new Array(period);
-for(i=0;i<period;i++){
+for(let i=0;i<period;i++){
 	statediction[i]=startState;
 }
 //设置存放每个周期当前状态的数组
@@ -135,18 +135,18 @@ outputorig[0]="00";
 </script>
 <script>
 	function canvasInit(){//初始化画布
-		var output = document.getElementById("output");
-	    for(var i=0;i<outputNum;i++) {
-	        var c = document.createElement("canvas");
+		let output = document.getElementById("output");
+	    for(let i=0;i<outputNum;i++) {
+	        let c = document.createElement("canvas");
 	        output.appendChild(c);
 	        c.id = "output" + i.toString();
 	        c.width = "1800";
 	        c.height = "120";
 	    }//初始化绘制所有输出需要的画布
 	
-	    var input = document.getElementById("input");
-	    for(var i=0;i<inputNum;i++){
-	        var c = document.createElement("canvas");
+	    let input = document.getElementById("input");
+	    for(let i=0;i<inputNum;i++){
+	        let c = document.createElement("canvas");
 	        input.appendChild(c);
 	        c.id="input" + i.toString();
 	        c.width = "1800";
@@ -154,8 +154,8 @@ outputorig[0]="00";
 	    }//初始化绘制所有输入变量需要的画布
 	}
 	function drawTime(color, linewidth) {//绘制时间刻度的图形
-	    var canvas, ctx, t;
-	    for(var i=0; i<period; i++)
+	    let canvas, ctx, t;
+	    for(let i=0; i<period; i++)
 	    {
 	        canvas = document.getElementById('canvasTime');
 	        ctx = canvas.getContext('2d');
@@ -172,7 +172,7 @@ outputorig[0]="00";
 	    ctx.stroke();
 	}
 	function drawClk(color, linewidth) {//绘制整个clk的图形
-	    var canvas, ctx;
+	    let canvas, ctx;
 	    canvas = document.getElementById('canvasCLK');
 	    ctx = canvas.getContext('2d');
 	    ctx.beginPath();
@@ -182,7 +182,7 @@ outputorig[0]="00";
 	    ctx.moveTo(200, 100);
 	    ctx.setLineDash([]);
 
-	    for(var i=1;i<=period * 2;i+=2)
+	    for(let i=1;i<=period * 2;i+=2)
 	    {
 	        ctx.lineTo(200+i*35, 100);
 	        ctx.lineTo(200+i*35, 65);
@@ -194,18 +194,18 @@ outputorig[0]="00";
 	}
 	function drawInput(color, linewidth)//绘制所有输入变量的图形
 	{
-	    var canvas = new Array(inputNum);
-	    var ctx = new Array(inputNum);
-	    var pos = new Array(inputNum);
+	    let canvas = new Array(inputNum);
+	    let ctx = new Array(inputNum);
+	    let pos = new Array(inputNum);
 	    
-	    for(var i=0; i<inputNum;i++){
+	    for(let i=0; i<inputNum;i++){
 	        canvas[i] = document.getElementById('input' + i.toString());
 	        ctx[i] = canvas[i].getContext('2d');
 	        ctx[i].beginPath();
 	        ctx[i].font = "30px serif";
 	        ctx[i].strokeStyle = color;
 	        ctx[i].fillStyle = color;
-	        var inp = inputName[i];
+	        let inp = inputName[i];
 	        ctx[i].fillText(inp, 50, 100);
 	        ctx[i].lineWidth = linewidth;
 			ctx[i].setLineDash([]);
@@ -214,7 +214,7 @@ outputorig[0]="00";
 	        ctx[i].moveTo(pos[i].x, pos[i].y);
 	        pos[i].x += 70;
 	        ctx[i].lineTo(pos[i].x, pos[i].y);
-	        for(var j=1;j<period;j++){
+	        for(let j=1;j<period;j++){
 	            if(indiction[inp][j] != indiction[inp][j-1]){
 	                if(indiction[inp][j] > indiction[inp][j-1]){
 	                    pos[i].y -= 35;
@@ -239,13 +239,13 @@ outputorig[0]="00";
 			ctx[i].lineTo(260,65);
 			ctx[i].moveTo(200,100);
 			ctx[i].lineTo(260,100);
-			for(var j=1;j<period;j++){
+			for(let j=1;j<period;j++){
 				ctx[i].moveTo(280+(j-1)*70,65);
 				ctx[i].lineTo(260+j*70,65);
 				ctx[i].moveTo(280+(j-1)*70,100);
 				ctx[i].lineTo(260+j*70,100);
 			}
-			for(var m=1;m<period;m++){
+			for(let m=1;m<period;m++){
 				if(indiction[inp][m] != indiction[inp][m-1]){
 				ctx[i].moveTo(260+(m-1)*70,65);
 				ctx[i].lineTo(280+(m-1)*70,100);
@@ -259,7 +259,7 @@ outputorig[0]="00";
 				ctx[i].lineTo(280+(m-1)*70,100);
 				}
 			}
-			for(var n=0;n<period;n++){
+			for(let n=0;n<period;n++){
 				ctx[i].fillText(indiction[inp][n], 225-(inputFromVal[i]*10)+n*70, 90);
 			}
 	        ctx[i].stroke();
@@ -268,8 +268,8 @@ outputorig[0]="00";
 		}
 	}
 	function drawOutputName(){//绘制所有状态的名称
-	    var canvas, ctx;
-	    for(var i=0;i<outputNum;i++)
+	    let canvas, ctx;
+	    for(let i=0;i<outputNum;i++)
 	    {
 	        canvas = document.getElementById('output' + i.toString());
 	        ctx = canvas.getContext('2d');
@@ -280,7 +280,7 @@ outputorig[0]="00";
 	}
 	
 function drawState(color, linewidth){
-	var canvas, ctx;
+	let canvas, ctx;
 	canvas = document.getElementById('canvasState');
 	ctx = canvas.getContext('2d');
 	ctx.beginPath();
@@ -294,18 +294,21 @@ function drawState(color, linewidth){
 	ctx.lineTo(260,65);
 	ctx.moveTo(200,100);
 	ctx.lineTo(260,100);
-	for(var j=1;j<period;j++){
+	for(let j=1;j<period;j++){
 		ctx.moveTo(280+(j-1)*70,65);
 		ctx.lineTo(260+j*70,65);
 		ctx.moveTo(280+(j-1)*70,100);
 		ctx.lineTo(260+j*70,100);
 	}
-	var flag= new Number();
-	for(var i=1;i<period;i++){
-		for(var j=0;j<stateNumber;j++){
+	let flag= new Number();
+	for(let i=1;i<period;i++){
+		for(let j=0;j<stateNumber;j++){
 			flag=1;
-			for(var k=0;k<inputNum;k++){
+			for(let k=0;k<inputNum;k++){
 				if(indiction[inputName[k]][i-1]==inputCondition[statediction[i-1]+1][j+1][k]){
+					flag=flag*1;
+				}
+				else if(inputCondition[statediction[i-1]+1][j+1][k]=="X"){
 					flag=flag*1;
 				}
 				else{
@@ -314,7 +317,7 @@ function drawState(color, linewidth){
 			}
 			if(flag==1){
 				statediction[i]=j;
-				for(var m=0;m<outputNum;m++){
+				for(let m=0;m<outputNum;m++){
 					outdiction[outputName[m]][i]=outputForEachTran[statediction[i-1]+1][j+1][m];
 				}
 				break;
@@ -325,7 +328,7 @@ function drawState(color, linewidth){
 			}
 		}
 	}
-	for(var i=1;i<period;i++){
+	for(let i=1;i<period;i++){
 		if(statediction[i] != statediction[i-1]){
 		ctx.moveTo(260+(i-1)*70,65);
 		ctx.lineTo(280+(i-1)*70,100);
@@ -340,7 +343,7 @@ function drawState(color, linewidth){
 		}
 	}
 	ctx.font="15px serif";
-	for(var i=0;i<period;i++){
+	for(let i=0;i<period;i++){
 		ctx.fillText(simulData.stateName[statediction[i]], 210+i*70, 90);
 	}
 	ctx.stroke();
@@ -357,18 +360,18 @@ function drawState(color, linewidth){
 	
 function drawOutput(color, linewidth)//绘制所有状态的图像
     {//参数的意义从左到右依次为：线条颜色，线条宽度，初始状态，初始时间，有限状态机。
-        var canvas = new Array(outputNum);
-        var ctx = new Array(outputNum);
-        var pos = new Array(outputNum);
+        let canvas = new Array(outputNum);
+        let ctx = new Array(outputNum);
+        let pos = new Array(outputNum);
         
-        for(var i=0; i<outputNum;i++){
+        for(let i=0; i<outputNum;i++){
             canvas[i] = document.getElementById('output' + i.toString());
             ctx[i] = canvas[i].getContext('2d');
             ctx[i].beginPath();
             ctx[i].font = "30px serif";
             ctx[i].strokeStyle = color;
             ctx[i].fillStyle = color;
-            var outp = outputName[i];
+            let outp = outputName[i];
             ctx[i].fillText(outp, 50, 100);
             ctx[i].lineWidth = linewidth;
 			ctx[i].setLineDash([]);
@@ -377,7 +380,7 @@ function drawOutput(color, linewidth)//绘制所有状态的图像
 			ctx[i].moveTo(pos[i].x, pos[i].y);
 			pos[i].x += 70;
 			ctx[i].lineTo(pos[i].x, pos[i].y);
-			for(var j=1;j<period;j++){
+			for(let j=1;j<period;j++){
 			    if(outdiction[outp][j] != outdiction[outp][j-1]){
 			        if(outdiction[outp][j] > outdiction[outp][j-1]){
 			            pos[i].y -= 35;
@@ -402,13 +405,13 @@ function drawOutput(color, linewidth)//绘制所有状态的图像
 			ctx[i].lineTo(260,65);
 			ctx[i].moveTo(200,100);
 			ctx[i].lineTo(260,100);
-			for(var j=1;j<period;j++){
+			for(let j=1;j<period;j++){
 				ctx[i].moveTo(280+(j-1)*70,65);
 				ctx[i].lineTo(260+j*70,65);
 				ctx[i].moveTo(280+(j-1)*70,100);
 				ctx[i].lineTo(260+j*70,100);
 			}
-			for(var m=1;m<period;m++){
+			for(let m=1;m<period;m++){
 				if(outdiction[outp][m] != outdiction[outp][m-1]){
 				ctx[i].moveTo(260+(m-1)*70,65);
 				ctx[i].lineTo(280+(m-1)*70,100);
@@ -422,7 +425,7 @@ function drawOutput(color, linewidth)//绘制所有状态的图像
 				ctx[i].lineTo(280+(m-1)*70,100);
 				}
 			}
-			for(var n=0;n<period;n++){
+			for(let n=0;n<period;n++){
 				ctx[i].fillText(outdiction[outp][n], 225-(outputFromVal[i]*10)+n*70, 90);
 			}
 			ctx[i].stroke();
@@ -431,15 +434,15 @@ function drawOutput(color, linewidth)//绘制所有状态的图像
     }
 function drawLineDash(ctx, start, end) {//绘制虚线
 	    ctx.setLineDash([width, interval]);
-	    for(var i=0;i<period;i++){
+	    for(let i=0;i<period;i++){
 	        ctx.moveTo(200+i*70,start);
 	        ctx.lineTo(200+i*70,end);
 	    }
 	    ctx.stroke();
 	}
 function drawGrid(){//绘制整张图的虚线
-        var canvas = document.getElementById('canvasTime');
-        var ctx = canvas.getContext('2d');
+        let canvas = document.getElementById('canvasTime');
+        let ctx = canvas.getContext('2d');
         ctx.lineWidth = 2;
         drawLineDash(ctx, 100, 120);
         canvas = document.getElementById('canvasCLK');
@@ -450,13 +453,13 @@ function drawGrid(){//绘制整张图的虚线
 		ctx = canvas.getContext('2d');
 		ctx.lineWidth = 2;
 		drawLineDash(ctx, 0, 120);
-		for(var i=0;i<inputNum;i++){
+		for(let i=0;i<inputNum;i++){
 		    canvas = document.getElementById('input'+i.toString());
 		    ctx = canvas.getContext('2d');
 		    ctx.lineWidth = 2;
 		    drawLineDash(ctx, 0, 120);
 		}
-		for(var i=0;i<outputNum;i++){
+		for(let i=0;i<outputNum;i++){
 		    canvas = document.getElementById('output'+i.toString());
 		    ctx = canvas.getContext('2d');
 		    ctx.lineWidth = 2;
@@ -464,18 +467,18 @@ function drawGrid(){//绘制整张图的虚线
 		}
     }
 function drawGridInOut(){
-	var canvas, ctx;
+	let canvas, ctx;
 	canvas = document.getElementById('canvasState');
 	ctx = canvas.getContext('2d');
 	ctx.lineWidth = 2;
 	drawLineDash(ctx, 0, 120);
-	for(var i=0;i<inputNum;i++){
+	for(let i=0;i<inputNum;i++){
 		   canvas = document.getElementById('input'+i.toString());
 		   ctx = canvas.getContext('2d');
 		   ctx.lineWidth = 2;
 		   drawLineDash(ctx, 0, 120);
 	}
-	for(var i=0;i<outputNum;i++){
+	for(let i=0;i<outputNum;i++){
 		   canvas = document.getElementById('output'+i.toString());
 		   ctx = canvas.getContext('2d');
 		   ctx.lineWidth = 2;
@@ -484,16 +487,16 @@ function drawGridInOut(){
 }
 
 function clearCanvas(){
-	var canvas, ctx;
+	let canvas, ctx;
 	canvas = document.getElementById('canvasState');
 	ctx = canvas.getContext('2d');
 	canvas.height=canvas.height;
-	for(var i=0;i<inputNum;i++){
+	for(let i=0;i<inputNum;i++){
 		   canvas = document.getElementById('input'+i.toString());
 		   ctx = canvas.getContext('2d');
 		   canvas.height=canvas.height;
 	}
-	for(var i=0;i<outputNum;i++){
+	for(let i=0;i<outputNum;i++){
 		   canvas = document.getElementById('output'+i.toString());
 		   ctx = canvas.getContext('2d');
 		   canvas.height=canvas.height;
@@ -513,20 +516,20 @@ function clearCanvas(){
 let startAndEndArr = [0, 0];
 
 function bindInputCLick(){//将输入变量的部分添加点击判定，使其改变图像
-        for(var i=0;i<inputNum;i++){
-            var index = i;
-            var canvas = document.getElementById('input' + i.toString());
-            var ctx = canvas.getContext('2d');
+        for(let i=0;i<inputNum;i++){
+            let index = i;
+            let canvas = document.getElementById('input' + i.toString());
+            let ctx = canvas.getContext('2d');
 			
             canvas.addEventListener('click', function(e){
-				var mode=document.getElementById("button1").innerHTML;
+				let mode=document.getElementById("button1").innerHTML;
 				if(inputTypeVal[index]=="bit"){
 					if(mode=="change one period"){
 						console.log('mode: ', mode)
 						
 						clearCanvas();
 						if(e.layerX >= 200){
-						    var p = Math.floor((e.layerX - 200) / 70);
+						    let p = Math.floor((e.layerX - 200) / 70);
 						    if(indiction[inputName[index]][p] == 1)
 						        indiction[inputName[index]][p] = 0;
 						    else
@@ -589,31 +592,117 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 				}
             }
 			}
+			else{
+			if(mode=="change one period"){
+				console.log('mode: ', mode)
+				let judgeflag=new Number;
+				judgeflag=1;
+				let newvalue=prompt("type the new value","");
+				console.log(typeof newvalue, newvalue,newvalue.length);
+				let vlength=new Number;
+				vlength=newvalue.length;
+				console.log(vlength,inputFromVal[index]);
+				if((vlength-1)==inputFromVal[index]){
+					for(let j=0;j<vlength;j++){
+						if(newvalue[j]=="0"||newvalue[j]=="1"){
+							judgeflag=judgeflag*1;
+						}
+						else{
+							judgeflag=judgeflag*0;
+						}
+					}
+					if(judgeflag==0){
+						alert("type the right fomat of the vaule (only '0' or '1')");
+					}
+				}
+				else{
+					judgeflag=judgeflag*0;
+					alert("the length of newvalue is wrong");
+				}
+				if(judgeflag==1){
+				clearCanvas();
+				if(e.layerX >= 200){
+				    let p = Math.floor((e.layerX - 200) / 70);
+				        indiction[inputName[index]][p] =newvalue;
+				}
+				drawInput('black', 2);
+				drawOutputName();
+				drawState('black', 2);
+				drawOutput('black', 2);
+				drawGridInOut();
+				}
+			}
+			else if(mode=="change mutiple periods"){
+						console.log('mode: ', mode)
+						
+						if(changingflag==0){
+							console.log('changingflag1: ', changingflag)
+							if(e.layerX >= 200){
+								startAndEndArr[0] = Math.floor((e.layerX - 200) / 70);
+								changingflag=1;
+							}
+						}
+						else if(changingflag==1){
+							console.log('changingflag2: ', changingflag)
+							let judgeflag=new Number;
+							judgeflag=1;
+							let newvalue=prompt("type the new value","");
+							console.log(typeof newvalue, newvalue,newvalue.length);
+							let vlength=new Number;
+							vlength=newvalue.length;
+							console.log(vlength,inputFromVal[index]);
+							if((vlength-1)==inputFromVal[index]){
+								for(let j=0;j<vlength;j++){
+									if(newvalue[j]=="0"||newvalue[j]=="1"){
+										judgeflag=judgeflag*1;
+									}
+									else{
+										judgeflag=judgeflag*0;
+									}
+								}
+								if(judgeflag==0){
+									alert("type the right fomat of the vaule (only '0' or '1')");
+								}
+							}
+							else{
+								judgeflag=judgeflag*0;
+								alert("the length of newvalue is wrong");
+							}
+							if(judgeflag==1){
+							clearCanvas();
+							if(e.layerX >= 200){
+								startAndEndArr[1] = Math.floor((e.layerX - 200) / 70);
+								
+								let [p1, p2] = startAndEndArr;
+								console.log(p1, p2)
+								
+								if(p1==p2){
+									    indiction[inputName[index]][p1] =newvalue;
+								}
+								else if(p1<p2){
+									for(p1;p1<=p2;p1++){
+									    indiction[inputName[index]][p1] = newvalue;
+										}
+								}
+								else{
+									for(p2;p2<=p1;p2++){
+									    indiction[inputName[index]][p2] = newvalue;
+										}
+								}
+								changingflag=0;
+					}
+					drawInput('black', 2);
+					drawOutputName();
+					drawState('black', 2);
+					drawOutput('black', 2);
+					drawGridInOut();
+					}
+				}
+			}
+			}
 			}, false)
         }
 }
-// function bindInputCLick(){//将输入变量的部分添加点击判定，使其改变图像
-//         for(var i=0;i<inputNum;i++){
-//             var index = i;
-//             var canvas = document.getElementById('input' + i.toString());
-//             var ctx = canvas.getContext('2d');
-//             canvas.addEventListener('click', function(e){
-//                 clearCanvas();
-//                 if(e.layerX >= 200){
-//                     var p = Math.floor((e.layerX - 200) / 70);
-//                     if(indiction[inputName[index]][p] == 1)
-//                         indiction[inputName[index]][p] = 0
-//                     else
-//                         indiction[inputName[index]][p] = 1
-//                 }
-//              drawInput('black', 2);
-// 				drawOutputName();
-// 				drawState('black', 2);
-// 				drawOutput('black', 2);
-// 				drawGridInOut();
-//             }, false)
-//         }
-//     }
 </script>
 
 <script>

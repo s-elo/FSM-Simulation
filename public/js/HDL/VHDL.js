@@ -712,6 +712,7 @@ $("#VHDLBtn").click(function () {
 /**
  * see if the params has been set
  * return true means can not generate and simulate
+ * otherwise return undefine
  */
 function reminder() {
   // left params
@@ -723,11 +724,11 @@ function reminder() {
     return true;
   }
   for (let i = 1; i <= stateNumber; i++) {
-    var f = 1;
+    let f = 1;
     for (let j = 1; j <= stateNumber; j++) {
       if (Tline[i][j] != 0) {
         f = 0;
-        continue;
+        break;
       }
     }
     if (f) {
@@ -736,8 +737,8 @@ function reminder() {
     }
   }
 
-  var inputNum = parseInt($("#inputNumber").val());
-  var inputCondition = [];
+  let inputNum = parseInt($("#inputNumber").val());
+  let inputCondition = [];
   for (let i = 0; i < Tline.length; i++) {
     inputCondition[i] = new Array(Tline[i].length);
 
@@ -754,7 +755,7 @@ function reminder() {
 
   // inputs of each transition must be different
   for (let i = 1; i <= stateNumber; i++) {
-    var cnt = 0;
+    let cnt = 0;
     for (let j = 1; j <= stateNumber; j++) {
       if (Tline[i][j] != 0) {
         cnt++;
@@ -763,16 +764,38 @@ function reminder() {
       }
     }
 
+    //when there are at least two transitions
     if (cnt > 1) {
       if (isElementEqual(inputCondition[i])) {
         alert("inputs of each transition must be different");
         return true;
       }
+
+      // see if there a transition with all 'X' when more than one transition
+      for (let j = 1; j < stateNumber; j++) {
+        if (Tline[i][j] != 0) {
+          if (isAllX(inputCondition[i][j])) {
+            alert(`${$("#t" + i).html()} should not have a 'X' transition`);
+            return true;
+          }
+        }
+      }
+
+      // see if there are transitions with same conditions
+      if (hasSameElement(inputCondition[i])) {
+        alert(
+          `the transitions of ${$(
+            "#t" + i
+          ).html()} can not have same conditions`
+        );
+        return true;
+      }
     }
+
+    // inputs shoud be all 'X'
     if (cnt === 1) {
       for (let j = 1; j <= stateNumber; j++) {
         if (Tline[i][j] != 0) {
-          //inputs shoud be all 'X'
           if (isAllX(inputCondition[i][j])) break;
           else {
             alert(`the inputs of ${$("#t" + i).html()} should be 'X'`);
@@ -807,21 +830,58 @@ $("#showBtn").click(() => {
   // generate Verilog testBench code
   $("#verilogTestBenchBtn").trigger("click");
 });
+
 $("#updateBtn").click(function () {
   $("#showBtn").trigger("click");
 });
+
+/**
+ *
+ * @param {inputCondition[i]} array
+ * @returns: if there are transitions with same conditions, return true
+ * otherwise false
+ */
+function hasSameElement(array) {
+  const nextStateNum = array.length;
+
+  function isAllSame(arr1, arr2) {
+    if (arr1.length !== arr2.length) return false;
+    if (arr1 === arr2) return true;
+
+    for (const [index, val] of arr1.entries()) {
+      if (val !== arr2[index]) return false;
+    }
+    return true;
+  }
+
+  for (let i = 0; i < nextStateNum; i++) {
+    // has a transition
+    if (array[i][0] !== -1) {
+      // compare with other transitions
+      for (let j = 0; j < nextStateNum; j++) {
+        if (array[j][0] !== -1 && j !== i) {
+          // compare each inputs
+          if (isAllSame(array[j], array[i])) return true;
+        }
+      }
+    }
+  }
+
+  return false;
+}
 
 /**
  * only used in arrays with two demensions
  * only used to see if all the outputs/inputs of each transition are the same (moore)
  */
 function isElementEqual(array) {
-  var flag = 0;
+  let flag = 0;
+  let temp = null;
 
   for (let i = 0; i < array.length; i++) {
     //find the first then stop
     if (array[i][0] != -1 && flag === 0) {
-      var temp = array[i];
+      temp = array[i];
       flag = 1;
     }
 
