@@ -23,6 +23,10 @@ server.get("/Instruction", (_, res) => {
   res.render("Instruction.html");
 });
 
+server.get("/Introduction", (_, res) => {
+  res.render("Introduction.html");
+});
+
 server.get("/simulator", (_, res) => {
   res.render("simulator.html");
 });

@@ -1,5 +1,5 @@
 # ignore the instructionMD.html file at the current dir
-/instructionMD.html
+static/
 
 # ignore all the files at node_modules
 node_modules/
