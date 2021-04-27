@@ -1,10 +1,6 @@
 # FSM-Simulation
 
-## Open it directly
 
-### 1. open the views/design.html
-
-### 2. Read the the details of how to use in the instruction section
 
 ## Run at node server (need to install node and npm)
 
