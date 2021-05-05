@@ -1,4 +1,4 @@
-/************************** drawing variables setting*******************************/
+/************************** drawing letiables setting*******************************/
 const svgNS = "http://www.w3.org/2000/svg";
 const svg = document.getElementById("svg");
 const svgWidth = svg.getAttribute("width");
@@ -15,26 +15,26 @@ const controlAngle = 20;
 const rotateAngle = 15;
 const limStateNumber = 11;
 
-var stateNumber = 0;
-var circleArray = [].fill(null);
-var bigCircleArray = [].fill(null);
-var textArray = [].fill(null);
+let stateNumber = 0;
+let circleArray = [].fill(null);
+let bigCircleArray = [].fill(null);
+let textArray = [].fill(null);
 
-var Tline = []; //line(start state, end state)
+let Tline = []; //line(start state, end state)
 for (let i = 0; i < limStateNumber; i++) {
   Tline[i] = new Array(limStateNumber).fill(0);
 }
 
-var selfLinkAngle = [];
+let selfLinkAngle = [];
 
-var lineFlag = []; //record if the line being selected
+let lineFlag = []; //record if the line being selected
 for (let i = 0; i < limStateNumber; i++) {
   lineFlag[i] = new Array(limStateNumber).fill(0);
 }
 
-var circleFlag = new Array(limStateNumber).fill(0); //record if the circle being selected
+let circleFlag = new Array(limStateNumber).fill(0); //record if the circle being selected
 
-var startState = new Array(limStateNumber).fill(0);
+let startState = new Array(limStateNumber).fill(0);
 
 /************get data from the local storage************************/
 initStateDiagram();
@@ -137,7 +137,7 @@ function initStateDiagram() {
       text.addEventListener("dblclick", textDoubleClick);
 
       //display current state
-      var content = `<div id = ${"table" + i}>
+      let content = `<div id = ${"table" + i}>
 							<h4>Current State: </h4>
 							<p id = ${"circle" + i}>${textArray[i].innerHTML}</p>
 							<hr />
@@ -243,7 +243,7 @@ startBtn.onclick = function () {
 /**************************delete*******************************/
 const deleteBtn = document.getElementById("delete");
 deleteBtn.onclick = function () {
-  var TlineFlag = []; //avoid repeatedly handling
+  let TlineFlag = []; //avoid repeatedly handling
   for (let i = 0; i < limStateNumber; i++) {
     TlineFlag[i] = new Array(limStateNumber).fill(0);
   }
@@ -641,42 +641,42 @@ clearAllBtn.onclick = function () {
 
 /**************************add a new state or circle*******************************/
 function BigCircleMouseEnter() {
-  var i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
-  var circle = document.getElementById("c" + i);
+  let i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
+  let circle = document.getElementById("c" + i);
   //this.style.stroke = enterColor;
   this.style.cursor = "crosshair";
   circle.style.stroke = enterColor;
 }
 
 function BigCircleMouseDown(event) {
-  var groupIndex = this.getAttribute("id").slice(
+  let groupIndex = this.getAttribute("id").slice(
     1,
     this.getAttribute("id").length
   );
   groupIndex = parseInt(groupIndex);
-  var circleCx = circleArray[groupIndex].getAttribute("cx");
-  var circleCy = circleArray[groupIndex].getAttribute("cy");
+  let circleCx = circleArray[groupIndex].getAttribute("cx");
+  let circleCy = circleArray[groupIndex].getAttribute("cy");
 
   event = event || window.event;
   event.preventDefault(); //avoid the text being selected
 
-  var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-  var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+  let scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+  let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
 
-  var svgLeft = getElementLeft(document.getElementById("svgContainer"));
-  var svgTop = getElementTop(document.getElementById("svgContainer"));
+  let svgLeft = getElementLeft(document.getElementById("svgContainer"));
+  let svgTop = getElementTop(document.getElementById("svgContainer"));
 
-  var x = event.clientX - svgLeft + scrollX;
-  var y = event.clientY - svgTop + scrollY;
+  let x = event.clientX - svgLeft + scrollX;
+  let y = event.clientY - svgTop + scrollY;
 
-  var dis = pointDistance(circleCx, circleCy, x, y);
+  let dis = pointDistance(circleCx, circleCy, x, y);
 
   //(startX-circleCx)/(x-circleCx) = R/dis
   //(circleCy-startY)/(circleCy-y) = R/dis
   startX = (R / dis) * (x - circleCx) + parseInt(circleCx);
   startY = parseInt(circleCy) - (R / dis) * (circleCy - y);
 
-  var newLine = createElem("path", {
+  let newLine = createElem("path", {
     class: "line",
     d: "M" + startX + " " + startY + "L" + startX + " " + startY,
     stroke: "black",
@@ -691,14 +691,14 @@ function BigCircleMouseDown(event) {
     // this is the newBigCircle
     this.releaseCapture && this.releaseCapture();
     event = event || window.event;
-    var scrollX =
+    let scrollX =
       document.documentElement.scrollLeft || document.body.scrollLeft;
-    var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+    let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
 
-    var xm = event.clientX - svgLeft + scrollX;
-    var ym = event.clientY - svgTop + scrollY;
+    let xm = event.clientX - svgLeft + scrollX;
+    let ym = event.clientY - svgTop + scrollY;
 
-    var dism = pointDistance(circleCx, circleCy, xm, ym);
+    let dism = pointDistance(circleCx, circleCy, xm, ym);
 
     //(startXm-circleCx)/(xm-circleCx) = R/dis
     //(circleCy-startYm)/(circleCy-ym) = R/dis
@@ -726,26 +726,26 @@ function BigCircleMouseDown(event) {
     this.releaseCapture && this.releaseCapture();
 
     event = event || window.event;
-    var scrollX =
+    let scrollX =
       document.documentElement.scrollLeft || document.body.scrollLeft;
-    var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+    let scrollY = document.documentElement.scrollTop || document.body.scrollTop;
 
-    var xu = event.clientX - svgLeft + scrollX;
-    var yu = event.clientY - svgTop + scrollY;
+    let xu = event.clientX - svgLeft + scrollX;
+    let yu = event.clientY - svgTop + scrollY;
 
-    var disu = pointDistance(circleCx, circleCy, xu, yu);
+    let disu = pointDistance(circleCx, circleCy, xu, yu);
 
     startXu = (R / disu) * (xu - circleCx) + parseInt(circleCx);
     startYu = parseInt(circleCy) - (R / disu) * (circleCy - yu);
 
-    var flag = 0;
+    let flag = 0;
     for (let i = 1; i <= stateNumber; i++) {
-      var bcir = document.getElementById("C" + i);
-      var bcx = bcir.getAttribute("cx");
-      var bcy = bcir.getAttribute("cy");
+      let bcir = document.getElementById("C" + i);
+      let bcx = bcir.getAttribute("cx");
+      let bcy = bcir.getAttribute("cy");
 
-      var disu = pointDistance(bcx, bcy, xu, yu);
-      var dis = pointDistance(bcx, bcy, circleCx, circleCy);
+      let disu = pointDistance(bcx, bcy, xu, yu);
+      let dis = pointDistance(bcx, bcy, circleCx, circleCy);
 
       if (disu <= BR && Tline[groupIndex][i] === 0) {
         flag = 1;
@@ -754,11 +754,11 @@ function BigCircleMouseDown(event) {
           Tline[groupIndex][i] = newLine;
           //Rline[i][groupIndex] = newLine;
         } else {
-          var tr = parseInt(R) + 10; //give some space for arrow
+          let tr = parseInt(R) + 10; //give some space for arrow
           //(endX-circleCx)/(bcx-circleCx) = (dis-tr)/dis
           //(endY-circleCy)/(bcy-circleCy) = (dis-tr)/dis
-          var endX = ((dis - tr) / dis) * (bcx - circleCx) + parseInt(circleCx);
-          var endY = ((dis - tr) / dis) * (bcy - circleCy) + parseInt(circleCy);
+          let endX = ((dis - tr) / dis) * (bcx - circleCx) + parseInt(circleCx);
+          let endY = ((dis - tr) / dis) * (bcy - circleCy) + parseInt(circleCy);
 
           //when two links
           if (Tline[i][groupIndex] != 0) {
@@ -809,7 +809,7 @@ function BigCircleMouseDown(event) {
         createLineTable(groupIndex, i);
 
         //remind user to set the parameters first
-        var remindFlag = 0;
+        let remindFlag = 0;
         if (stepOneFlag === 1) {
           for (let i = 1; i <= inputNumber; i++) {
             if (document.getElementById("input" + i).value === "") {
@@ -877,7 +877,7 @@ function BigCircleMouseDown(event) {
 
 function createLineTable(groupIndex, i) {
   //create a info table for this line
-  var lineTableContent = `<div class="lineTable" id=${"table" + groupIndex + i}>
+  let lineTableContent = `<div class="lineTable" id=${"table" + groupIndex + i}>
 						<h4>Current Line:</h4>
 						<p id=${"line" + groupIndex + i}>
 						${textArray[groupIndex].innerHTML} => ${textArray[i].innerHTML}</p>
@@ -885,18 +885,19 @@ function createLineTable(groupIndex, i) {
 						<h4>condition: </h4>
 						<div id=${"condition" + groupIndex + i}>`;
 
-  var inlen = 1;
+  let inlen = 1;
   if (inputType.value === "bit") {
     inlen = 1;
   } else {
     inlen = parseInt(inputFrom.value) + 1;
   }
 
+  let inputName;
   for (let k = 1; k <= inputNumber; k++) {
     if (document.getElementById("input" + k)) {
-      var inputName = document.getElementById("input" + k).value;
+      inputName = document.getElementById("input" + k).value;
     } else {
-      var inputName = "";
+      inputName = "";
     }
     lineTableContent += `<p>${inputName}: 
 								<select id=${"input" + groupIndex + i + k}>`;
@@ -911,19 +912,20 @@ function createLineTable(groupIndex, i) {
 							<h4>output: </h4>
 							<div id=${"output" + groupIndex + i}>`;
 
-  var outlen = 1;
+  let outlen = 1;
   if (outputType.value === "bit") {
     outlen = 1;
   } else {
     outlen = parseInt(outputFrom.value) + 1;
   }
 
+  let outputName;
   for (let k = 1; k <= outputNumber; k++) {
     //alert(document.getElementById('input' + k))
     if (document.getElementById("output" + k)) {
-      var outputName = document.getElementById("output" + k).value;
+      outputName = document.getElementById("output" + k).value;
     } else {
-      var outputName = "";
+      outputName = "";
     }
 
     lineTableContent += `<p>${outputName}: 
@@ -950,19 +952,20 @@ function createLineTable(groupIndex, i) {
   // at the paraSetting.js
 
   //ouput infor at circle table
-  //var cirOutput = document.getElementById('cirOutput' + groupIndex);
-  var cirOutputContent = `<p id = ${"circle" + groupIndex + i}>=> ${
+  //let cirOutput = document.getElementById('cirOutput' + groupIndex);
+  let cirOutputContent = `<p id = ${"circle" + groupIndex + i}>=> ${
     textArray[i].innerHTML
   }:</p>
 							<div id = ${"cirOutput" + groupIndex + i}>`;
 
+  // let outputName;
   for (let k = 1; k <= outputNumber; k++) {
     if (document.getElementById("output" + k)) {
-      var outputName = document.getElementById("output" + k).value;
+      outputName = document.getElementById("output" + k).value;
     } else {
-      var outputName = "";
+      outputName = "";
     }
-    var outputValue = document.getElementById("output" + groupIndex + i + k)
+    let outputValue = document.getElementById("output" + groupIndex + i + k)
       .value;
     cirOutputContent += `<p id = ${"cirOutput" + groupIndex + i + k}>
 								${outputName}: ${outputValue}</p>`;
@@ -982,13 +985,14 @@ function createLineTable(groupIndex, i) {
       let b = id.slice(7, 8);
       let c = id.slice(8, 9);
 
+      let outputName;
       if (document.getElementById("output" + c)) {
-        var outputName = document.getElementById("output" + c).value;
+        outputName = document.getElementById("output" + c).value;
       } else {
-        var outputName = "";
+        outputName = "";
       }
 
-      var cirOutput = document.getElementById("cirOutput" + a + b + c);
+      let cirOutput = document.getElementById("cirOutput" + a + b + c);
       cirOutput.innerHTML = `${outputName}: ${this.value}`;
 
       updateData();
@@ -998,7 +1002,7 @@ function createLineTable(groupIndex, i) {
 
 function lineClick(event) {
   //remind user to set the parameters first
-  var remindFlag = 0;
+  let remindFlag = 0;
   if (stepOneFlag === 1) {
     for (let i = 1; i <= inputNumber; i++) {
       if (document.getElementById("input" + i).value === "") {
@@ -1025,8 +1029,8 @@ function lineClick(event) {
   this.setAttribute("stroke-width", "5");
   line = this;
 
-  var groupIndex1;
-  var groupIndex2;
+  let groupIndex1;
+  let groupIndex2;
   for (let i = 1; i < limStateNumber; i++) {
     if (i <= stateNumber) {
       circleArray[i].setAttribute("stroke-width", "3");
@@ -1075,8 +1079,8 @@ function lineClick(event) {
 }
 
 function BigCircleMouseLeave() {
-  var i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
-  var circle = document.getElementById("c" + i);
+  let i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
+  let circle = document.getElementById("c" + i);
   //this.style.stroke = leaveColor;
   circle.style.stroke = leaveColor;
 }
@@ -1086,7 +1090,7 @@ function circleClick(event) {
   this.setAttribute("stroke-width", "5");
   circle = this;
 
-  var index;
+  let index;
   for (let i = 1; i < circleFlag.length; i++) {
     if (circleArray[i] === this) {
       index = i;
@@ -1140,11 +1144,11 @@ function circleClick(event) {
 }
 
 function circleDoubleClick() {
-  var x = this.getAttribute("cx") - R + 5;
-  var y = this.getAttribute("cy") - textFontSize / 2 - 8;
-  var i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
-  var cir = document.getElementById("c" + i);
-  var text = document.getElementById("t" + i);
+  let x = this.getAttribute("cx") - R + 5;
+  let y = this.getAttribute("cy") - textFontSize / 2 - 8;
+  let i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
+  let cir = document.getElementById("c" + i);
+  let text = document.getElementById("t" + i);
 
   //avoid  other inputframe at other circles
   for (let j = 1; j <= stateNumber; j++) {
@@ -1162,7 +1166,7 @@ function circleDoubleClick() {
     return;
   }
 
-  var foreign = createElem("foreignObject", {
+  let foreign = createElem("foreignObject", {
     id: "f" + i,
     x: x,
     y: y,
@@ -1174,7 +1178,7 @@ function circleDoubleClick() {
 
   //save the last value;
   foreign.firstChild.value = text.innerHTML;
-  var tempText = text.innerHTML;
+  let tempText = text.innerHTML;
   //temperorily set blank for being invisible behind the input frame
   text.innerHTML = "";
   //show the cursor and select the value at the beginning
@@ -1186,9 +1190,9 @@ function circleDoubleClick() {
   svg.onclick = function (event) {
     event = event || window.event;
 
-    var svgLeft = getElementLeft(document.getElementById("svgContainer"));
-    var svgTop = getElementTop(document.getElementById("svgContainer"));
-    var dis = pointDistance(
+    let svgLeft = getElementLeft(document.getElementById("svgContainer"));
+    let svgTop = getElementTop(document.getElementById("svgContainer"));
+    let dis = pointDistance(
       cir.getAttribute("cx"),
       cir.getAttribute("cy"),
       event.clientX - svgLeft,
@@ -1235,7 +1239,7 @@ function circleDoubleClick() {
   };
 
   foreign.firstChild.onchange = function () {
-    //var text = document.getElementById("t"+i);
+    //let text = document.getElementById("t"+i);
     if (this.value != "") {
       updateData();
       text.innerHTML = this.value;
@@ -1276,10 +1280,10 @@ function circleDoubleClick() {
 
 function textClick(event) {
   event.stopPropagation();
-  var num = this.getAttribute("id").slice(1, this.getAttribute("id").length);
+  let num = this.getAttribute("id").slice(1, this.getAttribute("id").length);
   circleArray[num].setAttribute("stroke-width", "5");
 
-  var index;
+  let index;
   for (let i = 1; i < circleFlag.length; i++) {
     if (circleArray[i] === circleArray[num]) {
       index = i;
@@ -1335,12 +1339,12 @@ function textClick(event) {
 function textDoubleClick() {
   document.onmousemove = null;
 
-  var i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
-  var cir = document.getElementById("c" + i);
-  var text = document.getElementById("t" + i);
+  let i = this.getAttribute("id").slice(1, this.getAttribute("id").length);
+  let cir = document.getElementById("c" + i);
+  let text = document.getElementById("t" + i);
 
-  var x = cir.getAttribute("cx") - R + 5;
-  var y = cir.getAttribute("cy") - textFontSize / 2 - 8;
+  let x = cir.getAttribute("cx") - R + 5;
+  let y = cir.getAttribute("cy") - textFontSize / 2 - 8;
 
   for (let j = 1; j <= stateNumber; j++) {
     let forn = document.getElementById("f" + j);
@@ -1356,7 +1360,7 @@ function textDoubleClick() {
     return;
   }
 
-  var foreign = createElem("foreignObject", {
+  let foreign = createElem("foreignObject", {
     id: "f" + i,
     x: x,
     y: y,
@@ -1368,7 +1372,7 @@ function textDoubleClick() {
 
   //save the last value;
   foreign.firstChild.value = text.innerHTML;
-  var tempText = text.innerHTML;
+  let tempText = text.innerHTML;
   //temperorily set blank
   text.innerHTML = "";
   //show the cursor and select the value at the beginning
@@ -1379,9 +1383,9 @@ function textDoubleClick() {
   //when click beyond the circles, delete the input frame
   svg.onclick = function (event) {
     event = event || window.event;
-    var svgLeft = getElementLeft(document.getElementById("svgContainer"));
-    var svgTop = getElementTop(document.getElementById("svgContainer"));
-    var dis = pointDistance(
+    let svgLeft = getElementLeft(document.getElementById("svgContainer"));
+    let svgTop = getElementTop(document.getElementById("svgContainer"));
+    let dis = pointDistance(
       cir.getAttribute("cx"),
       cir.getAttribute("cy"),
       event.clientX - svgLeft,
@@ -1429,7 +1433,7 @@ function textDoubleClick() {
   };
 
   foreign.firstChild.onchange = function () {
-    var text = document.getElementById("t" + i);
+    let text = document.getElementById("t" + i);
     if (this.value != "") {
       updateData();
       text.innerHTML = this.value;
@@ -1484,7 +1488,7 @@ addStateBtn.onclick = function () {
   stateNumber++;
 
   document.getElementById("table").innerHTML = `State Number: ${stateNumber}`;
-  var newCircle = createElem("circle", {
+  let newCircle = createElem("circle", {
     class: "circle",
     id: "c" + stateNumber,
     cx: CX,
@@ -1494,7 +1498,7 @@ addStateBtn.onclick = function () {
     "stroke-width": "3",
     fill: "transparent",
   });
-  var newBigCircle = createElem("circle", {
+  let newBigCircle = createElem("circle", {
     class: "circle",
     id: "C" + stateNumber,
     cx: CX,
@@ -1516,10 +1520,10 @@ addStateBtn.onclick = function () {
   svg.appendChild(newCircle);
 
   //get the text coordinates
-  var tx = CX;
-  var ty = parseInt(CY) + parseInt(textFontSize) / 2 - 2;
+  let tx = CX;
+  let ty = parseInt(CY) + parseInt(textFontSize) / 2 - 2;
 
-  var newText = createElem("text", {
+  let newText = createElem("text", {
     class: "text",
     id: "t" + stateNumber,
     x: tx,
@@ -1541,7 +1545,7 @@ addStateBtn.onclick = function () {
   textArray[stateNumber] = newText;
 
   //display current state
-  var content = `<div id = ${"table" + stateNumber} >
+  let content = `<div id = ${"table" + stateNumber} >
 				      <h4>Current State: </h4>
 					  <p id = ${"circle" + stateNumber}>${textArray[stateNumber].innerHTML}</p>
 					  <hr />
@@ -1581,8 +1585,8 @@ addStateBtn.onclick = function () {
 /*createElem("circle", {'cx':'500', 'cy':'500', 'r':'50'})
  *JSON format*/
 function createElem(tag, objAttr) {
-  var elem = document.createElementNS(svgNS, tag);
-  for (var attr in objAttr) {
+  let elem = document.createElementNS(svgNS, tag);
+  for (let attr in objAttr) {
     elem.setAttribute(attr, objAttr[attr]);
   }
   return elem;
@@ -1590,11 +1594,11 @@ function createElem(tag, objAttr) {
 
 //when drag text
 function texBindDragEventById(id) {
-  var text = document.getElementById(id);
-  var groupIndex = id.slice(1, id.length);
+  let text = document.getElementById(id);
+  let groupIndex = id.slice(1, id.length);
   groupIndex = parseInt(groupIndex);
-  var circle = document.getElementById("c" + groupIndex);
-  var bigCircle = document.getElementById("C" + groupIndex);
+  let circle = document.getElementById("c" + groupIndex);
+  let bigCircle = document.getElementById("C" + groupIndex);
 
   //change style
   text.onmouseenter = function () {
@@ -1608,8 +1612,8 @@ function texBindDragEventById(id) {
 
   text.onmousedown = function (event) {
     event = event || window.event;
-    var dx = event.clientX - text.getAttribute("x");
-    var dy = event.clientY - text.getAttribute("y");
+    let dx = event.clientX - text.getAttribute("x");
+    let dy = event.clientY - text.getAttribute("y");
 
     //change style
     // circle.setAttribute("r", parseInt(R)+5);
@@ -1617,11 +1621,11 @@ function texBindDragEventById(id) {
 
     document.onmousemove = function (event) {
       event = event || window.event;
-      var left = event.clientX - dx;
-      var top = event.clientY - dy;
+      let left = event.clientX - dx;
+      let top = event.clientY - dy;
 
-      var cirLeft = left;
-      var cirTop = top - textFontSize / 2 + 2;
+      let cirLeft = left;
+      let cirTop = top - textFontSize / 2 + 2;
 
       //deal with the boundary
       if (cirLeft <= bigCircle.getAttribute("r")) {
@@ -1643,21 +1647,21 @@ function texBindDragEventById(id) {
       }
 
       //avoid overlap(only two)
-      var elemIndex = parseInt(id.slice(1, id.length));
+      let elemIndex = parseInt(id.slice(1, id.length));
       //circlePosition[elemIndex] = [cirLeft, cirTop];
 
       if (stateNumber > 1) {
         for (let i = 1; i < stateNumber + 1; i++) {
           if (elemIndex != i) {
-            var cir = document.getElementById("c" + i);
+            let cir = document.getElementById("c" + i);
             let cirLeft1 = parseInt(cir.getAttribute("cx"));
             let cirTop1 = parseInt(cir.getAttribute("cy"));
 
-            var dis = pointDistance(cirLeft, cirTop, cirLeft1, cirTop1);
+            let dis = pointDistance(cirLeft, cirTop, cirLeft1, cirTop1);
             if (dis <= parseInt(2 * BR + 5)) {
               //similar triangle principle
-              var offY = ((2 * BR + 5 - dis) / dis) * (cirTop1 - cirTop);
-              var offX = ((2 * BR + 5 - dis) / dis) * (cirLeft1 - cirLeft);
+              let offY = ((2 * BR + 5 - dis) / dis) * (cirTop1 - cirTop);
+              let offX = ((2 * BR + 5 - dis) / dis) * (cirLeft1 - cirLeft);
               cirLeft = cirLeft - offX;
               cirTop = cirTop - offY;
 
@@ -1731,12 +1735,12 @@ function texBindDragEventById(id) {
       for (let i = 1; i <= stateNumber; i++) {
         //as a start circle
         if (Tline[groupIndex][i] != 0) {
-          var cx = circleArray[i].getAttribute("cx");
-          var cy = circleArray[i].getAttribute("cy");
+          let cx = circleArray[i].getAttribute("cx");
+          let cy = circleArray[i].getAttribute("cy");
 
           //if it is a selflink
           if (i === groupIndex) {
-            var x = pointOnCircle(
+            let x = pointOnCircle(
               cx,
               cy,
               parseInt(cx) + R,
@@ -1744,7 +1748,7 @@ function texBindDragEventById(id) {
               selfLinkAngle[i],
               R
             )[0];
-            var y = pointOnCircle(
+            let y = pointOnCircle(
               cx,
               cy,
               parseInt(cx) + R,
@@ -1755,18 +1759,18 @@ function texBindDragEventById(id) {
 
             drawSelfCur(Tline[groupIndex][i], cx, cy, x, y, i);
           } else {
-            var dis = pointDistance(cx, cy, cirLeft, cirTop);
+            let dis = pointDistance(cx, cy, cirLeft, cirTop);
 
-            var tr = parseInt(R) + 10; //give some space for arrow
+            let tr = parseInt(R) + 10; //give some space for arrow
             //(startX-cirleft)/(cx-cirleft) = R/dis
             //(startY-cirtop)/(cy-cirtop) = R/dis
-            var startX = (R / dis) * (cx - cirLeft) + parseInt(cirLeft);
-            var startY = (R / dis) * (cy - cirTop) + parseInt(cirTop);
+            let startX = (R / dis) * (cx - cirLeft) + parseInt(cirLeft);
+            let startY = (R / dis) * (cy - cirTop) + parseInt(cirTop);
 
             //(endX-cirLeft)/(cx-cirLeft) = (dis-tr)/dis
             //(endY-cirTop)/(cy-cirTop) = (dis-tr)/dis
-            var endX = ((dis - tr) / dis) * (cx - cirLeft) + parseInt(cirLeft);
-            var endY = ((dis - tr) / dis) * (cy - cirTop) + parseInt(cirTop);
+            let endX = ((dis - tr) / dis) * (cx - cirLeft) + parseInt(cirLeft);
+            let endY = ((dis - tr) / dis) * (cy - cirTop) + parseInt(cirTop);
 
             //if two links
             if (Tline[i][groupIndex] != 0) {
@@ -1811,20 +1815,20 @@ function texBindDragEventById(id) {
         }
         //as a end circle
         if (Tline[i][groupIndex] != 0) {
-          var cx = circleArray[i].getAttribute("cx");
-          var cy = circleArray[i].getAttribute("cy");
-          var dis = pointDistance(cx, cy, cirLeft, cirTop);
+          let cx = circleArray[i].getAttribute("cx");
+          let cy = circleArray[i].getAttribute("cy");
+          let dis = pointDistance(cx, cy, cirLeft, cirTop);
 
-          var tr = parseInt(R) + 10; //give some space for arrow
+          let tr = parseInt(R) + 10; //give some space for arrow
           //(startX-cx)/(cirleft-cx) = R/dis
           //(startY-cy)/(cirtop-cy) = R/dis
-          var startX = (R / dis) * (cirLeft - cx) + parseInt(cx);
-          var startY = (R / dis) * (cirTop - cy) + parseInt(cy);
+          let startX = (R / dis) * (cirLeft - cx) + parseInt(cx);
+          let startY = (R / dis) * (cirTop - cy) + parseInt(cy);
 
           //(endX-cx)/(cirLeft-cx) = (dis-tr)/dis
           //(endY-cy)/(cirTop-cy) = (dis-tr)/dis
-          var endX = ((dis - tr) / dis) * (cirLeft - cx) + parseInt(cx);
-          var endY = ((dis - tr) / dis) * (cirTop - cy) + parseInt(cy);
+          let endX = ((dis - tr) / dis) * (cirLeft - cx) + parseInt(cx);
+          let endY = ((dis - tr) / dis) * (cirTop - cy) + parseInt(cy);
 
           Tline[i][groupIndex].setAttribute(
             "d",
@@ -1849,11 +1853,11 @@ function texBindDragEventById(id) {
 
 //when drag circles
 function cirBindDragEventById(id) {
-  var groupIndex = id.slice(1, id.length);
+  let groupIndex = id.slice(1, id.length);
   groupIndex = parseInt(groupIndex);
-  var elem = document.getElementById(id);
-  var elemText = document.getElementById("t" + groupIndex);
-  var bigCircle = document.getElementById("C" + groupIndex);
+  let elem = document.getElementById(id);
+  let elemText = document.getElementById("t" + groupIndex);
+  let bigCircle = document.getElementById("C" + groupIndex);
 
   //change style
   elem.onmouseenter = function () {
@@ -1868,8 +1872,8 @@ function cirBindDragEventById(id) {
   elem.onmousedown = function (event) {
     elem.setCapture && elem.setCapture();
     event = event || window.event;
-    var dx = event.clientX - elem.getAttribute("cx");
-    var dy = event.clientY - elem.getAttribute("cy");
+    let dx = event.clientX - elem.getAttribute("cx");
+    let dy = event.clientY - elem.getAttribute("cy");
 
     //change style
     // elem.setAttribute("r", parseInt(R)+5);
@@ -1877,8 +1881,8 @@ function cirBindDragEventById(id) {
 
     document.onmousemove = function (event) {
       event = event || window.event;
-      var left = event.clientX - dx;
-      var top = event.clientY - dy;
+      let left = event.clientX - dx;
+      let top = event.clientY - dy;
 
       //deal with the boundary
       //bigCircle.getAttribute("r") = BR
@@ -1896,20 +1900,20 @@ function cirBindDragEventById(id) {
       }
 
       //avoid overlap(only two)
-      var elemIndex = parseInt(id.slice(1, id.length));
+      let elemIndex = parseInt(id.slice(1, id.length));
       //circlePosition[elemIndex] = [left, top];
 
       if (stateNumber > 1) {
         for (let i = 1; i < stateNumber + 1; i++) {
           if (elemIndex != i) {
-            var cir = document.getElementById("c" + i);
+            let cir = document.getElementById("c" + i);
             let cirLeft1 = parseInt(cir.getAttribute("cx"));
             let cirTop1 = parseInt(cir.getAttribute("cy"));
-            var dis = pointDistance(left, top, cirLeft1, cirTop1);
+            let dis = pointDistance(left, top, cirLeft1, cirTop1);
             if (dis <= parseInt(2 * BR + 5)) {
               //similar triangle
-              var offY = ((2 * BR + 5 - dis) / dis) * (cirTop1 - top);
-              var offX = ((2 * BR + 5 - dis) / dis) * (cirLeft1 - left);
+              let offY = ((2 * BR + 5 - dis) / dis) * (cirTop1 - top);
+              let offX = ((2 * BR + 5 - dis) / dis) * (cirLeft1 - left);
               left = left - offX;
               top = top - offY;
 
@@ -1970,8 +1974,8 @@ function cirBindDragEventById(id) {
       bigCircle.setAttribute("cx", left);
       bigCircle.setAttribute("cy", top);
 
-      var textLeft = left;
-      var textTop = top + textFontSize / 2 - 2;
+      let textLeft = left;
+      let textTop = top + textFontSize / 2 - 2;
       if (top === bigCircle.getAttribute("r")) {
         textTop = 58;
       }
@@ -1980,9 +1984,9 @@ function cirBindDragEventById(id) {
 
       //inputframe
       if (document.getElementById("f" + id.slice(1, id.length))) {
-        var inputText = document.getElementById("f" + id.slice(1, id.length));
-        var inputLeft = left - R + 5;
-        var inputTop = top - textFontSize / 2 - 8;
+        let inputText = document.getElementById("f" + id.slice(1, id.length));
+        let inputLeft = left - R + 5;
+        let inputTop = top - textFontSize / 2 - 8;
 
         inputText.setAttribute("x", inputLeft);
         inputText.setAttribute("y", inputTop);
@@ -1992,11 +1996,11 @@ function cirBindDragEventById(id) {
       for (let i = 1; i <= stateNumber; i++) {
         //as a start circle
         if (Tline[groupIndex][i] != 0) {
-          var cx = circleArray[i].getAttribute("cx");
-          var cy = circleArray[i].getAttribute("cy");
+          let cx = circleArray[i].getAttribute("cx");
+          let cy = circleArray[i].getAttribute("cy");
 
           if (i === groupIndex) {
-            var x = pointOnCircle(
+            let x = pointOnCircle(
               cx,
               cy,
               parseInt(cx) + R,
@@ -2004,7 +2008,7 @@ function cirBindDragEventById(id) {
               selfLinkAngle[i],
               R
             )[0];
-            var y = pointOnCircle(
+            let y = pointOnCircle(
               cx,
               cy,
               parseInt(cx) + R,
@@ -2015,18 +2019,18 @@ function cirBindDragEventById(id) {
 
             drawSelfCur(Tline[groupIndex][i], cx, cy, x, y, i);
           } else {
-            var dis = pointDistance(cx, cy, left, top);
+            let dis = pointDistance(cx, cy, left, top);
 
-            var tr = parseInt(R) + 10; //give some space for arrow
+            let tr = parseInt(R) + 10; //give some space for arrow
             //(startX-left)/(cx-left) = R/dis
             //(startY-top)/(cy-top) = R/dis
-            var startX = (R / dis) * (cx - left) + parseInt(left);
-            var startY = (R / dis) * (cy - top) + parseInt(top);
+            let startX = (R / dis) * (cx - left) + parseInt(left);
+            let startY = (R / dis) * (cy - top) + parseInt(top);
 
             //(endX-Left)/(cx-Left) = (dis-tr)/dis
             //(endY-Top)/(cy-Top) = (dis-tr)/dis
-            var endX = ((dis - tr) / dis) * (cx - left) + parseInt(left);
-            var endY = ((dis - tr) / dis) * (cy - top) + parseInt(top);
+            let endX = ((dis - tr) / dis) * (cx - left) + parseInt(left);
+            let endY = ((dis - tr) / dis) * (cy - top) + parseInt(top);
 
             if (Tline[i][groupIndex] != 0) {
               drawCurves(
@@ -2070,20 +2074,20 @@ function cirBindDragEventById(id) {
         }
         //as a end circle
         if (Tline[i][groupIndex] != 0) {
-          var cx = circleArray[i].getAttribute("cx");
-          var cy = circleArray[i].getAttribute("cy");
-          var dis = pointDistance(cx, cy, left, top);
+          let cx = circleArray[i].getAttribute("cx");
+          let cy = circleArray[i].getAttribute("cy");
+          let dis = pointDistance(cx, cy, left, top);
 
-          var tr = parseInt(R) + 10; //give some space for arrow
+          let tr = parseInt(R) + 10; //give some space for arrow
           //(startX-cx)/(left-cx) = R/dis
           //(startY-cy)/(top-cy) = R/dis
-          var startX = (R / dis) * (left - cx) + parseInt(cx);
-          var startY = (R / dis) * (top - cy) + parseInt(cy);
+          let startX = (R / dis) * (left - cx) + parseInt(cx);
+          let startY = (R / dis) * (top - cy) + parseInt(cy);
 
           //(endX-cx)/(Left-cx) = (dis-tr)/dis
           //(endY-cy)/(Top-cy) = (dis-tr)/dis
-          var endX = ((dis - tr) / dis) * (left - cx) + parseInt(cx);
-          var endY = ((dis - tr) / dis) * (top - cy) + parseInt(cy);
+          let endX = ((dis - tr) / dis) * (left - cx) + parseInt(cx);
+          let endY = ((dis - tr) / dis) * (top - cy) + parseInt(cy);
 
           Tline[i][groupIndex].setAttribute(
             "d",
@@ -2111,8 +2115,8 @@ function pointDistance(x1, y1, x2, y2) {
 }
 
 function getElementLeft(element) {
-  var actualLeft = element.offsetLeft;
-  var current = element.offsetParent;
+  let actualLeft = element.offsetLeft;
+  let current = element.offsetParent;
   while (current != null) {
     actualLeft = actualLeft + current.offsetLeft;
     current = current.offsetParent;
@@ -2121,8 +2125,8 @@ function getElementLeft(element) {
 }
 
 function getElementTop(element) {
-  var actualTop = element.offsetTop;
-  var current = element.offsetParent;
+  let actualTop = element.offsetTop;
+  let current = element.offsetParent;
   while (current != null) {
     actualTop = actualTop + current.offsetTop;
     current = current.offsetParent;
@@ -2132,15 +2136,15 @@ function getElementTop(element) {
 
 //get the curve controling point by angle, starPoint and endPoint
 function getControlPoint(startX, startY, endX, endY, angle) {
-  var point = [];
+  let point = [];
   angle = angle * (Math.PI / 180);
-  var a = pointDistance(startX, startY, endX, endY) / 2;
-  var b = a / Math.cos(angle);
+  let a = pointDistance(startX, startY, endX, endY) / 2;
+  let b = a / Math.cos(angle);
   //alert("a: "+a+" "+"b: "+b);
-  var phase1 = Math.atan(Math.abs(startY - endY) / Math.abs(startX - endX));
+  let phase1 = Math.atan(Math.abs(startY - endY) / Math.abs(startX - endX));
   //alert("phase1:"+phase1);
   //alert("angle:"+angle);
-  var phase2 = Math.abs(angle - phase1);
+  let phase2 = Math.abs(angle - phase1);
   //alert("phase2:"+phase2);
   if (startX < endX && startY < endY) {
     if (angle > phase1) {
@@ -2186,7 +2190,7 @@ function getControlPoint(startX, startY, endX, endY, angle) {
 
 //get the point on the circle turnning an angle relative to (x,y)
 function pointOnCircle(cx, cy, x, y, angle, r) {
-  var point = [];
+  let point = [];
   angle = angle * (Math.PI / 180);
   cx = parseInt(cx);
   cy = parseInt(cy);
@@ -2226,21 +2230,21 @@ function drawCurves(
   rotAngle,
   r
 ) {
-  var scx = circleArray[startIndex].getAttribute("cx");
-  var scy = circleArray[startIndex].getAttribute("cy");
-  var ecx = circleArray[endIndex].getAttribute("cx");
-  var ecy = circleArray[endIndex].getAttribute("cy");
+  let scx = circleArray[startIndex].getAttribute("cx");
+  let scy = circleArray[startIndex].getAttribute("cy");
+  let ecx = circleArray[endIndex].getAttribute("cx");
+  let ecy = circleArray[endIndex].getAttribute("cy");
 
   //for Tline
-  var conStarPoint = pointOnCircle(scx, scy, startX, startY, rotAngle, R);
-  var conSx = conStarPoint[0];
-  var conSy = conStarPoint[1];
+  let conStarPoint = pointOnCircle(scx, scy, startX, startY, rotAngle, R);
+  let conSx = conStarPoint[0];
+  let conSy = conStarPoint[1];
 
-  var conEndPoint = pointOnCircle(ecx, ecy, endX, endY, -rotAngle, r);
-  var conEx = conEndPoint[0];
-  var conEy = conEndPoint[1];
+  let conEndPoint = pointOnCircle(ecx, ecy, endX, endY, -rotAngle, r);
+  let conEx = conEndPoint[0];
+  let conEy = conEndPoint[1];
 
-  var controlPoint = getControlPoint(conSx, conSy, conEx, conEy, contrAngle);
+  let controlPoint = getControlPoint(conSx, conSy, conEx, conEy, contrAngle);
   line.setAttribute(
     "d",
     "M" +
@@ -2260,28 +2264,28 @@ function drawCurves(
 
 //dis(cx, cy, x, y)<=BR
 function drawSelfCur(line, cx, cy, x, y, index) {
-  var cx = parseInt(cx);
-  var cy = parseInt(cy);
+  cx = parseInt(cx);
+  cy = parseInt(cy);
   //(cy-y)/(cy-endY)=dis(cx, cy, x, y)/R
   //(cx-x)/(cx-endX)=dis(cx, cy, x, y)/R
-  var tr = parseInt(R) + 10;
-  var endX = cx - ((cx - x) * tr) / pointDistance(cx, cy, x, y);
-  var endY = cy - ((cy - y) * tr) / pointDistance(cx, cy, x, y);
+  let tr = parseInt(R) + 10;
+  let endX = cx - ((cx - x) * tr) / pointDistance(cx, cy, x, y);
+  let endY = cy - ((cy - y) * tr) / pointDistance(cx, cy, x, y);
 
   // record the angle of selflink line
   selfLinkAngle[index] = Math.atan((cy - endY) / (endX - cx)) * (180 / Math.PI);
   if (endX < cx) {
     selfLinkAngle[index] = selfLinkAngle[index] + 180;
   }
-  var starPoint = pointOnCircle(cx, cy, endX, endY, 30, R);
-  var startX = starPoint[0];
-  var startY = starPoint[1];
+  let starPoint = pointOnCircle(cx, cy, endX, endY, 30, R);
+  let startX = starPoint[0];
+  let startY = starPoint[1];
 
-  var Sphase = 10;
-  var Ephase = -4;
-  var r = parseInt(R) + 100;
+  let Sphase = 10;
+  let Ephase = -4;
+  let r = parseInt(R) + 100;
 
-  var startControl = pointOnCircle(cx, cy, startX, startY, Sphase, R);
+  let startControl = pointOnCircle(cx, cy, startX, startY, Sphase, R);
   startControl[0] =
     cx -
     ((cx - startControl[0]) * r) /
@@ -2291,7 +2295,7 @@ function drawSelfCur(line, cx, cy, x, y, index) {
     ((cy - startControl[1]) * r) /
       pointDistance(cx, cy, startControl[0], startControl[1]);
 
-  var endControl = pointOnCircle(cx, cy, endX, endY, Ephase, R);
+  let endControl = pointOnCircle(cx, cy, endX, endY, Ephase, R);
   endControl[0] =
     cx -
     ((cx - endControl[0]) * r) /
@@ -2324,23 +2328,25 @@ function drawSelfCur(line, cx, cy, x, y, index) {
 
 //add one new HTML between a specified positon by id
 function addHtmlById(id, pos, content) {
-  var Code = document.getElementById(id);
+  let Code = document.getElementById(id);
   Code.insertAdjacentHTML(pos, content);
 }
 
 //Decimal to binary
 function decToBinary(dec, binaryLen) {
-  var str = "";
-  var restr = [];
-  var reverse = "";
-  for (var i = 0; i < binaryLen; i++) {
+  let str = "";
+  let restr = [];
+  let reverse = "";
+
+  for (let i = 0; i < binaryLen; i++) {
     str = str + (dec % 2);
     dec = parseInt(dec / 2);
   }
+
   if (str.length > 0) {
-    var restr = str.split("").reverse().join("");
+    restr = str.split("").reverse().join("");
   }
-  for (var i = 0; i < str.length; i++) {
+  for (let i = 0; i < str.length; i++) {
     reverse = reverse + restr[i];
   }
   return reverse;
