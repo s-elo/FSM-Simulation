@@ -10,6 +10,7 @@
 		<div id="button1" style="font-size:20px;width: 1800px; height: 40px;" align="center">change one period</div>
 		<canvas id="canvasTime" width="1800" height="120"></canvas>
 		<canvas id="canvasCLK" width="1800" height="120"></canvas>
+		<canvas id="canvasReset" width="1800" height="120"></canvas>
 		<div id="input"></div>
 		<canvas id="canvasState" width="1800" height="120"></canvas>
 		<div id="output"></div>
@@ -94,6 +95,11 @@ for (let i = 0; i < outputNum; i++) {
 const period = 20;
 const width = 4, interval = 3;
 var inputvale= new Array(inputNum);
+
+var resetdiction=new Array(20);
+for(let i=0;i<20;i++){
+	resetdiction[i]=0;
+}
 for(let i=0;i<inputNum;i++){
 	inputvale[i]=new Array(period);
 	if(inputTypeVal[i]=="bit"){
@@ -148,8 +154,7 @@ let inputCondition = simulData.inputCondition;
 
 let outputForEachTran = simulData.outputForEachTran;
 
-var outputorig= new Array(outputNum);
-outputorig[0]="00";
+
 </script>
 <script>
 	function canvasInit(){//初始化画布
@@ -209,6 +214,42 @@ outputorig[0]="00";
 	    }
 	    ctx.strokeStyle = color;
 	    ctx.stroke();
+	}
+	function drawReset(color, linewidth)
+	{
+		let canvas,ctx;
+		let pos;
+		canvas = document.getElementById('canvasReset');
+		ctx = canvas.getContext('2d');
+		ctx.beginPath();
+		ctx.font = "30px serif";
+		ctx.fillText("reset", 100, 100);
+		ctx.lineWidth = linewidth;
+		ctx.moveTo(200, 100);
+		ctx.setLineDash([]);
+		pos = new Pos(200, 100-resetdiction[0]*35);
+		ctx.moveTo(pos.x, pos.y);
+		pos.x += 70;
+		ctx.lineTo(pos.x, pos.y);
+		for(let j=1;j<period;j++){
+		    if(resetdiction[j] != resetdiction[j-1]){
+		        if(resetdiction[j] > resetdiction[j-1]){
+		            pos.y -= 35;
+		        }
+		        else if(resetdiction[j] < resetdiction[j-1]){
+		            pos.y += 35;
+		        }
+		        ctx.lineTo(pos.x, pos.y);
+		        pos.x += 70
+		        ctx.lineTo(pos.x, pos.y);
+		    }
+		    else{
+		        pos.x += 70
+		        ctx.lineTo(pos.x, pos.y);
+		    }
+			}
+			ctx.stroke();
+	
 	}
 	function drawInput(color, linewidth)//绘制所有输入变量的图形
 	{
@@ -320,6 +361,20 @@ function drawState(color, linewidth){
 	}
 	let flag= new Number();
 	for(let i=1;i<period;i++){
+		if(resetdiction[i-1]==1){
+			statediction[i]=startState;
+			if(outputForEachTran[startState+1][startState+1]==-1){
+				for(let m=0;m<outputNum;m++){
+					outdiction[outputName[m]][i]=outdiction[outputName[m]][0];
+				}
+			}
+			else {
+				for(let m=0;m<outputNum;m++){
+					outdiction[outputName[m]][i]=outputForEachTran[startState+1][startState+1][m];
+				}
+			}
+		}
+		else {
 		for(let j=0;j<stateNumber;j++){
 			flag=1;
 			for(let k=0;k<inputNum;k++){
@@ -342,8 +397,11 @@ function drawState(color, linewidth){
 			}
 			else if(j==(stateNumber-1)){
 				statediction[i]=statediction[i-1];
-				outdiction[i]=outdiction[i-1];
+				for(let m=0;m<outputNum;m++){
+				outdiction[outputName[m]][i]=outdiction[outputName[m]][i-1];
+				}
 			}
+		}
 		}
 	}
 	for(let i=1;i<period;i++){
@@ -370,6 +428,7 @@ function drawState(color, linewidth){
  function drawInit(){//整体初始化
         drawTime('black', 3);
         drawClk('black', 3);
+		drawReset('black',2);
         drawInput('black', 2);
 		drawState('black', 2);
         drawOutputName();
@@ -467,6 +526,10 @@ function drawGrid(){//绘制整张图的虚线
         ctx = canvas.getContext('2d');
         ctx.lineWidth = 2;
         drawLineDash(ctx, 0, 120);
+		canvas = document.getElementById('canvasReset');
+		ctx = canvas.getContext('2d');
+		ctx.lineWidth = 2;
+		drawLineDash(ctx, 0, 120);
 		canvas = document.getElementById('canvasState');
 		ctx = canvas.getContext('2d');
 		ctx.lineWidth = 2;
@@ -486,6 +549,10 @@ function drawGrid(){//绘制整张图的虚线
     }
 function drawGridInOut(){
 	let canvas, ctx;
+	canvas = document.getElementById('canvasReset');
+	ctx = canvas.getContext('2d');
+	ctx.lineWidth = 2;
+	drawLineDash(ctx, 0, 120);
 	canvas = document.getElementById('canvasState');
 	ctx = canvas.getContext('2d');
 	ctx.lineWidth = 2;
@@ -506,6 +573,9 @@ function drawGridInOut(){
 
 function clearCanvas(){
 	let canvas, ctx;
+	canvas = document.getElementById('canvasReset');
+	ctx = canvas.getContext('2d');
+	canvas.height=canvas.height;
 	canvas = document.getElementById('canvasState');
 	ctx = canvas.getContext('2d');
 	canvas.height=canvas.height;
@@ -521,18 +591,30 @@ function clearCanvas(){
 	}
 }
 
-// function switchmode(){
-// 	element=document.getElementById("button1");
-// 	if(element.innerHTML.match("one")){
-// 		element.innerHTML="change mutiple periods";
-// 	}
-// 	else{
-// 		element.innerHTML="change one period";
-// 		changingflag=0;
-// 	}
-// }
+
 let startAndEndArr = [0, 0];
 
+function bindInputCLick_reset(){
+	let canvas,ctx;
+	canvas= document.getElementById('canvasReset');
+	ctx = canvas.getContext('2d');
+	canvas.addEventListener('click', function(e){
+		clearCanvas();
+		if(e.layerX >= 200){
+		    let p = Math.floor((e.layerX - 200) / 70);
+		    if(resetdiction[p] == 1)
+		        resetdiction[p] = 0;
+		    else
+		        resetdiction[p]= 1;
+		}
+		drawReset('black', 2);
+		drawInput('black', 2);
+		drawOutputName();
+		drawState('black', 2);
+		drawOutput('black', 2);
+		drawGridInOut();
+	}, false)
+}
 function bindInputCLick(){//将输入变量的部分添加点击判定，使其改变图像
         for(let i=0;i<inputNum;i++){
             let index = i;
@@ -553,6 +635,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 						    else
 						        indiction[inputName[index]][p] = 1;
 						}
+						drawReset('black', 2);
 						drawInput('black', 2);
 						drawOutputName();
 						drawState('black', 2);
@@ -605,6 +688,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 								changingflag=0;
 								element.innerHTML="switch changing mode";
 					}
+					drawReset('black', 2);
 					drawInput('black', 2);
 					drawOutputName();
 					drawState('black', 2);
@@ -646,6 +730,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 				    let p = Math.floor((e.layerX - 200) / 70);
 				        indiction[inputName[index]][p] =newvalue;
 				}
+				drawReset('black', 2);
 				drawInput('black', 2);
 				drawOutputName();
 				drawState('black', 2);
@@ -715,6 +800,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
 								changingflag=0;
 								element.innerHTML="switch changing mode";
 					}
+					drawReset('black', 2);
 					drawInput('black', 2);
 					drawOutputName();
 					drawState('black', 2);
@@ -736,6 +822,7 @@ function bindInputCLick(){//将输入变量的部分添加点击判定，使其�
     drawOutput('black', 2);//绘制图像
     drawGrid();//在整张图上画出虚线
     bindInputCLick();//将输入变量绑定点击事件
+	bindInputCLick_reset();
 </script>
 		
 		
