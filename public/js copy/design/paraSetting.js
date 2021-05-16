@@ -1,15 +1,17 @@
-/**************************basic paramenter letiables setting*******************************/
-let entityName = "";
-const entityNameId = document.getElementById("entityName");
-let inputNumber = 0;
-let outputNumber = 0;
-const stepOne = document.getElementById("stepOne");
+import {addHtmlById, decToBinary } from '../utils.js';
 
-let stepOneFlag = 0;
-let finishFlag = 0;
+/**************************basic paramenter letiables setting*******************************/
+// let entityName = "";
+// const entityNameId = document.getElementById("entityName");
+// let inputNumber = 0;
+// let outputNumber = 0;
+// const stepOne = document.getElementById("stepOne");
+
+// let stepOneFlag = 0;
+// let finishFlag = 0;
 /*********************************input && output number**********************************/
-const inputNumberId = document.getElementById("inputNumber");
-const outputNumberId = document.getElementById("outputNumber");
+// const inputNumberId = document.getElementById("inputNumber");
+// const outputNumberId = document.getElementById("outputNumber");
 
 inputNumberId.onchange = function () {
   if (this.value <= 0) {
@@ -24,14 +26,14 @@ outputNumberId.onchange = function () {
   }
 };
 /*********************************input type && output type**********************************/
-const inputType = document.getElementById("inputType");
-const outputType = document.getElementById("outputType");
-const inputRange = document.getElementById("inputRange");
-const outputRange = document.getElementById("outputRange");
-const inputFrom = document.getElementById("inputFrom");
-const inputTo = document.getElementById("inputTo");
-const outputFrom = document.getElementById("outputFrom");
-const outputTo = document.getElementById("outputTo");
+// const inputType = document.getElementById("inputType");
+// const outputType = document.getElementById("outputType");
+// const inputRange = document.getElementById("inputRange");
+// const outputRange = document.getElementById("outputRange");
+// const inputFrom = document.getElementById("inputFrom");
+// const inputTo = document.getElementById("inputTo");
+// const outputFrom = document.getElementById("outputFrom");
+// const outputTo = document.getElementById("outputTo");
 
 inputType.onchange = function () {
   if (this.value === "bit") {

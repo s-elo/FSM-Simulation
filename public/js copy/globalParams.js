@@ -1,7 +1,7 @@
-// const svgNS = "http://www.w3.org/2000/svg";
-// const svg = document.getElementById("svg");
-// const svgWidth = svg.getAttribute("width");
-// const svgHeight = svg.getAttribute("height");
+const svgNS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("svg");
+const svgWidth = svg.getAttribute("width");
+const svgHeight = svg.getAttribute("height");
 
 const CX = "100";
 const CY = "200";
@@ -14,6 +14,7 @@ const controlAngle = 20;
 const rotateAngle = 15;
 const limStateNumber = 11;
 
+// const addStateBtn = document.getElementById("addState");
 // const startBtn = document.getElementById("setStartState");
 // const deleteBtn = document.getElementById("delete");
 // const clearAllBtn = document.querySelector("#clearAll");
@@ -39,32 +40,57 @@ let circleFlag = new Array(limStateNumber).fill(0); //record if the circle being
 
 let startState = new Array(limStateNumber).fill(0);
 
-/******************************************VHDL******************************* */
-let lineNumber = 0;
+/*********************parameterSetting******************************************************/
+/**************************basic paramenter letiables setting**/
+let entityName = "";
+const entityNameId = document.getElementById("entityName");
+let inputNumber = 0;
+let outputNumber = 0;
+const stepOne = document.getElementById("stepOne");
 
-let inputTypeFlag;
-let outputTypeFlag;
+let stepOneFlag = 0;
+let finishFlag = 0;
+/*********************************input && output number************/
+const inputNumberId = document.getElementById("inputNumber");
+const outputNumberId = document.getElementById("outputNumber");
 
-let inputName = [];
-let outputName = [];
+/*********************************input type && output type*********/
+const inputType = document.getElementById("inputType");
+const outputType = document.getElementById("outputType");
+const inputRange = document.getElementById("inputRange");
+const outputRange = document.getElementById("outputRange");
+const inputFrom = document.getElementById("inputFrom");
+const inputTo = document.getElementById("inputTo");
+const outputFrom = document.getElementById("outputFrom");
+const outputTo = document.getElementById("outputTo");
 
-// let entityName = '';
-let inputNum = 0;
-let outputNum = 0;
 
-let inputTypeVal = "";
-let outputTypeVal = "";
+/******************************************VHDL*************************************/
+// let lineNumber = 0;
 
-let inputFromVal = "";
-let inputToVal = "";
-let outputFromVal = "";
-let outputToVal = "";
+// let inputTypeFlag;
+// let outputTypeFlag;
 
-let stateName = [];
+// let inputName = [];
+// let outputName = [];
 
-let inputCondition = [];
-let outputForEachTran = [];
+// // let entityName = '';
+// let inputNum = 0;
+// let outputNum = 0;
 
-let start = 0;
+// let inputTypeVal = "";
+// let outputTypeVal = "";
 
-let data = {};
+// let inputFromVal = "";
+// let inputToVal = "";
+// let outputFromVal = "";
+// let outputToVal = "";
+
+// let stateName = [];
+
+// let inputCondition = [];
+// let outputForEachTran = [];
+
+// let start = 0;
+
+// let data = {};
