@@ -1,20 +1,8 @@
-import {
-  setStartState,
-  deleteClick,
-  addState,
-  clearAll,
-} from "./design/btnClick/btnClick.js";
-import { initStateDiagram } from "./dataHandler/dataHandler.js";
+import design from "./design/index.js";
+import HDL from "./HDL/index.js";
 
-console.log("acall");
-const addStateBtn = document.getElementById("addState");
-const startBtn = document.getElementById("setStartState");
-const deleteBtn = document.getElementById("delete");
-const clearAllBtn = document.querySelector("#clearAll");
+console.log("call");
 
-addStateBtn.addEventListener("click", addState);
-startBtn.addEventListener("click", setStartState);
-deleteBtn.addEventListener("click", deleteClick);
-clearAllBtn.addEventListener("click", clearAll);
+design();
 
-initStateDiagram();
+HDL();

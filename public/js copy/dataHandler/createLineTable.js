@@ -1,7 +1,16 @@
-import {decToBinary, addHtmlById} from '../utils.js';
-import updateData from './updateData.js';
+import { decToBinary, addHtmlById } from "../utils.js";
+import updateData from "./updateData.js";
 
 export default function createLineTable(groupIndex, i) {
+  const inputType = document.getElementById("inputType");
+  const outputType = document.getElementById("outputType");
+
+  const inputNumber = document.getElementById("inputNumber").value;
+  const outputNumber = document.getElementById("outputNumber").value;
+  
+  const inputFrom = document.getElementById("inputFrom");
+  const outputFrom = document.getElementById("outputFrom");
+
   //create a info table for this line
   let lineTableContent = `<div class="lineTable" id=${"table" + groupIndex + i}>
                           <h4>Current Line:</h4>
@@ -65,6 +74,7 @@ export default function createLineTable(groupIndex, i) {
     lineTableContent += `</select></p>`;
   }
   lineTableContent += `</div></div>`;
+
   addHtmlById("dataTable", "beforeEnd", lineTableContent);
 
   // listen the change of the inputCondition
