@@ -21,6 +21,9 @@ export default function interceptor() {
     // if (errStatus) {
     //   alert(message);
     // }
-    alert(message);
+    // alert(message);
+    if (message) {
+      alert(message);
+    }
   });
 }
