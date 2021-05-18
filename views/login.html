@@ -1,128 +1,96 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Register</title>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Bootstrap core CSS -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="../public/css/bootstrap.min.css"
-    />
+  <title>Register</title>
 
-    <!-- Custom styles for this template -->
-    <style>
-      body {
-        padding-top: 40px;
-        padding-bottom: 40px;
-        background-color: #eee;
-      }
-      .register {
-        color: rgb(83, 168, 224);
-        margin: 10px;
-        cursor: pointer;
-      }
-      .form-signin {
-        max-width: 330px;
-        padding: 15px;
-        margin: 0 auto;
-      }
-      .form-signin .form-signin-heading,
-      .form-signin .checkbox {
-        margin-bottom: 10px;
-      }
-      .form-signin .checkbox {
-        font-weight: normal;
-      }
-      .form-signin .form-control {
-        position: relative;
-        height: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-      }
-      .form-signin .form-control:focus {
-        z-index: 2;
-      }
-      .form-signin input[type="email"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-      }
-      .form-signin input[type="password"] {
-        margin-bottom: 10px;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-      }
-    </style>
-  </head>
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="../public/css/bootstrap.min.css" />
 
-  <body>
-    <div class="container">
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
+  <!-- Custom styles for this template -->
+  <style>
+    body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #eee;
+    }
 
-        <label for="inputEmail" class="sr-only">Account name</label>
-        <input
-          type="text"
-          id="inputAccountName"
-          class="form-control"
-          placeholder="Account name"
-          name="accountName"
-          required
-          autofocus
-        />
-        <br />
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input
-          type="password"
-          id="inputPassword"
-          class="form-control"
-          placeholder="Password"
-          name="password"
-          required
-        />
-        <div class="register">
-          <a href="register">No account yet? Click here to sign up</a>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block">Sign in</button>
-      </form>
-    </div>
+    .register {
+      color: rgb(83, 168, 224);
+      margin: 10px;
+      cursor: pointer;
+    }
 
-    <script src="../public/js/modules/jquery.min.js"></script>
-    <script src="../public/js/interceptor.js"></script>
-    <script src="../public/js/account.js"></script>
+    .form-signin {
+      max-width: 330px;
+      padding: 15px;
+      margin: 0 auto;
+    }
 
-    <script>
-      const $form = $("form");
-      const $btn = $("button");
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+      margin-bottom: 10px;
+    }
 
-      $form.submit((event) => {
-        event.preventDefault();
+    .form-signin .checkbox {
+      font-weight: normal;
+    }
 
-        const formArr = $form.serializeArray();
+    .form-signin .form-control {
+      position: relative;
+      height: auto;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      padding: 10px;
+      font-size: 16px;
+    }
 
-        // convert into JSON format
-        const formObj = {};
-        for (const val of formArr) {
-          const { name, value } = val;
-          formObj[name] = value;
-        }
+    .form-signin .form-control:focus {
+      z-index: 2;
+    }
 
-        login(formObj);
-      });
+    .form-signin input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-      $btn.click((event) => {
-        event.preventDefault();
+    .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  </style>
+</head>
 
-        $form.submit();
-      });
-    </script>
-  </body>
+<body>
+  <div class="container">
+    <form class="form-signin">
+      <h2 class="form-signin-heading">Please sign in</h2>
+
+      <label for="inputEmail" class="sr-only">Account name</label>
+      <input type="text" id="inputAccountName" class="form-control" placeholder="Account name" name="accountName"
+        required autofocus />
+      <br />
+      <label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required />
+      <div class="register">
+        <a href="register">No account yet? Click here to sign up</a>
+      </div>
+      <button class="btn btn-lg btn-primary btn-block">Sign in</button>
+    </form>
+  </div>
+
+  <script src="../public/js/modules/jquery.min.js"></script>
+
+  <script src="../public/js copy/account/session/login.js" type="module">
+
+  </script>
+</body>
+
 </html>

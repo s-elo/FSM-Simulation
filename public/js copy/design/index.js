@@ -6,6 +6,7 @@ import {
 } from "./btnClick/btnClick.js";
 import { initStateDiagram } from "../dataHandler/dataHandler.js";
 import paramSetting from "./parameterSetting/paramSetting.js";
+import preset from "./preset.js";
 
 export default function design() {
   const addStateBtn = document.getElementById("addState");
@@ -17,6 +18,8 @@ export default function design() {
   startBtn.addEventListener("click", setStartState);
   deleteBtn.addEventListener("click", deleteClick);
   clearAllBtn.addEventListener("click", clearAll);
+
+  preset();
 
   paramSetting();
 

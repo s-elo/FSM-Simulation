@@ -44,10 +44,10 @@ let finishFlag = 0;
 // const outputRange = document.getElementById("outputRange");
 
 let updateFirstTime = 1;
-/******************************************VHDL*************************************/
+/******************************************HDL*************************************/
 let lineNumber = 0;
 
-let entityName = '';
+let entityName = "";
 
 let inputTypeFlag;
 let outputTypeFlag;
@@ -75,3 +75,15 @@ let outputForEachTran = [];
 let start = 0;
 
 let data = {};
+
+/***********************account****************************/
+// handle user info box
+const $userInfo = $(".user-info");
+const $userName = $(".user-name");
+const $menu = $(".user-info-menu");
+const $signUp = $(".sign-up");
+const $signIn = $(".sign-in");
+const $withoutLogin = $(".without-login");
+const $loginOut = $(".login-out");
+
+const accountInfo = {};
