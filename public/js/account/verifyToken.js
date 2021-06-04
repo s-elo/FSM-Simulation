@@ -1,5 +1,9 @@
 import getUserInfo from "./session/getUserInfo.js";
 
+const $userInfo = $(".user-info");
+const $userName = $(".user-name");
+const $withoutLogin = $(".without-login");
+
 export default async function verifyToken() {
   const token = localStorage.getItem("token");
 

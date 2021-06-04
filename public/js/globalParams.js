@@ -1,89 +1,87 @@
-const svgNS = "http://www.w3.org/2000/svg";
-const svg = document.getElementById("svg");
-const svgWidth = svg.getAttribute("width");
-const svgHeight = svg.getAttribute("height");
+import $ from "jquery";
+import ClipboardJS from 'clipboard';
 
-const CX = "100";
-const CY = "200";
-const R = "40";
-const BR = "50";
-const textFontSize = "20";
-const enterColor = "blue";
-const leaveColor = "black";
-const controlAngle = 20;
-const rotateAngle = 15;
-const limStateNumber = 11;
+window.ClipboardJS = ClipboardJS;
+window.$ = $;
 
-let stateNumber = 0;
-let circleArray = [].fill(null);
-let bigCircleArray = [].fill(null);
-let textArray = [].fill(null);
+window.svgNS = "http://www.w3.org/2000/svg";
+window.svg = document.getElementById("svg");
+window.svgWidth = svg.getAttribute("width");
+window.svgHeight = svg.getAttribute("height");
 
-let Tline = []; //line(start state, end state)
+window.CX = "100";
+window.CY = "200";
+window.R = "40";
+window.BR = "50";
+window.textFontSize = "20";
+window.enterColor = "blue";
+window.leaveColor = "black";
+window.controlAngle = 20;
+window.rotateAngle = 15;
+window.limStateNumber = 11;
+
+window.stateNumber = 0;
+window.circleArray = [].fill(null);
+window.bigCircleArray = [].fill(null);
+window.textArray = [].fill(null);
+
+window.Tline = []; //line(start state, end state)
 for (let i = 0; i < limStateNumber; i++) {
   Tline[i] = new Array(limStateNumber).fill(0);
 }
 
-let selfLinkAngle = [];
+window.selfLinkAngle = [];
 
-let lineFlag = []; //record if the line being selected
+window.lineFlag = []; //record if the line being selected
 for (let i = 0; i < limStateNumber; i++) {
   lineFlag[i] = new Array(limStateNumber).fill(0);
 }
 
-let circleFlag = new Array(limStateNumber).fill(0); //record if the circle being selected
+window.circleFlag = new Array(limStateNumber).fill(0); //record if the circle being selected
 
-let startState = new Array(limStateNumber).fill(0);
+window.startState = new Array(limStateNumber).fill(0);
 
 /*********************parameterSetting************************************/
 
-let stepOneFlag = 0;
-let finishFlag = 0;
+window.stepOneFlag = 0;
+window.finishFlag = 0;
 
 // const inputRange = document.getElementById("inputRange");
 // const outputRange = document.getElementById("outputRange");
 
-let updateFirstTime = 1;
+window.updateFirstTime = 1;
 /******************************************HDL*************************************/
-let lineNumber = 0;
+window.lineNumber = 0;
 
-let entityName = "";
+window.entityName = "";
 
-let inputTypeFlag;
-let outputTypeFlag;
+window.inputTypeFlag = 0;
+window.outputTypeFlag = 0;
 
-let inputName = [];
-let outputName = [];
+window.inputName = [];
+window.outputName = [];
 
 // let entityName = '';
-let inputNum = 0;
-let outputNum = 0;
+window.inputNum = 0;
+window.outputNum = 0;
 
-let inputTypeVal = "";
-let outputTypeVal = "";
+window.inputTypeVal = "";
+window.outputTypeVal = "";
 
-let inputFromVal = "";
-let inputToVal = "";
-let outputFromVal = "";
-let outputToVal = "";
+window.inputFromVal = "";
+window.inputToVal = "";
+window.outputFromVal = "";
+window.outputToVal = "";
 
-let stateName = [];
+window.stateName = [];
 
-let inputCondition = [];
-let outputForEachTran = [];
+window.inputCondition = [];
+window.outputForEachTran = [];
 
-let start = 0;
+window.start = 0;
 
-let data = {};
+window.data = {};
 
 /***********************account****************************/
 // handle user info box
-const $userInfo = $(".user-info");
-const $userName = $(".user-name");
-const $menu = $(".user-info-menu");
-const $signUp = $(".sign-up");
-const $signIn = $(".sign-in");
-const $withoutLogin = $(".without-login");
-const $loginOut = $(".login-out");
-
-const accountInfo = {};
+window.accountInfo = {};
