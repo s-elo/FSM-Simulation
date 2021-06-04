@@ -13,9 +13,9 @@ module.exports = {
     // clipboard: [`${publicJsPath}modules/clipboard.js`],
 
     design: [
-      // need to be in order
+      // need to be in order with the rely relation
       `${publicJsPath}globalParams.js`,
-      `${publicJsPath}test.js`,
+      `${publicJsPath}index.js`,
       `${publicJsPath}extends/colorControl.js`,
     ],
 
@@ -23,7 +23,9 @@ module.exports = {
   },
 
   output: {
+    // bundled dir
     path: path.resolve(__dirname, "build"),
+    // the path after bundling in build dir
     filename: "public/js/[name]-bundle.js",
   },
 
