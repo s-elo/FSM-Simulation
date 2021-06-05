@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 var $imgs = $("img");
 $.each($imgs, function (index, value) {
   //console.log($(this).attr('src'));

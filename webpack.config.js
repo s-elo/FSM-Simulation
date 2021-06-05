@@ -12,6 +12,8 @@ module.exports = {
 
     // clipboard: [`${publicJsPath}modules/clipboard.js`],
 
+    bootstrap: [`${publicJsPath}bootstrap.css.js`],
+
     design: [
       // need to be in order with the rely relation
       `${publicJsPath}globalParams.js`,
@@ -29,18 +31,65 @@ module.exports = {
     filename: "public/js/[name]-bundle.js",
   },
 
+  module: {
+    rules: [
+      // pack css
+      {
+        test: /\.css$/,
+
+        use: [
+          {
+            loader: "style-loader",
+            options: {
+              // insert after the head tag
+              // insert: function (element) {
+              //   var parent = document.querySelector("head");
+              //   var lastInsertedElement =
+              //     window._lastElementInsertedByStyleLoader;
+              //   if (!lastInsertedElement) {
+              //     parent.insertBefore(element, parent.firstChild);
+              //   } else if (lastInsertedElement.nextSibling) {
+              //     parent.insertBefore(element, lastInsertedElement.nextSibling);
+              //   } else {
+              //     parent.appendChild(element);
+              //   }
+              // },
+            },
+          },
+          {
+            loader: "css-loader",
+          },
+        ],
+      },
+      // other resources configs
+      {
+        exclude: /\.html|js|css|less/,
+
+        loader: "file-loader",
+
+        options: {
+          name: "[hash:10].[ext]",
+        },
+      },
+    ],
+  },
+
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/design.html"),
       // the path after bundling in build dir
       filename: "views/design.html",
-      chunks: ["design"],
+      // inject: "head",
+      // scriptLoading: "defer",
+      chunks: ["bootstrap", "design"],
     }),
     new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "views/instruction.html"),
-      filename: "views/instruction.html",
-      chunks: ["instruction"],
+      template: path.resolve(__dirname, "views/Instruction.html"),
+      filename: "views/Instruction.html",
+      // inject: "head",
+      // scriptLoading: "defer",
+      chunks: ["bootstrap", "instruction"],
     }),
   ],
 
