@@ -9,7 +9,7 @@
     each entry named as a chunk with js file array;
     the js files in the array will be in a chunk
 
-### 2. pack multiple html pages 
+### 2. pack multiple html pages
 
     using the key:chunks of HtmlWebpackPlugin to include the js chunks that the page needs;
 
@@ -37,4 +37,29 @@
 
 ### 3. being able to run normally either in dev or bundled status
 
+# 2021.06.06 (can be run normally)
 
+## problems encountered
+
+### 1. pack the imgs in html
+
+    the file-loader and url-loader will be in conflict;
+    so we just remove the file-loader;
+
+### 2. to extract the css files independently
+
+    using a MiniCssExtractPlugin to do this;
+    so the css imported in js will be packed independently;
+    and using link tag to introduce the css file;
+
+### 3. postcss-loader with high version(5)
+
+    using webpack@5 to compatitablize it
+
+## what to do next
+
+### 1. using cdn to access the libs and bootstrap
+
+### 2. hope can remove the 3 warnings...
+
+    the chunks like bootstrap is too big

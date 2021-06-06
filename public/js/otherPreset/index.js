@@ -1,16 +1,16 @@
 import $ from 'jquery';
 
-var $imgs = $("img");
-$.each($imgs, function (index, value) {
-  //console.log($(this).attr('src'));
-  var arr = $(this).attr("src").split("\\");
-  //console.log(arr);
-  var imgName = arr[arr.length - 1];
-  //console.log(imgName)
-  var imgPath = "../public/img/" + imgName;
-  console.log(imgPath);
-  $(this).attr("src", imgPath);
-});
+// var $imgs = $("img");
+// $.each($imgs, function (index, value) {
+//   //console.log($(this).attr('src'));
+//   var arr = $(this).attr("src").split("\\");
+//   //console.log(arr);
+//   var imgName = arr[arr.length - 1];
+//   //console.log(imgName)
+//   var imgPath = "../public/img/" + imgName;
+//   console.log(imgPath);
+//   $(this).attr("src", imgPath);
+// });
 
 // color
 let storage = window.localStorage;
