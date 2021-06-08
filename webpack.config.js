@@ -36,12 +36,6 @@ module.exports = {
   mode: "production",
 
   entry: {
-    // jquery: [`${publicJsPath}modules/jquery.min.js`],
-
-    // clipboard: [`${publicJsPath}modules/clipboard.js`],
-
-    bootstrap: [`${publicJsPath}bootstrap.css.js`],
-
     design: [
       // need to be in order with the rely relation
       `${publicJsPath}globalParams.js`,
@@ -50,6 +44,10 @@ module.exports = {
     ],
 
     instruction: [`${publicJsPath}otherPreset/index.js`],
+
+    login: `${publicJsPath}account/session/login.js`,
+
+    register: `${publicJsPath}account/session/register.js`,
   },
 
   output: {
@@ -57,6 +55,11 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     // the path after bundling in build dir
     filename: "public/js/[name]-bundle.js",
+  },
+
+  externals: {
+    jquery: "$",
+    clipboard: "ClipboardJS",
   },
 
   module: {
@@ -164,32 +167,36 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin(),
+
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/design.html"),
       // the path after bundling in build dir
       filename: "views/design.html",
       // inject: "head",
       // scriptLoading: "defer",
-      chunks: ["bootstrap", "design"],
+      chunks: ["design"],
 
       minify: false,
     }),
+
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/Instruction.html"),
       filename: "views/Instruction.html",
-      // inject: "head",
-      // scriptLoading: "defer",
-      chunks: ["bootstrap", "instruction"],
 
-      minify: false,
+      chunks: ["instruction"],
+
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+      },
     }),
 
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/Introduction.html"),
       filename: "views/Introduction.html",
-      // inject: "head",
-      // scriptLoading: "defer",
-      chunks: ["bootstrap", "instruction"],
+
+      chunks: ["instruction"],
 
       minify: false,
     }),
@@ -197,21 +204,31 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/login.html"),
       filename: "views/login.html",
-      // inject: "head",
-      // scriptLoading: "defer",
-      chunks: ["bootstrap"],
 
-      minify: false,
+      chunks: ["login"],
+
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+        // removeRedundantAttributes: true,
+        // removeScriptTypeAttributes: true,
+        // removeStyleLinkTypeAttributes: true,
+        // useShortDoctype: true,
+      },
     }),
 
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "views/register.html"),
       filename: "views/register.html",
-      // inject: "head",
-      // scriptLoading: "defer",
-      chunks: ["bootstrap"],
 
-      minify: false,
+      chunks: ["register"],
+
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+      },
     }),
 
     new MiniCssExtractPlugin({
