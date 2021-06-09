@@ -1,224 +1,237 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Design</title>
-		<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-	</head>
-	<body>
-		<div class="myContainer">
-			<nav class="navbar navbar-inverse navbar-fixed-top">
-				<div class="container">
-				  <div class="navbar-header">
-				    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-				      <span class="sr-only">Toggle navigation</span>
-				      <span class="icon-bar"></span>
-				      <span class="icon-bar"></span>
-				      <span class="icon-bar"></span>
-				    </button>
-				    <p class="navbar-brand">FSM Simulation</p>
-				  </div>
-				  <div id="navbar" class="collapse navbar-collapse">
-				    <ul class="nav navbar-nav">
-					  <li><a href="../views/Introduction.html">Introduction</a></li>
-				      <li><a href="../views/Instruction.html">Instruction</a></li>
-				      <li><a href="../views/design.html">Begin</a></li>
 
-					  <li class="account-menu">
-						 <a>
-							<div class="user-info">
-							  <span class="user-name"></span>
-							  <span class="caret"></span>
-							  <ul class="user-info-menu modal-content">
-								  <li>FSM</li>
-								  <div class="login-out">Login out</div>
-							  </ul>
-							  
-						    </div>
+<head>
+	<meta charset="utf-8">
+	<title>Design</title>
+	<link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-						    <div class="without-login">
-							  <span class="sign-in">Sign in</span>
-						  	  <span class="sign-up">Sign up</span>
-						    </div>
-						 </a>
-					  </li>
-				    </ul>
-				  </div><!--/.nav-collapse -->
+<body>
+	<div class="myContainer">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+						aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<p class="navbar-brand">FSM Simulation</p>
 				</div>
-			</nav>	
-				<!-- <text x="100" y="200" font-size="5">test<text>
+				<div id="navbar" class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a href="../views/Introduction.html">Introduction</a></li>
+						<li><a href="../views/Instruction.html">Instruction</a></li>
+						<li><a href="../views/design.html">Begin</a></li>
+
+						<li class="account-menu">
+							<a>
+								<div class="user-info">
+									<span class="user-name"></span>
+									<span class="caret"></span>
+									<ul class="user-info-menu modal-content">
+										<li>FSM</li>
+										<div class="login-out">Login out</div>
+									</ul>
+
+								</div>
+
+								<div class="without-login">
+									<span class="sign-in">Sign in</span>
+									<span class="sign-up">Sign up</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</nav>
+		<!-- <text x="100" y="200" font-size="5">test<text>
 				 -->
-			<h1 style="margin-left: 10px; margin-top: 70px;">Design</h1>
-			<hr />
-			<div id="editor">
-				<div id="editorHead">
-					<h3 id="table" style="margin-left: 10px;">State Number: 0</h3>
-					<div id="toolBar">
-						<button class="btn btn-primary" type="button" id="addState">addState</button>
-						<button class="btn btn-primary" type="button" id="delete">delete</button>
-						<button class="btn btn-primary" type="button" id="setStartState">setStartState</button>
-						<button class="btn btn-primary" type="button" id="clearAll">clearAll</button>
-					</div>
+		<h1 style="margin-left: 10px; margin-top: 70px;">Design</h1>
+		<hr />
+		<div id="editor">
+			<div id="editorHead">
+				<h3 id="table" style="margin-left: 10px;">State Number: 0</h3>
+				<div id="toolBar">
+					<button class="btn btn-primary" type="button" id="addState">addState</button>
+					<button class="btn btn-primary" type="button" id="delete">delete</button>
+					<button class="btn btn-primary" type="button" id="setStartState">setStartState</button>
+					<button class="btn btn-primary" type="button" id="clearAll">clearAll</button>
 				</div>
-				
-				<form id="paraSetting" class="modal-content">
-					<h3>Parameter Setting</h3><hr />
-					<div id="group1">
-						<h4>Step One</h4><br />
-						<div class="input-group input-group-sm">
-						  <span class="input-group-addon"></span>
-						  <input type="text" id="entityName" class="form-control" placeholder="entityName" aria-describedby="sizing-addon1">
-						</div>
-						</br>
-						<div class="input-group input-group-sm">
-						  <label>inputNumber</label>
-						  <input value="1" type="number" id="inputNumber" class="form-control" required autofocus>
-						</div>
-						</br>
-						<div class="input-group input-group-sm">
-						  <label>outputNumber</label>
-						  <input value="1" type="number" id="outputNumber" class="form-control" required autofocus>
-						</div>
-						<br />
-						<div class="input-group input-group-sm">
-						   <label>input type:</label>
-						  <select id="inputType" class="form-control">
-						  	<option value ="bit">bit</option>
-						  	<option value ="bit_vector">bit_vector</option>
-						  </select> 
-						</div>
-					
-						<div class="input-group input-group-sm" id="inputRange">
-							<p>from: <input value="1" type="number" id="inputFrom"/> downto: <input value="0" type="number" id="inputTo"/></p>
-						</div>
-						<br />
-						<div class="input-group input-group-sm">
-						   <label>output type:</label>
-						  <select id="outputType" class="form-control">
-						  	<option value ="bit">bit</option>
-						  	<option value ="bit_vector">bit_vector</option>
-						  </select> 
-						</div>
-											
-						<div class="input-group input-group-sm" id="outputRange">
-							<p>from: <input value="1" type="number" id="outputFrom"/> downto: <input value="0" type="number" id="outputTo"/></p>
-						</div>
-						
-						<br />
-						<!-- style="top: 670px; left: 165px;" -->
-						<button class="btn btn-primary" type="button" id="stepOne">Next</button>
+			</div>
+
+			<form id="paraSetting" class="modal-content">
+				<h3>Parameter Setting</h3>
+				<hr />
+				<div id="group1">
+					<h4>Step One</h4><br />
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon"></span>
+						<input type="text" id="entityName" class="form-control" placeholder="entityName"
+							aria-describedby="sizing-addon1">
 					</div>
-				</form>
-				<div id="svgContainer" class="modal-content">
-					<svg id="svg" width="720" height="800" version="1.1"
-					     xmlns="http://www.w3.org/2000/svg">
-						 
-						 <!-- <path d="M130 110 C90 80 200 70 160 110"  stroke-width="2" stroke="black" -->
-							   <!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
-						<!-- <path d="M110 110 Q165 50 220 110"  stroke-width="2" stroke="black"
+					</br>
+					<div class="input-group input-group-sm">
+						<label>inputNumber</label>
+						<input value="1" type="number" id="inputNumber" class="form-control" required autofocus>
+					</div>
+					</br>
+					<div class="input-group input-group-sm">
+						<label>outputNumber</label>
+						<input value="1" type="number" id="outputNumber" class="form-control" required autofocus>
+					</div>
+					<br />
+					<div class="input-group input-group-sm">
+						<label>input type:</label>
+						<select id="inputType" class="form-control">
+							<option value="bit">bit</option>
+							<option value="bit_vector">bit_vector</option>
+						</select>
+					</div>
+
+					<div class="input-group input-group-sm" id="inputRange">
+						<p>from: <input value="1" type="number" id="inputFrom" /> downto: <input value="0" type="number"
+								id="inputTo" /></p>
+					</div>
+					<br />
+					<div class="input-group input-group-sm">
+						<label>output type:</label>
+						<select id="outputType" class="form-control">
+							<option value="bit">bit</option>
+							<option value="bit_vector">bit_vector</option>
+						</select>
+					</div>
+
+					<div class="input-group input-group-sm" id="outputRange">
+						<p>from: <input value="1" type="number" id="outputFrom" /> downto: <input value="0"
+								type="number" id="outputTo" /></p>
+					</div>
+
+					<br />
+					<!-- style="top: 670px; left: 165px;" -->
+					<button class="btn btn-primary" type="button" id="stepOne">Next</button>
+				</div>
+			</form>
+			<div id="svgContainer" class="modal-content">
+				<svg id="svg" width="720" height="800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+					<!-- <path d="M130 110 C90 80 200 70 160 110"  stroke-width="2" stroke="black" -->
+					<!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
+					<!-- <path d="M110 110 Q165 50 220 110"  stroke-width="2" stroke="black"
 							   fill="transparent" marker-end="url(#markerArrow)"/> -->
-						<!-- <path d="M110 110 L220 110"  stroke-width="2" stroke="black" -->
-							  <!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
-						 <defs>  
-						    <marker id="markerArrow" markerWidth="6" markerHeight="6" refx="2" refy="4" orient="auto">  
-						        <path d="M2,2 L2,6 L6,4 L2,2" style="fill: #000000;" />  
-						    </marker>  
-						 </defs>  
-					</svg>
-				</div>
-				<form id="dataTableContainer" class="modal-content">
-					<div id="dataTable">
-						<h3>Information Table</h3><hr /><br />
-					</div>
-				</form>
+					<!-- <path d="M110 110 L220 110"  stroke-width="2" stroke="black" -->
+					<!-- fill="transparent" marker-end="url(#markerArrow)"/> -->
+					<defs>
+						<marker id="markerArrow" markerWidth="6" markerHeight="6" refx="2" refy="4" orient="auto">
+							<path d="M2,2 L2,6 L6,4 L2,2" style="fill: #000000;" />
+						</marker>
+					</defs>
+				</svg>
 			</div>
-			
-			<h1 style="margin-left: 10px; margin-top: 50px;">Code Generator</h1>
-			<hr />
-			<div class="codeContainer">
-				<div class="codeHeader">
-					<button id="showBtn" type="button" class="btn btn-primary">Show Codes</button>
-					<button id="verilogBtn" type="button" style="display: none;"></button>
-					<button id="VHDLBtn" type="button" style="display: none;"></button>
-					<button id="VHDLTestBenchBtn" type="button" style="display: none;"></button>
-					<button id="verilogTestBenchBtn" type="button" style="display: none;"></button>
-					<button id="updateBtn" type="button" class="btn btn-primary" style="display: none;">Update</button>
+			<form id="dataTableContainer" class="modal-content">
+				<div id="dataTable">
+					<h3>Information Table</h3>
+					<hr /><br />
 				</div>
-				
-				<div class="codeArea">
-					<div class="type" style="margin-left: 10px;">
-						<h3>VHDL</h3>
-						<h3>Verilog</h3>
-					</div>
-					
-					<div class="VHDL prettyprint modal-content">
-						<code class="content" id="VHDLContent">
+			</form>
+		</div>
+
+		<h1 style="margin-left: 10px; margin-top: 50px;">Code Generator</h1>
+		<hr />
+		<div class="codeContainer">
+			<div class="codeHeader">
+				<button id="showBtn" type="button" class="btn btn-primary">Show Codes</button>
+				<button id="verilogBtn" type="button" style="display: none;"></button>
+				<button id="VHDLBtn" type="button" style="display: none;"></button>
+				<button id="VHDLTestBenchBtn" type="button" style="display: none;"></button>
+				<button id="verilogTestBenchBtn" type="button" style="display: none;"></button>
+				<button id="updateBtn" type="button" class="btn btn-primary" style="display: none;">Update</button>
+			</div>
+
+			<div class="codeArea">
+				<div class="type" style="margin-left: 10px;">
+					<h3>VHDL</h3>
+					<h3>Verilog</h3>
+				</div>
+
+				<div class="VHDL prettyprint modal-content">
+					<code class="content" id="VHDLContent">
 							<p>Please click the show code button to generate codes</p>
 						</code>
-						<!-- <span id="copy"><i class="glyphicon glyphicon-copy"></i></span> -->
-						<div class="modal-content" id="VHDLCopy" type="button" title="VHDL"
-							 data-clipboard-action="copy" data-clipboard-target="#VHDLContent">Copy</div>
-						
-						<a class="modal-content" id="VHDLToTestBench" href="javascript:;" title="testBench">>>></a>
-						<ul class="pre-numbering">
-						</ul>
-					</div>
+					<!-- <span id="copy"><i class="glyphicon glyphicon-copy"></i></span> -->
+					<div class="modal-content" id="VHDLCopy" type="button" title="VHDL" data-clipboard-action="copy"
+						data-clipboard-target="#VHDLContent">Copy</div>
 
-					<div class="VHDLTestBench prettyprint modal-content">
-						<code class="content" id="VHDLTestBenchContent">
+					<a class="modal-content" id="VHDLToTestBench" href="javascript:;"
+						title="testBench">&#62;&#62;&#62;</a>
+					<ul class="pre-numbering">
+					</ul>
+				</div>
+
+				<div class="VHDLTestBench prettyprint modal-content">
+					<code class="content" id="VHDLTestBenchContent">
 						</code>
-						<div class="modal-content" id="VHDLTestBenchCopy" type="button" data-clipboard-action="copy"
-							data-clipboard-target="#VHDLTestBenchContent" title="testBench">Copy</div>
-						
-						<a class="modal-content" id="TestBenchToVHDL" href="javascript:;" title="VHDL"><<<</a>
-						<ul class="pre-numbering">
-						</ul>
-					</div>
+					<div class="modal-content" id="VHDLTestBenchCopy" type="button" data-clipboard-action="copy"
+						data-clipboard-target="#VHDLTestBenchContent" title="testBench">Copy</div>
 
-					<div class="Verilog prettyprint modal-content">
-						<code class="content" id="VerilogContent">
+					<a class="modal-content" id="TestBenchToVHDL" href="javascript:;" title="VHDL">&#60;&#60;&#60;</a>
+					<ul class="pre-numbering">
+					</ul>
+				</div>
+
+				<div class="Verilog prettyprint modal-content">
+					<code class="content" id="VerilogContent">
 							<p>Please click the show code button to generate codes</p>
 						</code>
-						<div class="modal-content" id="VerilogCopy" type="button" 
-							 data-clipboard-action="copy"
-							 data-clipboard-target="#VerilogContent">Copy</div>
-						<a class="modal-content" id="VerilogToTestBench" href="javascript:;" title="testBench">>>></a>
-						<ul class="pre-numbering">
-						</ul>
-					</div>
+					<div class="modal-content" id="VerilogCopy" type="button" data-clipboard-action="copy"
+						data-clipboard-target="#VerilogContent">Copy</div>
+					<a class="modal-content" id="VerilogToTestBench" href="javascript:;"
+						title="testBench">&#62;&#62;&#62;</a>
+					<ul class="pre-numbering">
+					</ul>
+				</div>
 
-					<div class="VerilogTestBench prettyprint modal-content">
-						<code class="content" id="VerilogTestBenchContent">
+				<div class="VerilogTestBench prettyprint modal-content">
+					<code class="content" id="VerilogTestBenchContent">
 						</code>
-						<div class="modal-content" id="VerilogTestBenchCopy" type="button" data-clipboard-action="copy"
-							data-clipboard-target="#VerilogTestBenchContent" title="testBench">Copy</div>
-					
-						<a class="modal-content" id="TestBenchToVerilog" href="javascript:;" title="Verilog"><<<</a>
-						<ul class="pre-numbering">
-						</ul>
-					</div>
+					<div class="modal-content" id="VerilogTestBenchCopy" type="button" data-clipboard-action="copy"
+						data-clipboard-target="#VerilogTestBenchContent" title="testBench">Copy</div>
+
+					<a class="modal-content" id="TestBenchToVerilog" href="javascript:;"
+						title="Verilog">&#60;&#60;&#60;</a>
+					<ul class="pre-numbering">
+					</ul>
 				</div>
 			</div>
 		</div>
-		
-		<div id="quickAccess" class="modal-content">
-			<div class="Theme">
-				<p>Theme</p>
-			</div>
-			<div class="designPart">
-				<p>Design</p>
-			</div>
-			<div class="codePart">
-				<p>Code</p>
-			</div>
-			<div class="simulPart">
-				<p>Simul</p>
-			</div>
-		</div>
-		
-		<div id="copyReminder"><p>Copied!</p></div>
+	</div>
 
-		<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-		<script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
-	</body>
+	<div id="quickAccess" class="modal-content">
+		<div class="Theme">
+			<p>Theme</p>
+		</div>
+		<div class="designPart">
+			<p>Design</p>
+		</div>
+		<div class="codePart">
+			<p>Code</p>
+		</div>
+		<div class="simulPart">
+			<p>Simul</p>
+		</div>
+	</div>
+
+	<div id="copyReminder">
+		<p>Copied!</p>
+	</div>
+
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdn.bootcdn.net/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
+</body>
+
 </html>

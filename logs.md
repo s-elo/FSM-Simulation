@@ -63,3 +63,20 @@
 ### 2. hope can remove the 3 warnings...
 
     the chunks like bootstrap is too big
+
+# 2021.06.09 (compression and compatibility)
+
+### 1. img pack
+
+    config the outputPath and publicPath in url-loader;
+    and limit the size of the imgs;
+    other wise the imgs will be encoded as base64 within the html
+    which will make it so big
+
+### 2. using CDN
+
+    jquery, bootstrap and clipboard are used by accessing CDN now
+
+### 3. compress the design.html
+
+    replace the > and < using &#60; and &#62; then it was solved

@@ -93,10 +93,11 @@ module.exports = {
         options: {
           /**
            * limit: X*1024 means
-           * when the img is bigger than 8kb
-           * it will be encoded as base64 string
+           * when the img is smaller than 8kb
+           * it will be encoded as base64 string within the html
+           * which might make the html file too big
            */
-          // limit: 8 * 1024,
+          limit: 8 * 1024,
 
           /**
            * Problem1:
@@ -121,7 +122,11 @@ module.exports = {
            * [hash:x] only get the first x chars of the hash
            * [ext] the original extended name of the img
            */
-          name: "public/img/[name].[ext]",
+          name: "[name].[ext]",
+          // the path of the src in html
+          publicPath: "../public/img/",
+          // real output path in build dir
+          outputPath: "public/img/",
         },
       },
       // html img config
@@ -176,7 +181,11 @@ module.exports = {
       // scriptLoading: "defer",
       chunks: ["design"],
 
-      minify: false,
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+      },
     }),
 
     new HtmlWebpackPlugin({

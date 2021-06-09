@@ -1,17 +1,16 @@
 # FSM-Simulation
 
+## install dependencies
 
+$ npm install
 
-## Run at node server (need to install node and npm)
+## development mode
 
-### 1. enter the below commands at the directory of the server.js
+$ npm run dev
 
-       $ npm install
-       $ node server.js
+## pack the files
 
-### 2. open it by entering the URL 127.0.0.1:3000
-
-       you can change the port in server.js
+$ npm run build
 
 ## For user account function, run the back-end server
 
