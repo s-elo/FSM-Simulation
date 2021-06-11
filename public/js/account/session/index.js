@@ -1,4 +1,5 @@
 import interceptor from "../interceptor.js";
+import $ from 'jquery';
 
 async function login(params) {
   const res = await $.ajax({
@@ -6,8 +7,9 @@ async function login(params) {
     type: "POST",
     dataType: "json",
     data: { ...params },
-  }).error((err) => {
-    throw err;
+  }).catch(() => {
+    alert('something wrong in server...');
+    window.location.href = "../views/design.html";
   });
 
   if (res.errStatus === 0) {
@@ -16,7 +18,7 @@ async function login(params) {
     }
 
     localStorage.setItem("token", res.token);
-    window.location.href = "design";
+    window.location.href = "../views/design.html";
   }
 }
 
@@ -54,8 +56,9 @@ async function register(params) {
     type: "POST",
     dataType: "json",
     data: { ...params },
-  }).error((err) => {
-    throw err;
+  }).catch(() => {
+    alert('something wrong in server...');
+    window.location.href = "../views/design.html";
   });
 }
 

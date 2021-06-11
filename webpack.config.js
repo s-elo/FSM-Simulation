@@ -35,6 +35,8 @@ process.env.NODE_ENV = "production";
 module.exports = {
   mode: "production",
 
+  devtool: 'source-map',
+
   entry: {
     design: [
       // need to be in order with the rely relation
@@ -251,7 +253,7 @@ module.exports = {
   ],
 
   devServer: {
-    port: 8089,
+    port: 3080,
 
     // the path after bundling
     index: "views/design.html",

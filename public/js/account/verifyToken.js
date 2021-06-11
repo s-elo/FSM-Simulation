@@ -18,12 +18,10 @@ export default async function verifyToken() {
     });
 
     // get user info
-    const userInfo = await getUserInfo();
-    for (const key in userInfo) {
-      accountInfo[key] = userInfo[key];
-    }
+    window.accountInfo = await getUserInfo();
 
-    const { accountName } = userInfo;
+    const { accountName } = accountInfo;
+
     $userName.html(accountName);
   } else {
     // switch the status

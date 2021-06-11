@@ -25,11 +25,11 @@ export default function accountInit() {
   );
 
   $signUp.click(() => {
-    window.location.href = "./register.html";
+    window.location.href = "../views/register.html";
   });
 
   $signIn.click(() => {
-    window.location.href = "./login.html";
+    window.location.href = "../views/login.html";
   });
 
   $loginOut.click(() => {

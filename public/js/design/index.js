@@ -23,5 +23,21 @@ export default function design() {
 
   paramSetting();
 
-  initStateDiagram();
+  // has logined, get the data of the account if the data is valid
+  if (window.accountInfo.accountName && window.accountInfo.data) {
+    const parseData = JSON.parse(window.accountInfo.data);
+    if (parseData.stateNumber) {
+      initStateDiagram(parseData);
+    }
+  } else {
+    // no account, see if there is the data
+    const data = localStorage.getItem("data");
+
+    if (data) {
+      const parseData = JSON.parse(data);
+      if (parseData.stateNumber) {
+        initStateDiagram(parseData);
+      }
+    }
+  }
 }

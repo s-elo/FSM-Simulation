@@ -14,129 +14,119 @@ import {
   lineClick,
 } from "../design/elmOperation/elmOperation.js";
 
-export default function initStateDiagram() {
-  const storage = window.localStorage;
+export default function initStateDiagram(data) {
+  // const svgDom = document.querySelector("svg");
 
-  if (storage.getItem("data")) {
-    const data = JSON.parse(storage.getItem("data"));
+  // draw the circles and text
+  for (let i = 1; i <= data.stateNumber; i++) {
+    svg.insertAdjacentHTML("beforeEnd", data.bigCircleStr[i]);
+    svg.insertAdjacentHTML("beforeEnd", data.circleStr[i]);
+    svg.insertAdjacentHTML("beforeEnd", data.textStr[i]);
 
-    if (data.stateNumber === 0) {
-      return;
-    }
+    // get the dom elements
+    const circle = document.querySelector("#c" + i);
+    const bigCircle = document.querySelector("#C" + i);
+    const text = document.querySelector("#t" + i);
 
-    const svgDom = document.querySelector("svg");
+    // synchronize
+    circleArray[i] = circle;
+    bigCircleArray[i] = bigCircle;
+    textArray[i] = text;
 
-    // draw the circles and text
-    for (let i = 1; i <= data.stateNumber; i++) {
-      svgDom.insertAdjacentHTML("beforeEnd", data.bigCircleStr[i]);
-      svgDom.insertAdjacentHTML("beforeEnd", data.circleStr[i]);
-      svgDom.insertAdjacentHTML("beforeEnd", data.textStr[i]);
+    // bind the events
+    cirBindDragEventById("c" + i); // include binding the bigcircle
+    circle.addEventListener("click", circleClick);
+    circle.addEventListener("dblclick", circleDoubleClick);
 
-      // get the dom elements
-      const circle = document.querySelector("#c" + i);
-      const bigCircle = document.querySelector("#C" + i);
-      const text = document.querySelector("#t" + i);
+    bigCircle.addEventListener("mouseenter", bigCircleMouseEnter);
+    bigCircle.addEventListener("mousedown", bigCircleMouseDown);
+    bigCircle.addEventListener("mouseleave", bigCircleMouseLeave);
 
-      // synchronize
-      circleArray[i] = circle;
-      bigCircleArray[i] = bigCircle;
-      textArray[i] = text;
+    textBindDragEventById("t" + i);
+    text.addEventListener("click", textClick);
+    text.addEventListener("dblclick", textDoubleClick);
 
-      // bind the events
-      cirBindDragEventById("c" + i); // include binding the bigcircle
-      circle.addEventListener("click", circleClick);
-      circle.addEventListener("dblclick", circleDoubleClick);
-
-      bigCircle.addEventListener("mouseenter", bigCircleMouseEnter);
-      bigCircle.addEventListener("mousedown", bigCircleMouseDown);
-      bigCircle.addEventListener("mouseleave", bigCircleMouseLeave);
-
-      textBindDragEventById("t" + i);
-      text.addEventListener("click", textClick);
-      text.addEventListener("dblclick", textDoubleClick);
-
-      //display current state
-      let content = `<div id = ${"table" + i}>
+    //display current state
+    let content = `<div id = ${"table" + i}>
                               <h4>Current State: </h4>
                               <p id = ${"circle" + i}>${
-        textArray[i].innerHTML
-      }</p>
+      textArray[i].innerHTML
+    }</p>
                               <hr />
                               <h4>output:</h4>
                               <div id = ${"cirOutput" + i}></div>
                              </div>`;
-      addHtmlById("dataTable", "beforeEnd", content);
-    }
+    addHtmlById("dataTable", "beforeEnd", content);
+  }
 
-    // only show the selected circle table
-    // the default one is the first one
-    for (let i = 1; i <= data.stateNumber; i++) {
-      if (i != 1) {
-        document.getElementById("table" + i).style.display = "none";
-        circleArray[i].setAttribute("stroke-width", "3");
-        circleFlag[i] = 0;
-      } else {
-        circleFlag[i] = 1;
-        circleArray[i].setAttribute("stroke-width", "5");
-        circleArray[i].setAttribute("stroke", "black");
+  // only show the selected circle table
+  // the default one is the first one
+  for (let i = 1; i <= data.stateNumber; i++) {
+    if (i != 1) {
+      document.getElementById("table" + i).style.display = "none";
+      circleArray[i].setAttribute("stroke-width", "3");
+      circleFlag[i] = 0;
+    } else {
+      circleFlag[i] = 1;
+      circleArray[i].setAttribute("stroke-width", "5");
+      circleArray[i].setAttribute("stroke", "black");
+    }
+  }
+
+  // draw the lines
+  for (let i = 1; i < data.Tline.length; i++) {
+    for (let j = 1; j < data.Tline[i].length; j++) {
+      if (data.pathStr[i][j] != 0) {
+        svg.insertAdjacentHTML("beforeEnd", data.pathStr[i][j]);
+
+        // get the dom elements
+        const curLine = svg.lastChild;
+
+        // synchronize
+        Tline[i][j] = curLine;
+
+        // bind events
+        curLine.addEventListener("click", lineClick);
+
+        // create the related table
+        createLineTable(i, j);
       }
     }
+  }
 
-    // draw the lines
-    for (let i = 1; i < data.Tline.length; i++) {
-      for (let j = 1; j < data.Tline[i].length; j++) {
-        if (data.pathStr[i][j] != 0) {
-          svgDom.insertAdjacentHTML("beforeEnd", data.pathStr[i][j]);
+  //make other line tables invisible
+  for (let q = 1; q < lineFlag.length; q++) {
+    for (let t = 1; t < lineFlag[q].length; t++) {
+      if (Tline[q][t] != 0) {
+        Tline[q][t].setAttribute("stroke", "black");
+        Tline[q][t].setAttribute("stroke-width", "3");
+        document.getElementById("table" + q + t).style.display = "none";
+      }
+    }
+  }
 
-          // get the dom elements
-          const curLine = svgDom.lastChild;
+  syncParaTable(data);
 
-          // synchronize
-          Tline[i][j] = curLine;
+  // synchronize the conditions and outputs
+  for (let i = 1; i < data.Tline.length; i++) {
+    for (let j = 1; j < data.Tline[i].length; j++) {
+      if (data.pathStr[i][j] != 0) {
+        for (let k = 0; k < data.inputNum; k++) {
+          const inputCondition = document.querySelector(
+            "#input" + i + j + (k + 1)
+          );
 
-          // bind events
-          curLine.addEventListener("click", lineClick);
-
-          // create the related table
-          createLineTable(i, j);
+          inputCondition.value = data.inputCondition[i][j][k];
         }
-      }
-    }
+        for (let k = 0; k < data.outputNum; k++) {
+          const output = document.querySelector("#output" + i + j + (k + 1));
 
-    //make other line tables invisible
-    for (let q = 1; q < lineFlag.length; q++) {
-      for (let t = 1; t < lineFlag[q].length; t++) {
-        if (Tline[q][t] != 0) {
-          Tline[q][t].setAttribute("stroke", "black");
-          Tline[q][t].setAttribute("stroke-width", "3");
-          document.getElementById("table" + q + t).style.display = "none";
-        }
-      }
-    }
+          const cirOutput = document.querySelector(
+            "#cirOutput" + i + j + (k + 1)
+          );
 
-    syncParaTable(data);
-
-    // synchronize the conditions and outputs
-    for (let i = 1; i < data.Tline.length; i++) {
-      for (let j = 1; j < data.Tline[i].length; j++) {
-        if (data.pathStr[i][j] != 0) {
-          for (let k = 0; k < data.inputNum; k++) {
-            const inputCondition = document.querySelector(
-              "#input" + i + j + (k + 1)
-            );
-
-            inputCondition.value = data.inputCondition[i][j][k];
-          }
-          for (let k = 0; k < data.outputNum; k++) {
-            const output = document.querySelector("#output" + i + j + (k + 1));
-
-            const cirOutput = document.querySelector(
-              "#cirOutput" + i + j + (k + 1)
-            );
-
-            output.value = data.outputForEachTran[i][j][k];
-            cirOutput.innerHTML = `${data.outputName[k]}: ${data.outputForEachTran[i][j][k]}`;
-          }
+          output.value = data.outputForEachTran[i][j][k];
+          cirOutput.innerHTML = `${data.outputName[k]}: ${data.outputForEachTran[i][j][k]}`;
         }
       }
     }

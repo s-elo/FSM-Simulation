@@ -1,16 +1,17 @@
 # FSM-Simulation
 
-## install dependencies
+## get started
 
+```bash
+# install dependencies
 $ npm install
 
-## development mode
-
+# serve with hot reload at localhost:3000
 $ npm run dev
 
-## pack the files
-
+# build for production
 $ npm run build
+```
 
 ## For user account function, run the back-end server
 
