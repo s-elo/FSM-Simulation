@@ -121,6 +121,7 @@ export default function updateData() {
 
     start: start,
   };
+  
   let storage = window.localStorage;
   if (storage.getItem("data")) {
     storage.removeItem("data");

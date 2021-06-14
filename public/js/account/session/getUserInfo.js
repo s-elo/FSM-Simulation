@@ -9,7 +9,7 @@ export default async function getUserInfo() {
  
   if (res.errStatus === 1) {
     // token expired
-    alert('you need to login again~');
+    // alert('you need to login again~');
     window.location.href = "../views/login.html";
   } else {
     return res.userInfo;

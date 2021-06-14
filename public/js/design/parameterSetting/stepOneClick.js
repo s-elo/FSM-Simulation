@@ -1,4 +1,5 @@
 import { addHtmlById, decToBinary } from "../../utils.js";
+import { updateData } from "../../dataHandler/dataHandler.js";
 
 export default function stepOneClick() {
   let entityName = "";

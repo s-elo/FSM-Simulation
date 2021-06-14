@@ -319,9 +319,11 @@ export default function deleteClick() {
 
       // update reset
       if (stateNumber === 0) {
-        document.getElementById(
-          "resetShow"
-        ).innerHTML = `reset = 1 --> no state yet`;
+        if (document.getElementById("resetShow")) {
+          document.getElementById(
+            "resetShow"
+          ).innerHTML = `reset = 1 --> no state yet`;
+        }
       }
 
       //chaneg the start state and selected state when the deleted state is a start state
