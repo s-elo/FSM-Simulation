@@ -80,3 +80,14 @@
 ### 3. compress the design.html
 
     replace the > and < using &#60; and &#62; then it was solved
+
+# 2021.06.15(fix the HMR bug)
+
+    webpack@5 has some problems to refresh the browser
+    when the code is updated; 
+    since we got "browserslist" in package-json file;
+
+    to sovle this, config the target option in webpack.config.js
+    target: 'web';
+
+    also remember to change it to development mode

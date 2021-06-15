@@ -30,10 +30,10 @@ const commonCssLoader = [
   },
 ];
 
-process.env.NODE_ENV = "production";
+process.env.NODE_ENV = "development";
 
 module.exports = {
-  mode: "production",
+  mode: "development",
 
   devtool: 'source-map',
 
@@ -252,9 +252,14 @@ module.exports = {
     new OptimizeCssAssetsWebpackPlugin(),
   ],
 
+  // make it hot
+  target: process.env.NODE_ENV === 'production' ? 'browserslist' : 'web',
+
   devServer: {
     port: 3080,
 
+    hot: true,
+    
     // the path after bundling
     index: "views/design.html",
 

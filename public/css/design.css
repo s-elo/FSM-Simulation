@@ -16,8 +16,14 @@ body {
   background-color: #e6e6e6;
 }
 
+.navbar-nav{
+  float: none;
+  display: flex;
+  justify-content: flex-start;
+}
 .account-menu {
-  margin: 0 0 0 580px;
+  margin-left: auto;
+  
 }
 
 .user-info {
@@ -32,7 +38,7 @@ body {
   color: #e6e6e6;
 }
 .user-info-menu {
-  width: 100px;
+  width: fit-content;
   height: auto;
   background-color: #e6e6e6;
   display: none;
@@ -93,10 +99,12 @@ body {
 
 #toolBar {
   margin: 5px;
-  width: 950px;
+  width: 700px;
   position: absolute;
   left: 270px;
   top: -10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 #group1,

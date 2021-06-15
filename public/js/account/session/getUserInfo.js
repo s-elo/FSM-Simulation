@@ -6,7 +6,12 @@ export default async function getUserInfo() {
     dataType: "json",
     type: "GET",
   }).catch(() => {});
- 
+
+  if (!res)
+    return {
+      accountName: "no server...",
+    };
+
   if (res.errStatus === 1) {
     // token expired
     // alert('you need to login again~');
