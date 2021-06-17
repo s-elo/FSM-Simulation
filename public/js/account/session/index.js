@@ -1,25 +1,28 @@
 import interceptor from "../interceptor.js";
-import $ from 'jquery';
+import $ from "jquery";
 
 async function login(params) {
-  const res = await $.ajax({
-    url: "/login",
-    type: "POST",
-    dataType: "json",
-    data: { ...params },
-  }).catch(() => {
-    alert('something wrong in server...');
-    window.location.href = "../views/design.html";
-  });
+  let res;
 
-  if (res.errStatus === 0) {
-    if (localStorage.getItem("token")) {
-      localStorage.removeItem("token");
-    }
-
-    localStorage.setItem("token", res.token);
-    window.location.href = "../views/design.html";
+  try {
+    res = await $.ajax({
+      url: "/login",
+      type: "POST",
+      dataType: "json",
+      data: { ...params },
+    });
+  } catch {
+    return {
+      errStatus: 1,
+    };
   }
+
+  if (localStorage.getItem("token")) {
+    localStorage.removeItem("token");
+  }
+
+  localStorage.setItem("token", res.token);
+  window.location.href = "../views/design.html";
 }
 
 function loginInit() {
@@ -51,15 +54,20 @@ function loginInit() {
 }
 
 async function register(params) {
-  return await $.ajax({
-    url: "/register",
-    type: "POST",
-    dataType: "json",
-    data: { ...params },
-  }).catch(() => {
-    alert('something wrong in server...');
-    window.location.href = "../views/design.html";
-  });
+  let res;
+
+  try {
+    res = await $.ajax({
+      url: "/register",
+      type: "POST",
+      dataType: "json",
+      data: { ...params },
+    });
+  } catch {
+    return {
+      errStatus: 1,
+    };
+  }
 }
 
 function registerInit() {
@@ -84,7 +92,7 @@ function registerInit() {
 
     console.log(res);
     // ...rest is the account info
-    const { errStatus, message, ...rest } = res;
+    const { errStatus, ...rest } = res;
 
     if (errStatus === 0) {
       // alert(message);

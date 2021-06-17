@@ -168,6 +168,15 @@ export default function stepOneClick() {
 
           condition.innerHTML = conditionContent;
 
+          // listen the change of the inputCondition
+          for (let k = 1; k <= inputNumber; k++) {
+            let ele = document.getElementById("input" + i + j + k);
+
+            ele.addEventListener("change", function () {
+              updateData();
+            });
+          }
+
           //output
           let output = document.getElementById("output" + i + j);
           let outputContent = ``;
@@ -229,6 +238,8 @@ export default function stepOneClick() {
 
               let cirOutput = document.getElementById("cirOutput" + a + b + c);
               cirOutput.innerHTML = `${outputName}: ${this.value}`;
+
+              updateData();
             };
           }
         }

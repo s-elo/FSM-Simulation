@@ -16,12 +16,18 @@ export default function interceptor() {
     },
   });
 
+  // handle when request is successful
   $(document).ajaxSuccess((event, xhr, config) => {
     const { errStatus, message } = xhr.responseJSON;
-    // if (errStatus) {
-    //   alert(message);
-    // }
-    // alert(message);
+    if (message) {
+      alert(message);
+    }
+  });
+
+  // when the reuqest is failed or just the status is not right
+  $(document).ajaxError(function (event, request, settings) {
+    const { errStatus, message } = request.responseJSON;
+
     if (message) {
       alert(message);
     }

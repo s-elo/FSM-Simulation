@@ -81,9 +81,9 @@ export default function createLineTable(groupIndex, i) {
   for (let k = 1; k <= inputNumber; k++) {
     let ele = document.getElementById("input" + groupIndex + i + k);
 
-    ele.onchange = () => {
+    ele.addEventListener('change', function() {
       updateData();
-    };
+    });
   }
 
   // listen the change of the output setting
@@ -117,7 +117,6 @@ export default function createLineTable(groupIndex, i) {
     let outputValue = document.getElementById("output" + groupIndex + i + k);
 
     outputValue.onchange = function () {
-      // alert('555');
       //get the id of this outputValue
       let id = this.getAttribute("id");
       let a = id.slice(6, 7);
