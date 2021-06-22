@@ -1,4 +1,4 @@
-import { eleToString } from '../utils.js';
+import { eleToString } from "../utils.js";
 
 export default function updateData() {
   // console.log('updated!');
@@ -121,13 +121,10 @@ export default function updateData() {
 
     start: start,
   };
-  
-  let storage = window.localStorage;
-  if (storage.getItem("data")) {
-    storage.removeItem("data");
+
+  if (localStorage.getItem("data")) {
+    localStorage.removeItem("data");
   }
 
-  window.localStorage.setItem("data", JSON.stringify(data));
-
-  //   login({ data: JSON.stringify(data) });
+  localStorage.setItem("data", JSON.stringify(data));
 }

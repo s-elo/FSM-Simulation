@@ -16,24 +16,29 @@ body {
   background-color: #e6e6e6;
 }
 
-.navbar-nav{
+.navbar-nav {
   float: none;
   display: flex;
   justify-content: flex-start;
 }
 .account-menu {
   margin-left: auto;
-  
 }
 
 .user-info {
-  width: auto;
+  width: fit-content;
   height: 25px;
   color: #e6e6e6;
   user-select: none;
   cursor: pointer;
   display: none;
 }
+.user-info:hover .user-info-menu {
+  transform: scale(1);
+  transform-origin: top center;
+  transition: 0.5s;
+}
+
 .caret {
   color: #e6e6e6;
 }
@@ -41,9 +46,11 @@ body {
   width: fit-content;
   height: auto;
   background-color: #e6e6e6;
-  display: none;
+  transform: scale(0);
   color: black;
   padding: 5px;
+  transform-origin: top center;
+  transition: 1s;
 }
 .user-info-menu li {
   margin: 5px auto;
@@ -51,7 +58,7 @@ body {
   border-bottom: 1px solid black;
   border-radius: 5px 5px 0 0;
 }
-.user-info-menu li:hover {
+.user-info-menu li:hover:not(:first-child) {
   background-color: rgb(165, 158, 158);
 }
 .login-out {
@@ -219,7 +226,7 @@ svg input {
   outline: none;
 }
 #quickAccess {
-  width: 50px;
+  width: 65px;
   height: 210px;
   position: fixed;
   right: 10px;
@@ -227,18 +234,30 @@ svg input {
   background-color: #e6e6e6;
   border: 2px solid #e6e6e6;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .designPart {
   width: 48px;
   height: 50px;
-  /* border-bottom: 1px solid black; */
+  transition: 0.5s;
+}
+.designPart:hover {
+  transition: 0.5s;
+  transform: scale(1.2);
+  font-weight: bold;
 }
 .Theme {
   width: 48px;
   height: 50px;
-  /* border-bottom: 1px solid black; */
+  transition: 0.5s;
 }
-
+.Theme:hover {
+  transition: 0.5s;
+  transform: scale(1.2);
+  font-weight: bold;
+}
 #quickAccess p {
   line-height: 50px;
   background-color: #e6e6e6;
@@ -246,8 +265,13 @@ svg input {
 .codePart {
   width: 48px;
   height: 50px;
-  /* border-bottom: 1px solid black; */
   background-color: #e6e6e6;
+  transition: 0.5s;
+}
+.codePart:hover {
+  transition: 0.5s;
+  transform: scale(1.2);
+  font-weight: bold;
 }
 .codePart p {
   margin-left: 5px;
@@ -256,11 +280,16 @@ svg input {
   width: 48px;
   height: 50px;
   background-color: #e6e6e6;
+  transition: 0.5s;
 }
 .simulPart p {
   margin-left: 5px;
 }
-
+.simulPart:hover {
+  transition: 0.5s;
+  transform: scale(1.2);
+  font-weight: bold;
+}
 #VHDLCopy {
   position: absolute;
   left: 460px;

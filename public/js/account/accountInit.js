@@ -11,19 +11,6 @@ export default function accountInit() {
   interceptor();
   verifyToken();
 
-  $userInfo.hover(
-    () => {
-      $menu.css({
-        display: "block",
-      });
-    },
-    () => {
-      $menu.css({
-        display: "none",
-      });
-    }
-  );
-
   $signUp.click(() => {
     window.location.href = "../views/register.html";
   });

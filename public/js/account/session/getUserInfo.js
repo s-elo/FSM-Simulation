@@ -1,22 +1,23 @@
 // import $ from 'jquery';
 
 export default async function getUserInfo() {
-  const res = await $.ajax({
-    url: "/userInfo",
-    dataType: "json",
-    type: "GET",
-  }).catch(() => {});
+  try {
+    const res = await $.ajax({
+      url: "/userInfo",
+      dataType: "json",
+      type: "GET",
+    });
 
-  if (!res)
-    return {
-      accountName: "no server...",
-    };
-
-  if (res.errStatus === 1) {
-    // token expired
-    // alert('you need to login again~');
-    window.location.href = "../views/login.html";
-  } else {
     return res.userInfo;
+  } catch (err) {
+    // token expired
+    if (err.status === 403) {
+      window.location.href = "../views/login.html";
+    } else {
+      // other errors
+      return {
+        accountName: "no server...",
+      };
+    }
   }
 }

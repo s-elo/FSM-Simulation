@@ -26,7 +26,7 @@ export default function interceptor() {
 
   // when the reuqest is failed or just the status is not right
   $(document).ajaxError(function (event, request, settings) {
-    const { errStatus, message } = request.responseJSON;
+    const { errStatus = 1, message } = request.responseJSON || {};
 
     if (message) {
       alert(message);
