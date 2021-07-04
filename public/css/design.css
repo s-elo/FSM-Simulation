@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 li {
   list-style: none;
@@ -42,6 +43,7 @@ body {
 .caret {
   color: #e6e6e6;
 }
+
 .user-info-menu {
   width: fit-content;
   height: auto;
@@ -61,6 +63,29 @@ body {
 .user-info-menu li:hover:not(:first-child) {
   background-color: rgb(165, 158, 158);
 }
+.user-info-menu li > span {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5px;
+}
+.user-info-menu li div {
+  width: 15px;
+  height: 15px;
+  background-color: #c0392b;
+  margin-left: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  border: 1px solid black;
+  /* transition-duration: 0.5s; */
+}
+.user-info-menu li div:hover {
+  transition-duration: 0.5s;
+  transform: scale(1.2) rotate(360deg);
+}
+
 .login-out {
   text-align: center;
   font-weight: bold;

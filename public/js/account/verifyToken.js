@@ -2,6 +2,7 @@ import getUserInfo from "./session/getUserInfo.js";
 import getFSM from "./data/getFSM";
 import initStateDiagram from "../dataHandler/initStateDiagram";
 import clearStateDiagram from "../dataHandler/clearStateDiagram.js";
+import deleteFSM from "./data/deleteFSM.js";
 
 const $userInfo = $(".user-info");
 const $userName = $(".user-name");
@@ -32,12 +33,26 @@ export async function renderDataList() {
   for (const val of data) {
     const $li = $("<li/>");
 
-    $li.html(val);
+    $li.html(`<span>${val}<div title="delete">-</div></span>`);
+
+    $li.find("div").click(async (e) => {
+      e.stopPropagation();
+      // console.log(val);
+      const msg = window.confirm(`Are you sure to delete ${val}`);
+
+      if (!msg) return;
+
+      try {
+        await deleteFSM(val);
+
+        renderDataList();
+      } catch (err) {}
+    });
 
     $li.click(async () => {
       const fsm = JSON.parse(await getFSM(val));
 
-      console.log(fsm.entityName);
+      // console.log(fsm.entityName);
       clearStateDiagram();
 
       initStateDiagram(fsm);
