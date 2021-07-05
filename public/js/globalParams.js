@@ -1,8 +1,20 @@
 import $ from "jquery";
-import ClipboardJS from 'clipboard';
+import ClipboardJS from "clipboard";
 
 window.ClipboardJS = ClipboardJS;
 window.$ = $;
+
+window.Loading = {
+  loading: document.querySelector("#loading"),
+
+  show() {
+    this.loading.classList.add("loading");
+  },
+
+  hide() {
+    this.loading.classList.remove("loading");
+  },
+};
 
 window.svgNS = "http://www.w3.org/2000/svg";
 window.svg = document.getElementById("svg");
