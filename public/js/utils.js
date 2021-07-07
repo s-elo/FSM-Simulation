@@ -67,3 +67,15 @@ export function getElementTop(element) {
   }
   return actualTop;
 }
+
+export const Loading = {
+  loading: document.querySelector("#loading"),
+
+  show() {
+    this.loading.classList.add("loading");
+  },
+
+  hide() {
+    this.loading.classList.remove("loading");
+  },
+};
