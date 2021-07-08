@@ -72,10 +72,10 @@ export const Loading = {
   loading: document.querySelector("#loading"),
 
   show() {
-    this.loading.classList.add("loading");
+    this.loading && this.loading.classList.add("loading");
   },
 
   hide() {
-    this.loading.classList.remove("loading");
+    this.loading && this.loading.classList.remove("loading");
   },
 };

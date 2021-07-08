@@ -9,6 +9,7 @@ import {
 import { initStateDiagram } from "../dataHandler/dataHandler.js";
 import paramSetting from "./parameterSetting/paramSetting.js";
 import preset from "./preset.js";
+import getFSM from "../account/data/getFSM.js";
 
 export default async function design() {
   const addStateBtn = document.getElementById("addState");

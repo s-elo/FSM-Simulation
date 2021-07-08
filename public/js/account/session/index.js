@@ -54,10 +54,8 @@ function loginInit() {
 }
 
 async function register(params) {
-  let res;
-
   try {
-    res = await $.ajax({
+    return await $.ajax({
       url: "/register",
       type: "POST",
       dataType: "json",
