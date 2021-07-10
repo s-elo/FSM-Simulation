@@ -84,10 +84,15 @@
 # 2021.06.15(fix the HMR bug)
 
     webpack@5 has some problems to refresh the browser
-    when the code is updated; 
+    when the code is updated;
     since we got "browserslist" in package-json file;
 
     to sovle this, config the target option in webpack.config.js
     target: 'web';
 
     also remember to change it to development mode
+
+# 2021.07.10
+
+using cross-env to set the NODE_ENV value by package.json scripts
+using this to realize different configs using one config file

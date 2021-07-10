@@ -30,12 +30,10 @@ const commonCssLoader = [
   },
 ];
 
-process.env.NODE_ENV = "development";
-
-module.exports = {
-  mode: "development",
-
-  devtool: 'source-map',
+// npm run dev: process.env.NODE_ENV = undefined
+// npm run build: process.env.NODE_ENV = 'production'
+const config = {
+  mode: "production",
 
   entry: {
     design: [
@@ -50,6 +48,8 @@ module.exports = {
     login: `${publicJsPath}account/session/login.js`,
 
     register: `${publicJsPath}account/session/register.js`,
+
+    simulator: `${publicJsPath}simulator/index.js`,
   },
 
   output: {
@@ -242,6 +242,18 @@ module.exports = {
       },
     }),
 
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, "views/simulator.html"),
+      filename: "views/simulator.html",
+
+      chunks: ["simulator"],
+
+      minify: {
+        collapseWhitespace: true,
+        keepClosingSlash: true,
+        removeComments: true,
+      },
+    }),
     new MiniCssExtractPlugin({
       filename: "public/css/[name].css",
 
@@ -253,16 +265,23 @@ module.exports = {
   ],
 
   // make it hot
-  target: process.env.NODE_ENV === 'production' ? 'browserslist' : 'web',
+  target: process.env.NODE_ENV === "production" ? "browserslist" : "web",
 
   devServer: {
     port: 3080,
 
     hot: true,
-    
+
     // the path after bundling
     index: "views/design.html",
 
     openPage: "views/design.html",
   },
 };
+
+if (process.env.NODE_ENV !== "production") {
+  config.devtool = "source-map";
+  config.mode = "development";
+}
+
+module.exports = config;

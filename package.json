@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
+    "build": "cross-env NODE_ENV=production webpack",
     "dev": "webpack-dev-server"
   },
   "repository": {
@@ -40,7 +39,8 @@
     "webpack-dev-server": "^3.11.2"
   },
   "devDependencies": {
-    "@webpack-cli/serve": "^1.4.0"
+    "@webpack-cli/serve": "^1.4.0",
+    "cross-env": "^7.0.3"
   },
   "browserslist": {
     "development": [
