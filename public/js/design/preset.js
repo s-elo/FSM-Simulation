@@ -29,7 +29,7 @@ export default function preset() {
     // get the data
     updateData();
 
-    window.open("./simulator.html");
+    window.open("../views/simulator.html");
   });
 
   /** handle the nav collapse and open*/

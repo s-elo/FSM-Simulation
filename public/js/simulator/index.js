@@ -1,12 +1,12 @@
 const storage = window.localStorage;
 // console.log(JSON.parse(storage.getItem('name')));
 const simulData = JSON.parse(storage.getItem("data"));
-console.log(simulData);
+// console.log(simulData);
 /******************data above***********/
 var changingflag = new Number();
 changingflag = 0;
 function switchmode1() {
-  element = document.getElementById("button1");
+  const element = document.getElementById("button1");
   if (element.innerHTML.match("one")) {
     element.innerHTML = "change mutiple periods";
   } else if (element.innerHTML.match("mutiple") && changingflag == 1) {
@@ -18,7 +18,7 @@ function switchmode1() {
   }
 }
 function switchmode2() {
-  element = document.getElementById("switch");
+  const element = document.getElementById("switch");
   if (element.innerHTML.match("cancel")) {
     element.innerHTML = "switch changing mode";
   }
@@ -27,10 +27,8 @@ function switchmode() {
   switchmode1();
   switchmode2();
 }
-// function cancelmode(){
-// 	element=document.getElementById("switch");
-// 	if()
-// }
+
+document.querySelector("#switch").addEventListener("click", switchmode);
 
 //按键功能
 class Pos {
@@ -548,7 +546,7 @@ function bindInputCLick() {
           } else if (mode == "change mutiple periods") {
             // console.log("mode: ", mode);
 
-            element = document.getElementById("switch");
+            const element = document.getElementById("switch");
             if (changingflag == 0) {
               //   console.log("changingflag1: ", changingflag);
               if (e.layerX >= 200) {
