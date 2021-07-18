@@ -13,3 +13,5 @@ node_modules/
 
 # ignore the bundled files
 build/
+
+dir.txt
