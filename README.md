@@ -20,6 +20,7 @@ $ npm run build
 
 ## Overall structure of the dirs
 
+```
 FSM-Simulation
 ├── build // store bundled files for porduction
 ├── logs.md // some of the logs of configurating webpack
@@ -30,4 +31,4 @@ FSM-Simulation
 ├── README.md 
 ├── views // html pages of this project
 └── webpack.config.js // webpack configs
-
+```
