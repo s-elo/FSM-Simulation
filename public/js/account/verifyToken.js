@@ -28,6 +28,7 @@ export async function renderDataList() {
 
   const $mark = $(".login-out");
 
+  // clear the original list
   clearList();
 
   for (const val of data) {
@@ -35,6 +36,8 @@ export async function renderDataList() {
 
     $li.html(`<span>${val}<div title="delete">-</div></span>`);
 
+    // bind related events
+    // the red delete button
     $li.find("div").click(async (e) => {
       e.stopPropagation();
       // console.log(val);
@@ -49,12 +52,15 @@ export async function renderDataList() {
       } catch (err) {}
     });
 
+    // the list
     $li.click(async () => {
       const fsm = JSON.parse(await getFSM(val));
 
       // console.log(fsm.entityName);
+      // clear the current state diagram
       clearStateDiagram();
 
+      // draw the new one
       initStateDiagram(fsm);
     });
 

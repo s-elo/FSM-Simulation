@@ -88,7 +88,7 @@ function registerInit() {
 
     const res = await register(formObj);
 
-    console.log(res);
+    // console.log(res);
     // ...rest is the account info
     const { errStatus, ...rest } = res;
 
